@@ -11,7 +11,7 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-slate-300 bg-slate-300 backdrop-blur">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <a href="/" className="flex items-center gap-2">
           <div className="grid h-10 w-10 place-items-center rounded-lg bg-emerald-700 text-lg font-bold text-white">
@@ -68,7 +68,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setOpen(!open)}
-          className="grid h-10 w-10 place-items-center rounded-lg border border-slate-300 text-slate-700 lg:hidden"
+          className="grid h-10 w-10 place-items-center rounded-lg border border-slate-400 text-slate-700 lg:hidden"
           aria-label="Open menu"
         >
           {open ? (
@@ -80,7 +80,7 @@ export default function Navbar() {
       </nav>
 
       {open && (
-        <div className="border-t border-slate-200 bg-white px-4 py-4 lg:hidden">
+        <div className="border-t border-slate-300 bg-slate-300 px-4 py-4 lg:hidden">
           <div className="space-y-1">
             {navLinks.map((link) => (
               <a
