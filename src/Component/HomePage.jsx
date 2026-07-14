@@ -1,65 +1,46 @@
-const products = [
-  {
-    _id: "1",
-    title: "Fresh Organic Apple",
-    description:
-      "Fresh organic apples collected from trusted farms. Perfect for healthy snacks, juice, and daily nutrition.",
-    shortDescription: "Fresh and sweet organic apple.",
-    price: 180,
-    discountPrice: 150,
-    brand: "EcoBazar",
-    category: "Fruits & Vegetables",
-    subCategory: "Fresh Fruits",
-    additionalInformation: "Weight: 1kg, Origin: Local Farm, Quality: Premium",
-    images: [],
-  },
-  {
-    _id: "2",
-    title: "Premium Basmati Rice",
-    description:
-      "Long grain premium basmati rice with natural aroma. Suitable for biryani, pulao, and daily meals.",
-    shortDescription: "Long grain aromatic basmati rice.",
-    price: 850,
-    discountPrice: 790,
-    brand: "Golden Grain",
-    category: "Grocery",
-    subCategory: "Rice",
-    additionalInformation: "Weight: 5kg, Type: Basmati, Packaging: Sealed Pack",
-    images: [],
-  },
-  {
-    _id: "3",
-    title: "Fresh Dairy Milk",
-    description:
-      "Pure dairy milk processed with hygiene and freshness. Great for tea, coffee, desserts, and everyday use.",
-    shortDescription: "Pure fresh dairy milk.",
-    price: 90,
-    discountPrice: 80,
-    brand: "Farm Fresh",
-    category: "Dairy",
-    subCategory: "Milk",
-    additionalInformation: "Volume: 1L, Storage: Keep refrigerated",
-    images: [],
-  },
-];
+const API_URL = "https://emart-singlevendor-backend-3.onrender.com/api/v1/product/allProduct";
+import { useEffect, useState } from "react";
+
 
 export default function Home() {
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+  
+      useEffect(() => {
+      const fetchProducts = async () => {
+        try {
+          setLoading(true);
+          const res = await fetch(API_URL);
+  
+          if (!res.ok) {
+            throw new Error(`API error: ${res.status}`);
+          }
+  
+          const data = await res.json();
+          const productList = data.products || data.data || data; 
+  
+          setProducts(Array.isArray(productList) ? productList.slice(0, 3) : []);
+        } catch (err) {
+          console.error(err);
+          setError(err.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchProducts();
+    }, []);
+
+
   return (
     <main className="min-h-screen bg-slate-50">
       <section className="bg-emerald-700 px-4 py-10 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <p className="text-sm font-semibold uppercase tracking-wide text-emerald-100">
-            EcoBazar Ecommerce
-          </p>
-
           <div className="mt-3 max-w-2xl">
             <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl">
               Fresh grocery products for your daily needs
             </h1>
-            <p className="mt-4 text-sm leading-6 text-emerald-50 sm:text-base">
-              Browse organic fruits, grocery items, dairy products, beverages,
-              and more from EcoBazar.
-            </p>
           </div>
         </div>
       </section>
@@ -71,14 +52,12 @@ export default function Home() {
               <h2 className="text-2xl font-bold text-slate-900">
                 Latest Products
               </h2>
-              <p className="mt-1 text-sm text-slate-500">
-                All uploaded product information will show here.
-              </p>
             </div>
-
-            <button className="w-fit rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-800">
-              View All
-            </button>
+            <a className="" href="/products">
+              <button className="cursor-pointer w-fit rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-800">
+                View All
+              </button>
+            </a>
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -123,6 +102,9 @@ function ProductCard({ product }) {
           <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
             {product.subCategory}
           </span>
+             <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+           stock {product.stock}
+          </span>
         </div>
 
         <h3 className="text-lg font-bold text-slate-900">{product.title}</h3>
@@ -158,7 +140,7 @@ function ProductCard({ product }) {
           <Info label="Sub Category" value={product.subCategory} />
           <Info
             label="Additional Info"
-            value={product.additionalInformation}
+            value={product.additionalInfo}
           />
         </div>
 
