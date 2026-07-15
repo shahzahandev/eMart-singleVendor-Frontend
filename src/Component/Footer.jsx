@@ -1,18 +1,12 @@
 export default function Footer() {
   return (
-    <footer className="bg-slate-950 px-4 pt-12 text-white sm:px-6 lg:px-8">
+    <footer className="bg-slate-800 px-4 pt-12 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 border-b border-white/10 pb-10 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <div className="flex items-center gap-2">
-              <div className="grid h-10 w-10 place-items-center rounded-lg bg-emerald-700 text-lg font-bold">
-                E
-              </div>
-
               <div>
-                <h2 className="text-lg font-bold leading-5">EcoBazar</h2>
-                <p className="text-xs text-slate-400">Ecommerce</p>
-              </div>
+                <h2 className="text-lg font-bold text-sky-400 leading-5">E-Earbuds</h2>              </div>
             </div>
 
             <p className="mt-4 text-sm leading-6 text-slate-400">
@@ -25,9 +19,9 @@ export default function Footer() {
             title="Quick Links"
             links={[
               { name: "Home", href: "/" },
-              { name: "Products", href: "/products" },
-              { name: "About", href: "/about" },
-              { name: "Contact", href: "/contact" },
+              { name: "All Products", href: "/products" },
+              { name: "Card", href: "/card" },
+              { name: "My Order", href: "/orders" },
             ]}
           />
 
@@ -38,9 +32,6 @@ export default function Footer() {
               { name: "Register", href: "/register" },
               { name: "Forgot Password", href: "/forgot" },
               { name: "Reset Password", href: "/resetpass" },
-              { name: "Card", href: "/card" },
-              { name: "Orders", href: "/orders" },
-              { name: "Product Upload", href: "/upload" },
             ]}
           />
 
@@ -50,27 +41,27 @@ export default function Footer() {
             </h3>
 
             <div className="mt-4 space-y-3 text-sm text-slate-400">
-              <p>support@ecobazar.com</p>
-              <p>+880 1700-000000</p>
-              <p>Dhaka, Bangladesh</p>
+              <p>e-earbuds516@gmail.com</p>
+              <p>+880 1700-110011</p>
+              <p>Dhanmondi, Dhaka, Bangladesh</p>
             </div>
 
             <div className="mt-5 flex gap-3">
               <a
                 href="#"
-                className="grid h-9 w-9 place-items-center rounded-lg bg-white/10 text-sm font-bold hover:bg-emerald-700"
+                className="grid h-9 w-9 place-items-center rounded-lg bg-white/10 text-lg font-extrabold hover:bg-sky-400"
               >
                 f
               </a>
               <a
                 href="#"
-                className="grid h-9 w-9 place-items-center rounded-lg bg-white/10 text-sm font-bold hover:bg-emerald-700"
+                className="grid h-9 w-9 place-items-center rounded-lg bg-white/10 text-lg font-extrabold hover:bg-sky-400"
               >
                 in
               </a>
               <a
                 href="#"
-                className="grid h-9 w-9 place-items-center rounded-lg bg-white/10 text-sm font-bold hover:bg-emerald-700"
+                className="grid h-9 w-9 place-items-center rounded-lg bg-white/10 text-lg font-extrabold hover:bg-sky-400"
               >
                 x
               </a>

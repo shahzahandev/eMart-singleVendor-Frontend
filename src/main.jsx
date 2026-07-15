@@ -13,8 +13,8 @@ import Contact from "./Component/Contact";
 import Forgot from "./Component/Forgot"
 import ResetPassword from "./Component/ResetPassword"
 import ProductDetails from "./Component/ProductDetails"
-import ProductUpload from "./Component/ProductUpload"
 import Card from "./Component/Card"
+import SingleProduct from "./Component/Singleproduct.jsx"
 
 const router = createBrowserRouter([
   {
@@ -30,8 +30,8 @@ const router = createBrowserRouter([
       {path: "/forgot", Component: Forgot},
       {path: "/resetpass", Component: ResetPassword},
       {path: "/products", Component: ProductDetails},
-      {path: "/upload", Component: ProductUpload},
       {path: "/card", Component: Card},
+      {path: "/singleProduct/:id", Component: SingleProduct},
     ],
   },
 ]);

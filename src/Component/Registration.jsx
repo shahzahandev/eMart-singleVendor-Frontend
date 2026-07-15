@@ -51,12 +51,12 @@ export default function Register() {
     <section className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto flex min-h-[calc(100vh-64px)] max-w-6xl items-center justify-center">
         <div className="grid w-full overflow-hidden rounded-2xl bg-white shadow-xl lg:grid-cols-2">
-          <div className="hidden bg-emerald-700 p-10 text-white lg:flex lg:flex-col lg:justify-between">
+          <div className="hidden bg-sky-600 p-10 text-white lg:flex lg:flex-col lg:justify-between">
             <div>
-              <h1 className="text-3xl font-bold">EcoBazar Ecommerce</h1>
+              <h1 className="text-3xl font-bold">E-Earbuds</h1>
               <p className="mt-4 max-w-md text-emerald-50">
                 Create your account and start shopping fresh, organic, and daily
-                grocery products from EcoBazar.
+                grocery products from E-Earbuds.
               </p>
             </div>
 
@@ -73,14 +73,14 @@ export default function Register() {
               <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">
                 Create Account
               </h2>
-              <p className="mt-2 text-sm text-slate-500">
-                Register to continue with EcoBazar.
+              <p className="mt-2 text-sm text-black">
+                Register to continue with E-Earbuds.
               </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="mb-2 block text-sm font-medium text-slate-700">
+                <label className="mb-2 block text-sm font-medium text-black">
                   Email Address
                 </label>
                 <input
@@ -89,12 +89,12 @@ export default function Register() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="example@email.com"
-                  className="h-12 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="h-12 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none transition focus:border-sky-300 focus:ring-2 focus:ring-emerald-100"
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-medium text-slate-700">
+                <label className="mb-2 block text-sm font-medium text-black">
                   Password
                 </label>
                 <input
@@ -103,12 +103,12 @@ export default function Register() {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Enter password"
-                  className="h-12 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="h-12 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none transition focus:border-sky-300 focus:ring-2 focus:ring-emerald-100"
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-medium text-slate-700">
+                <label className="mb-2 block text-sm font-medium text-black">
                   Confirm Password
                 </label>
                 <input
@@ -117,7 +117,7 @@ export default function Register() {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   placeholder="Confirm password"
-                  className="h-12 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="h-12 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none transition focus:border-sky-300 focus:ring-2 focus:ring-emerald-100"
                 />
               </div>
 
@@ -127,15 +127,15 @@ export default function Register() {
                   name="terms"
                   checked={formData.terms}
                   onChange={handleChange}
-                  className="mt-1 h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                  className="mt-1 h-4 w-4 rounded border-slate-300 text-sky-500 focus:ring-sky-300"
                 />
                 <span>
                   I agree to the{" "}
-                  <a href="#" className="font-medium text-emerald-700 hover:underline">
+                  <a href="#" className="font-medium text-sky-600 hover:underline">
                     Terms & Conditions
                   </a>{" "}
                   and{" "}
-                  <a href="#" className="font-medium text-emerald-700 hover:underline">
+                  <a href="#" className="font-medium text-sky-600 hover:underline">
                     Privacy Policy
                   </a>
                   .
@@ -150,7 +150,7 @@ export default function Register() {
 
               <button
                 type="submit"
-                className="h-12 w-full rounded-lg bg-emerald-700 text-sm font-semibold text-white transition hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                className="h-12 w-full rounded-lg bg-sky-500 text-sm font-semibold text-white transition hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-emerald-300"
               >
                 Register
               </button>
@@ -158,7 +158,7 @@ export default function Register() {
 
             <p className="mt-6 text-center text-sm text-slate-500">
               Already have an account?{" "}
-              <a href="/login" className="font-semibold text-emerald-700 hover:underline">
+              <a href="/login" className="font-semibold text-sky-600 hover:underline">
                 Login
               </a>
             </p>

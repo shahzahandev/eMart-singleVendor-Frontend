@@ -21,9 +21,9 @@ export default function ForgotPassword() {
     <section className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto flex min-h-[calc(100vh-64px)] max-w-6xl items-center justify-center">
         <div className="grid w-full overflow-hidden rounded-2xl bg-white shadow-xl lg:grid-cols-2">
-          <div className="hidden bg-emerald-700 p-10 text-white lg:flex lg:flex-col lg:justify-between">
+          <div className="hidden bg-sky-500 p-10 text-white lg:flex lg:flex-col lg:justify-between">
             <div>
-              <h1 className="text-3xl font-bold">EcoBazar Ecommerce</h1>
+              <h1 className="text-3xl font-bold">E-Earbuds</h1>
               <p className="mt-4 max-w-md text-emerald-50">
                 Enter your email address and we will send you a password reset
                 link.
@@ -70,7 +70,7 @@ export default function ForgotPassword() {
 
               <button
                 type="submit"
-                className="h-12 w-full rounded-lg bg-emerald-700 text-sm font-semibold text-white transition hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                className="h-12 w-full rounded-lg bg-sky-500 text-sm font-semibold text-white transition hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-300"
               >
                 Send Reset Link
               </button>
@@ -78,7 +78,7 @@ export default function ForgotPassword() {
 
             <p className="mt-6 text-center text-sm text-slate-500">
               Remember your password?{" "}
-              <a href="#" className="font-semibold text-emerald-700 hover:underline">
+              <a href="#" className="font-semibold text-sky-500 hover:underline">
                 Login
               </a>
             </p>

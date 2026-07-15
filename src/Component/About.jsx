@@ -25,38 +25,15 @@ export default function About() {
 
   return (
     <main className="min-h-screen bg-slate-50">
-      <section className="bg-emerald-700 px-4 py-14 text-white sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <p className="text-sm font-semibold uppercase tracking-wide text-emerald-100">
-            About EcoBazar
-          </p>
-
-          <div className="mt-4 max-w-3xl">
-            <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl">
-              Fresh grocery shopping made simple and reliable
-            </h1>
-
-            <p className="mt-5 text-sm leading-7 text-emerald-50 sm:text-base">
-              EcoBazar Ecommerce is built for customers who want fresh products,
-              simple ordering, fair pricing, and a smooth online shopping
-              experience.
-            </p>
-          </div>
-        </div>
-      </section>
-
       <section className="px-4 py-10 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_420px] lg:items-start">
           <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
             <h2 className="text-2xl font-bold text-slate-900">
               Who We Are
             </h2>
-
             <p className="mt-4 leading-7 text-slate-600">
-              EcoBazar is an online ecommerce platform focused on grocery and
-              daily essential products. Our goal is to make everyday shopping
-              easier by bringing fresh items, trusted brands, and useful product
-              information into one clean shopping experience.
+              ICE is a Bangladeshi consumer electronics brand with the purpose of impacting people’s daily lives using technology.
+              We fuse sleek design with precision power to create tools that help you unlock your better self. Whether you're chasing deadlines, dreams, or dopamine, ICE gives you the edge to rise higher, perform better, and own your moment.
             </p>
 
             <p className="mt-4 leading-7 text-slate-600">
@@ -69,9 +46,9 @@ export default function About() {
               {stats.map((item) => (
                 <div
                   key={item.label}
-                  className="rounded-xl border border-slate-200 bg-slate-50 p-4"
+                  className="rounded-xl border border-slate-200 bg-sky-50 p-4"
                 >
-                  <p className="text-2xl font-bold text-emerald-700">
+                  <p className="text-2xl font-bold text-sky-300">
                     {item.value}
                   </p>
                   <p className="mt-1 text-sm text-slate-500">{item.label}</p>
@@ -91,9 +68,9 @@ export default function About() {
               is easy to understand and checkout feels simple.
             </p>
 
-            <div className="mt-6 rounded-xl bg-emerald-50 p-5">
-              <p className="text-sm font-semibold text-emerald-700">
-                EcoBazar Promise
+            <div className="mt-6 rounded-xl bg-sky-50 p-5">
+              <p className="text-sm font-semibold text-black">
+                E-Earbuds Promise
               </p>
               <p className="mt-2 text-sm leading-6 text-slate-600">
                 Fresh products, fair prices, clear details, and better service
@@ -108,7 +85,7 @@ export default function About() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-slate-900">
-              Why Choose EcoBazar?
+              Why Choose E-Earbuds?
             </h2>
             <p className="mt-2 text-sm text-slate-500">
               We care about product quality, simple design, and customer trust.
@@ -121,7 +98,7 @@ export default function About() {
                 key={feature.title}
                 className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
               >
-                <div className="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-emerald-100 text-xl">
+                <div className="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-sky-100 text-xl">
                   ✓
                 </div>
 

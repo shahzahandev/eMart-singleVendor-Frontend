@@ -81,25 +81,21 @@ export default function Cart() {
 
   return (
     <main className="min-h-screen bg-slate-50">
-      <section className="bg-emerald-700 px-4 py-12 text-white sm:px-6 lg:px-8">
+      <section className="px-4 py-12 text-black sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <p className="text-sm font-semibold uppercase tracking-wide text-emerald-100">
-            EcoBazar Cart
-          </p>
-
           <div className="mt-4 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl">
+              <h1 className="text-3xl font-semibold sm:text-4xl lg:text-5xl">
                 Your Shopping Cart
               </h1>
-              <p className="mt-4 text-sm leading-7 text-emerald-50 sm:text-base">
+              <p className="mt-4 text-sm leading-7 text-slate-400 sm:text-base">
                 Review your selected products, update quantity, and continue to
                 checkout.
               </p>
             </div>
 
-            <div className="rounded-xl bg-white/10 px-5 py-4 backdrop-blur">
-              <p className="text-sm text-emerald-50">Cart Items</p>
+            <div className="rounded-xl bg-sky-100 px-5 py-4 backdrop-blur">
+              <p className="text-lg text-black">Cart Items</p>
               <p className="mt-1 text-2xl font-bold">{cartItems.length}</p>
             </div>
           </div>
@@ -172,12 +168,12 @@ export default function Cart() {
 
             <button
               disabled={cartItems.length === 0}
-              className="mt-6 h-12 w-full rounded-lg bg-emerald-700 text-sm font-semibold text-white transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:bg-slate-300"
+              className="mt-6 h-12 w-full rounded-lg bg-sky-500 text-sm font-semibold text-white transition hover:bg-sky-600 disabled:cursor-not-allowed disabled:bg-slate-300"
             >
               Proceed to Checkout
             </button>
 
-            <button className="mt-3 h-12 w-full rounded-lg border border-slate-300 text-sm font-semibold text-slate-700 transition hover:border-emerald-700 hover:text-emerald-700">
+            <button className="mt-3 h-12 w-full rounded-lg border border-slate-300 text-sm font-semibold text-slate-700 transition hover:bg-sky-600 hover:text-white">
               Continue Shopping
             </button>
           </aside>
@@ -217,7 +213,7 @@ function CartItem({ item, onIncrease, onDecrease, onRemove }) {
             </p>
 
             <div className="mt-3 flex items-center gap-3">
-              <span className="text-lg font-bold text-emerald-700">
+              <span className="text-lg font-bold text-black">
                 ৳{finalPrice}
               </span>
 
@@ -274,7 +270,7 @@ function SummaryRow({ label, value, large = false }) {
       <span className={large ? "text-base font-bold text-slate-900" : "text-slate-600"}>
         {label}
       </span>
-      <span className={large ? "text-xl font-bold text-emerald-700" : "font-semibold text-slate-900"}>
+      <span className={large ? "text-xl font-bold text-black" : "font-semibold text-slate-900"}>
         {value}
       </span>
     </div>

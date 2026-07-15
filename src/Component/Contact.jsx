@@ -34,20 +34,16 @@ export default function Contact() {
 
   return (
     <main className="min-h-screen bg-slate-50">
-      <section className="bg-emerald-700 px-4 py-14 text-white sm:px-6 lg:px-8">
+      <section className="px-4 py-14 text-black sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <p className="text-sm font-semibold uppercase tracking-wide text-emerald-100">
-            Contact EcoBazar
-          </p>
-
           <div className="mt-4 max-w-3xl">
-            <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl">
+            <h1 className="text-3xl font-semibold sm:text-4xl lg:text-5xl">
               We are here to help you
             </h1>
 
-            <p className="mt-5 text-sm leading-7 text-emerald-50 sm:text-base">
+            <p className="mt-5 text-sm leading-7 text-black sm:text-base">
               Have questions about products, delivery, orders, or support?
-              Send us a message and our EcoBazar team will contact you soon.
+              Send us a message and our E-Earbuds team will contact you soon.
             </p>
           </div>
         </div>
@@ -56,7 +52,7 @@ export default function Contact() {
       <section className="px-4 py-10 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_420px]">
           <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
-            <h2 className="text-2xl font-bold text-slate-900">
+            <h2 className="text-2xl font-semibold text-slate-900">
               Send Message
             </h2>
 
@@ -95,7 +91,7 @@ export default function Contact() {
               />
 
               <div>
-                <label className="mb-2 block text-sm font-medium text-slate-700">
+                <label className="mb-2 block text-sm font-medium text-black">
                   Message <span className="text-red-500">*</span>
                 </label>
 
@@ -105,7 +101,7 @@ export default function Contact() {
                   onChange={handleChange}
                   placeholder="Write your message..."
                   rows={6}
-                  className="w-full resize-none rounded-lg border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="w-full resize-none rounded-lg border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-emerald-100"
                 />
               </div>
 
@@ -117,7 +113,7 @@ export default function Contact() {
 
               <button
                 type="submit"
-                className="h-12 w-full rounded-lg bg-emerald-700 text-sm font-semibold text-white transition hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-300 sm:w-auto sm:px-8"
+                className="h-12 w-full rounded-lg bg-sky-400 text-sm font-semibold text-white transition hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200 sm:w-auto sm:px-8"
               >
                 Send Message
               </button>
@@ -127,23 +123,23 @@ export default function Contact() {
           <aside className="space-y-5">
             <InfoCard
               title="Customer Support"
-              value="support@ecobazar.com"
+              value="e-earbuds@ecobazar.com"
               description="For order, delivery, and product support."
             />
 
             <InfoCard
               title="Phone"
-              value="+880 1700-000000"
+              value="+880 1700-110011"
               description="Available from 9:00 AM to 9:00 PM."
             />
 
             <InfoCard
               title="Address"
-              value="Dhaka, Bangladesh"
-              description="EcoBazar online grocery service."
+              value="Dhanmondi, Dhaka, Bangladesh"
+              description="E-Earbuds online service."
             />
 
-            <div className="rounded-2xl bg-emerald-50 p-6">
+            <div className="rounded-2xl bg-sky-100 p-6">
               <h3 className="text-lg font-bold text-slate-900">
                 Business Hours
               </h3>

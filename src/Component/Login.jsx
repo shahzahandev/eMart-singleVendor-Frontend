@@ -39,12 +39,12 @@ export default function Login() {
     <section className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto flex min-h-[calc(100vh-64px)] max-w-6xl items-center justify-center">
         <div className="grid w-full overflow-hidden rounded-2xl bg-white shadow-xl lg:grid-cols-2">
-          <div className="hidden bg-emerald-700 p-10 text-white lg:flex lg:flex-col lg:justify-between">
+          <div className="hidden bg-sky-600 p-10 text-white lg:flex lg:flex-col lg:justify-between">
             <div>
-              <h1 className="text-3xl font-bold">EcoBazar Ecommerce</h1>
+              <h1 className="text-3xl font-bold">E-Earbuds</h1>
               <p className="mt-4 max-w-md text-emerald-50">
                 Login to your account and continue shopping fresh, organic, and
-                daily grocery products from EcoBazar.
+                daily grocery products from E-Earbuds.
               </p>
             </div>
 
@@ -62,13 +62,13 @@ export default function Login() {
                 Welcome Back
               </h2>
               <p className="mt-2 text-sm text-slate-500">
-                Login to continue with EcoBazar.
+                Login to continue with E-Earbuds.
               </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="mb-2 block text-sm font-medium text-slate-700">
+                <label className="mb-2 block text-sm font-medium text-black">
                   Email Address
                 </label>
                 <input
@@ -77,19 +77,19 @@ export default function Login() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="example@email.com"
-                  className="h-12 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="h-12 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none transition focus:border-sky-300 focus:ring-2 focus:ring-emerald-100"
                 />
               </div>
 
               <div>
                 <div className="mb-2 flex items-center justify-between gap-3">
-                  <label className="block text-sm font-medium text-slate-700">
+                  <label className="block text-sm font-medium text-black">
                     Password
                   </label>
 
                   <a
-                    href="#"
-                    className="text-sm font-medium text-emerald-700 hover:underline"
+                    href="/forgot"
+                    className="text-sm font-medium text-sky-500 hover:underline"
                   >
                     Forgot password?
                   </a>
@@ -101,7 +101,7 @@ export default function Login() {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Enter password"
-                  className="h-12 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="h-12 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none transition focus:border-sky-300 focus:ring-2 focus:ring-emerald-100"
                 />
               </div>
 
@@ -113,7 +113,7 @@ export default function Login() {
 
               <button
                 type="submit"
-                className="h-12 w-full rounded-lg bg-emerald-700 text-sm font-semibold text-white transition hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                className="h-12 w-full rounded-lg bg-sky-500 text-sm font-semibold text-white transition hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-emerald-300"
               >
                 Login
               </button>
@@ -121,7 +121,7 @@ export default function Login() {
 
             <p className="mt-6 text-center text-sm text-slate-500">
               Don&apos;t have an account?{" "}
-              <a href="/register" className="font-semibold text-emerald-700 hover:underline">
+              <a href="/register" className="font-semibold text-sky-500 hover:underline">
                 Register
               </a>
             </p>

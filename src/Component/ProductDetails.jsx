@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 const API_URL = "https://emart-singlevendor-backend-3.onrender.com/api/v1/product/allProduct";
 
 export default function Products() {
@@ -6,7 +8,7 @@ export default function Products() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
@@ -17,7 +19,7 @@ export default function Products() {
         }
 
         const data = await res.json();
-        const productList = data.products || data.data || data; 
+        const productList = data.products || data.data || data;
 
         setProducts(Array.isArray(productList) ? productList : []);
       } catch (err) {
@@ -31,19 +33,18 @@ export default function Products() {
     fetchProducts();
   }, []);
 
-
-  return ( 
-  <main className="min-h-screen bg-slate-50">
-      <section className="bg-emerald-700 px-4 py-12 text-white sm:px-6 lg:px-8">
+  return (
+    <main className="min-h-screen bg-slate-50">
+      <section className="px-4 py-5 text-black sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mt-4 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl">
-                Shop fresh and daily essential products
+              <h1 className="text-3xl font-medium sm:text-4xl lg:text-5xl">
+                 Find Your Vibe            
               </h1>
             </div>
-            <div className="rounded-xl bg-white/10 px-5 py-4 backdrop-blur">
-              <p className="text-sm text-emerald-50">Total Products</p>
+            <div className="rounded-xl bg-slate-200 px-5 py-4 backdrop-blur">
+              <p className="text-sm text-black">Total Products</p>
               <p className="mt-1 text-2xl font-bold">{products.length}</p>
             </div>
           </div>
@@ -52,9 +53,9 @@ export default function Products() {
 
       <section className="px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-6 flex flex-col gap-4 rounded-2xl bg-white p-4 shadow-sm md:flex-row md:items-center md:justify-between">
+          <div className="mb-6 flex flex-col gap-4 rounded-2xl bg-white p-4  md:flex-row md:items-center md:justify-between">
             <div>
-              <h2 className="text-xl font-bold text-slate-900">All Products</h2>
+              <h2 className="text-xl font-medium text-slate-900">All Products</h2>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               <input
@@ -62,13 +63,6 @@ export default function Products() {
                 placeholder="Search product..."
                 className="h-11 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 sm:w-64"
               />
-              <select className="h-11 rounded-lg border border-slate-300 bg-white px-4 text-sm outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100">
-                <option>All Categories</option>
-                <option>Fruits & Vegetables</option>
-                <option>Grocery</option>
-                <option>Dairy</option>
-                <option>Beverages</option>
-              </select>
             </div>
           </div>
 
@@ -95,62 +89,57 @@ export default function Products() {
   );
 }
 
-
 function ProductCard({ product }) {
   const hasDiscount =
     product.discountPrice && Number(product.discountPrice) < Number(product.price);
 
   return (
-    <article className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-      <div className="flex h-48 items-center justify-center bg-slate-100">
-        {product.images?.length > 0 ? (
-          <img
-            src={product.images[0]?.url || product.images[0]}
-            alt={product.title}
-            className="h-full w-full object-cover"
-          />
-        ) : (
-          <div className="text-center">
-            <div className="mx-auto h-14 w-14 rounded-full bg-slate-200" />
-            <p className="mt-3 text-sm font-medium text-slate-400">Product Image</p>
-          </div>
-        )}
-      </div>
-      <div className="p-5">
-        <div className="mb-3 flex flex-wrap gap-2">
-          <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-            {product.category}
-          </span>
-          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
-           {product.subCategory}
-          </span>
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-emerald-700">
-           stock {product.stock}
-          </span>
-
-        </div>
-        <h3 className="line-clamp-1 text-lg font-bold text-slate-900">{product.title}</h3>
-        <p className="mt-2 line-clamp-2 text-sm text-slate-500">{product.shortDescription}</p>
-        <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{product.description}</p>
-        <div className="mt-4 flex items-center gap-3">
-          {hasDiscount ? (
-            <>
-              <span className="text-xl font-bold text-emerald-700">৳{product.discountPrice}</span>
-              <span className="text-sm font-medium text-slate-400 line-through">৳{product.price}</span>
-            </>
+    <Link to={`/singleProduct/${product._id}`} state={{ product }}>
+      <article className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+        <div className="flex h-48 items-center justify-center bg-slate-100">
+          {product.images?.length > 0 ? (
+            <img
+              src={product.images[0]}
+              alt={product.title}
+              className="h-full w-full object-cover"
+            />
           ) : (
-            <span className="text-xl font-bold text-emerald-700">৳{product.price}</span>
+            <div className="text-center">
+              <div className="mx-auto h-14 w-14 rounded-full bg-slate-200" />
+              <p className="mt-3 text-sm font-medium text-slate-400">Product Image</p>
+            </div>
           )}
         </div>
-        <div className="mt-4 space-y-2 rounded-xl bg-slate-50 p-4 text-sm text-slate-600">
-          <Info label="Brand" value={product.brand} />
-          <Info label="Info" value={product.additionalInfo} />
+        <div className="p-5">
+          <div className="mb-3 flex flex-wrap gap-2">
+            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+              {product.category}
+            </span>
+            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+              {product.subCategory}
+            </span>
+            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-sky-400">
+              Stock {product.stock}
+            </span>
+          </div>
+          <h3 className="line-clamp-1 text-lg font-bold text-slate-900">{product.title}</h3>
+          <p className="mt-2 line-clamp-2 text-sm text-slate-500">{product.shortDescription}</p>
+          <div className="mt-4 flex items-center gap-3">
+            {hasDiscount ? (
+              <>
+                <span className="text-xl font-bold text-slate-800">৳{product.discountPrice}</span>
+                <span className="text-sm font-medium text-slate-400 line-through">৳{product.price}</span>
+              </>
+            ) : (
+              <span className="text-xl font-bold text-emerald-700">৳{product.price}</span>
+            )}
+          </div>
+          <button className="mt-5 h-11 w-full rounded-lg bg-sky-500  text-sm font-semibold text-white hover:bg-sky-600  cursor-pointer">
+            Add to Cart
+          </button>
         </div>
-        <button className="mt-5 h-11 w-full rounded-lg bg-emerald-700 text-sm font-semibold text-white hover:bg-emerald-800 cursor-pointer">
-          Add to Cart
-        </button>
-      </div>
-    </article>
+      </article>
+    </Link>
   );
 }
 

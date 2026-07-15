@@ -44,11 +44,11 @@ export default function ResetPassword() {
     <section className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto flex min-h-[calc(100vh-64px)] max-w-6xl items-center justify-center">
         <div className="grid w-full overflow-hidden rounded-2xl bg-white shadow-xl lg:grid-cols-2">
-          <div className="hidden bg-emerald-700 p-10 text-white lg:flex lg:flex-col lg:justify-between">
+          <div className="hidden bg-sky-500 p-10 text-white lg:flex lg:flex-col lg:justify-between">
             <div>
-              <h1 className="text-3xl font-bold">EcoBazar Ecommerce</h1>
+              <h1 className="text-3xl font-bold">E-Earbuds</h1>
               <p className="mt-4 max-w-md text-emerald-50">
-                Create a new password to secure your EcoBazar account.
+                Create a new password to secure your E-Earbuds account.
               </p>
             </div>
 
@@ -72,7 +72,7 @@ export default function ResetPassword() {
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="mb-2 block text-sm font-medium text-slate-700">
+                <label className="mb-2 block text-sm font-medium text-black">
                   New Password
                 </label>
                 <input
@@ -81,12 +81,12 @@ export default function ResetPassword() {
                   value={formData.newPassword}
                   onChange={handleChange}
                   placeholder="Enter new password"
-                  className="h-12 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="h-12 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none transition focus:border-sky-300 focus:ring-2 focus:ring-sky-100"
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-medium text-slate-700">
+                <label className="mb-2 block text-sm font-medium text-black">
                   Confirm Password
                 </label>
                 <input
@@ -95,7 +95,7 @@ export default function ResetPassword() {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   placeholder="Confirm new password"
-                  className="h-12 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="h-12 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none transition focus:border-sky-600 focus:ring-2 focus:ring-emerald-100"
                 />
               </div>
 
@@ -107,7 +107,7 @@ export default function ResetPassword() {
 
               <button
                 type="submit"
-                className="h-12 w-full rounded-lg bg-emerald-700 text-sm font-semibold text-white transition hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                className="h-12 w-full rounded-lg bg-sky-500 text-sm font-semibold text-white transition hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-300"
               >
                 Reset Password
               </button>
@@ -115,7 +115,7 @@ export default function ResetPassword() {
 
             <p className="mt-6 text-center text-sm text-slate-500">
               Back to{" "}
-              <a href="/login" className="font-semibold text-emerald-700 hover:underline">
+              <a href="/login" className="font-semibold text-sky-700 hover:underline">
                 Login
               </a>
             </p>
