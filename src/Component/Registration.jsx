@@ -64,7 +64,7 @@ export default function Register() {
       });
 
       // let success = data.data.message      
-      setSuccess( "Account created. Please check your email to verify your account.And login.");
+      setSuccess("Account created. Please check your email to verify your account. And login.");
       setFormData({
         name: "",
         email: "",
@@ -72,18 +72,18 @@ export default function Register() {
         confirmPassword: "",
         terms: false,
       });
-  
-    } catch (error) {
-      let err = error.response.data.message
- 
-    setError(err)
-       console.log(setError);       
-    
-    } finally {
-      setLoading(false);
       setTimeout(() => {
         navigate("/login")
       }, 5000);
+
+    } catch (error) {
+      let err = error.response.data.message
+
+      setError(err)
+      console.log(setError);
+
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -198,12 +198,12 @@ export default function Register() {
 
               {error && (
                 <div className=" bg-red-50 px-4 py-3 text-sm text-red-600">
-                  {error} 
+                  {error}
                 </div>
               )}
-               {success && (
+              {success && (
                 <div className=" bg-green-100 px-4 py-3 text-sm text-green-600">
-                  {success} 
+                  {success}
                 </div>
               )}
 

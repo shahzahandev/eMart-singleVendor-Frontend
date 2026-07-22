@@ -1,12 +1,18 @@
+import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+const LOGIN_URL = "https://emart-singlevendor-backend-3.onrender.com/api/v1/auth/login"
+
+
 
 export default function Login() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,7 +23,7 @@ export default function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -31,9 +37,21 @@ export default function Login() {
       return;
     }
 
-    console.log("Login Data:", formData);
-    alert("Login successful!");
+    try {
+      let data = await axios.post(LOGIN_URL, formData);
+      console.log(data.data);
+
+      setSuccess(data.data.message);
+      setTimeout(() => {
+        navigate("/")
+      }, 3000)
+
+    } catch (error) {
+      setError(error.response.data.message);
+    }
   };
+
+
 
   return (
     <section className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 lg:px-8">
@@ -106,11 +124,15 @@ export default function Login() {
               </div>
 
               {error && (
-                <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+                <div className="bg-red-50 px-4 py-3 text-sm text-red-600">
                   {error}
                 </div>
               )}
-
+              {success && (
+                <div className="bg-green-100 px-4 py-3 text-sm text-green-600">
+                  {success}
+                </div>
+              )}
               <button
                 type="submit"
                 className="h-12 w-full rounded-lg bg-sky-500 text-sm font-semibold text-white transition hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-emerald-300"
