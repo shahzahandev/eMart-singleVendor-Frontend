@@ -40,7 +40,6 @@ export default function Home() {
 
   return (
     <div>
-      <ImageSlider></ImageSlider>
       <main className="min-h-screen bg-slate-50">
         <section className="px-4 py-4 text-gray-900 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
@@ -75,6 +74,7 @@ export default function Home() {
           </div>
         </section>
       </main>
+      <ImageSlider></ImageSlider>
       <Products></Products>
       <About></About>
       <Contact></Contact>
