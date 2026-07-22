@@ -40,7 +40,7 @@ export default function Products() {
           <div className="mt-4 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <h1 className="text-3xl font-medium sm:text-4xl lg:text-5xl">
-                 Find Your Vibe            
+                Explore Bestsellers            
               </h1>
             </div>
             <div className="rounded-xl bg-slate-200 px-5 py-4 backdrop-blur">

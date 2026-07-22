@@ -1,7 +1,12 @@
+import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+const REGISTER_URL = "http://localhost:5000/api/v1/auth/register"
 
 export default function Register() {
+
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -9,6 +14,10 @@ export default function Register() {
   });
 
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -19,11 +28,12 @@ export default function Register() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setSuccess("");
 
-    if (!formData.email || !formData.password || !formData.confirmPassword) {
+    if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
       setError("Please fill in all fields.");
       return;
     }
@@ -43,8 +53,38 @@ export default function Register() {
       return;
     }
 
-    console.log("Registration Data:", formData);
-    alert("Registration successful!");
+    try {
+      setLoading(true);
+      let data = await axios.post(REGISTER_URL, {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+        terms: formData.terms,
+      });
+
+      // let success = data.data.message      
+      setSuccess( "Account created. Please check your email to verify your account.And login.");
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        terms: false,
+      });
+  
+    } catch (error) {
+      let err = error.response.data.message
+ 
+    setError(err)
+       console.log(setError);       
+    
+    } finally {
+      setLoading(false);
+      setTimeout(() => {
+        navigate("/login")
+      }, 5000);
+    }
   };
 
   return (
@@ -79,6 +119,20 @@ export default function Register() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-black">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="jons"
+                  className="h-12 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none transition focus:border-sky-300 focus:ring-2 focus:ring-emerald-100"
+                />
+              </div>
+
               <div>
                 <label className="mb-2 block text-sm font-medium text-black">
                   Email Address
@@ -143,8 +197,13 @@ export default function Register() {
               </label>
 
               {error && (
-                <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
-                  {error}
+                <div className=" bg-red-50 px-4 py-3 text-sm text-red-600">
+                  {error} 
+                </div>
+              )}
+               {success && (
+                <div className=" bg-green-100 px-4 py-3 text-sm text-green-600">
+                  {success} 
                 </div>
               )}
 

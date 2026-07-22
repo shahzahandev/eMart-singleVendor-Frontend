@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { RiContactsLine } from "react-icons/ri";
 import { CiShoppingCart } from "react-icons/ci";
+import { GiCrossMark } from "react-icons/gi";
+import { FaBarsStaggered } from "react-icons/fa6";
 
 
 export default function Navbar() {
@@ -22,7 +24,7 @@ export default function Navbar() {
             </h1>
           </div>
         </a>
-      <div className="hidden items-center gap-7 lg:flex">
+        <div className="hidden items-center gap-7 lg:flex">
           {navLinks.map((link) => (
             <a
               key={link.name}
@@ -36,9 +38,9 @@ export default function Navbar() {
 
         <div className="hidden items-center gap-3 lg:flex">
           <div className="text-[30px] font-medium text-gray-50 transition hover:text-sky-400">
-            <a href="/login">
-          <RiContactsLine />
-          </a>
+            <a href="/register">
+              <RiContactsLine />
+            </a>
           </div>
           <a
             href="/card"
@@ -55,55 +57,50 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setOpen(!open)}
-          className="grid h-10 w-10 place-items-center rounded-lg border border-slate-400 text-slate-700 lg:hidden"
+          className="bg-slate-600 grid h-10 w-10 place-items-center rounded-lg border border-slate-600 text-slate-900 lg:hidden"
           aria-label="Open menu"
         >
           {open ? (
-            <span className="text-2xl leading-none">×</span>
+            <span className="text-2xl font-extrabold leading-none">
+              <GiCrossMark />
+            </span>
           ) : (
-            <span className="text-2xl leading-none">☰</span>
+            <span className="text-2xl font-extrabold leading-none">
+              <FaBarsStaggered />
+            </span>
           )}
         </button>
       </nav>
 
       {open && (
-        <div className="border-t border-slate-300 bg-slate-300 px-4 py-4 lg:hidden">
+        <div className="flex items-center text-center flex-col justify-center  border-slate-300 bg-slate-800 px-4 py-4 lg:hidden gap-10">
           <div className="space-y-5">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.path}
                 onClick={() => setOpen(false)}
-                className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700"
+                className="block rounded-lg px-3 py-2 text-lg font-bold hover:text-sky-500 text-white"
               >
                 {link.name}
               </a>
             ))}
           </div>
-
-          <div className="mt-4 grid grid-cols-2 gap-3">
+          <div className="flex flex-col items-center gap-10 ">
+            <div className="text-4xl text-gray-50 transition hover:text-sky-400">
+              <a href="/register">
+                <RiContactsLine  className=""/>
+              </a>
+            </div>
             <a
-              href="/login"
-              onClick={() => setOpen(false)}
-              className="rounded-lg border border-slate-300 px-4 py-2 text-center text-sm font-semibold text-slate-700 hover:bg-emerald-700 hover:text-white"
+              href="/card"
+              className="relative grid h-10 w-10 place-items-center transition hover:text-sky-400 text-white text-[40px] font-bold"
+              aria-label="Cart"
             >
-              Login
-            </a>
-
-            <a
-              href="/register"
-              onClick={() => setOpen(false)}
-              className="rounded-lg bg-emerald-700 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-emerald-600"
-            >
-              Register
-            </a>
-
-            <a
-              href="/cart"
-              onClick={() => setOpen(false)}
-              className="col-span-2 rounded-lg bg-slate-100 px-4 py-2 text-center text-sm font-semibold text-slate-700 hover:bg-emerald-700 hover:text-white"
-            >
-              Cart - 0
+              <CiShoppingCart  className="text-4xl font-extrabold"/>
+              <span className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-sky-400 text-[11px] font-bold text-black">
+                0
+              </span>
             </a>
           </div>
         </div>

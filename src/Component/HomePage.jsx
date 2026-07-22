@@ -1,6 +1,10 @@
 const API_URL = "https://emart-singlevendor-backend-3.onrender.com/api/v1/product/allProduct";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Products from "./ProductDetails";
+import About from "./About";
+import Contact from "./Contact";
+import ImageSlider from "./ImageSlider";
 
 
 export default function Home() {
@@ -36,8 +40,9 @@ export default function Home() {
 
   return (
     <div>
+      <ImageSlider></ImageSlider>
       <main className="min-h-screen bg-slate-50">
-        <section className="px-4 py-10 text-gray-900 sm:px-6 lg:px-8">
+        <section className="px-4 py-4 text-gray-900 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className=" max-w-2xl">
               <h1 className="text-3xl font-medium tracking-widest sm:text-4xl lg:text-5xl">
@@ -47,7 +52,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="px-4 py-6 sm:px-6 lg:px-8">
+        <section className="px-4 py-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -70,6 +75,9 @@ export default function Home() {
           </div>
         </section>
       </main>
+      <Products></Products>
+      <About></About>
+      <Contact></Contact>
     </div>
 
   );
