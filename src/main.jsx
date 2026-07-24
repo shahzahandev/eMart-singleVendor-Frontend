@@ -15,6 +15,7 @@ import ResetPassword from "./Component/ResetPassword"
 import ProductDetails from "./Component/ProductDetails"
 import Card from "./Component/Card"
 import SingleProduct from "./Component/Singleproduct.jsx"
+import ProfileDashboard from "./Component/ProfileDashboard.jsx";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
       {path: "/products", Component: ProductDetails},
       {path: "/card", Component: Card},
       {path: "/singleProduct/:id", Component: SingleProduct},
+      {path: "/profileDashboard", Component: ProfileDashboard}
     ],
   },
 ]);

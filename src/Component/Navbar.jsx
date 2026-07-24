@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RiContactsLine } from "react-icons/ri";
 import { CiShoppingCart } from "react-icons/ci";
 import { GiCrossMark } from "react-icons/gi";
@@ -15,6 +15,21 @@ export default function Navbar() {
     { name: "Our Story", path: "/about" },
     { name: "Contact", path: "/contact" },
   ];
+
+  const [userInfo, setUserInfo] = useState(() => {
+  try {
+    return JSON.parse(localStorage.getItem('userInfo')) || null;
+  } catch {
+    return null;
+  }
+});
+
+  // useEffect(() => {
+  //   let userDetails = JSON.parse(localStorage.getItem('userInfo'))
+  //   setUserInfo(userDetails)
+  // }, [])
+  // console.log(userInfo);
+
 
   return (
     <header className="sticky top-0 z-50 border-b bg-slate-800 backdrop-blur">
@@ -39,12 +54,20 @@ export default function Navbar() {
         </div>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <div className="text-[30px] font-medium text-gray-50 transition flex items-center justify-center "> 
-            <a href="/register"  className="text-lg font-medium text-gray-50 transition hover:text-sky-400 flex justify-center items-center gap-2">
-            
-            <FaUser />
-            Account
-            </a>
+          <div className="text-[30px] font-medium text-gray-50 transition flex items-center justify-center ">
+            {
+              !userInfo?.user ?
+                <a href="/register" className="text-lg font-medium text-gray-50 transition hover:text-sky-400 flex justify-center items-center gap-2">
+                  <FaUser />
+                  <p className=" text-lg font-medium">Account</p>
+                </a> :
+
+                  <a href="/profileDashboard" className="text-lg font-medium text-gray-50 transition hover:text-sky-400 flex justify-center items-center gap-2">
+                  <FaUser />
+                  <p className=" text-lg font-medium">{userInfo.user.userName}</p>
+                </a> 
+            }
+
           </div>
           <a
             href="/card"
@@ -91,17 +114,27 @@ export default function Navbar() {
             ))}
           </div>
           <div className="flex flex-col items-center gap-10 ">
-            <div className="text-4xl text-gray-50 transition hover:text-sky-400">
-              <a href="/register">
-                <RiContactsLine  className=""/>
-              </a>
-            </div>
+                <div className="text-[30px] font-medium text-gray-50 transition flex items-center justify-center ">
+            {
+              !userInfo?.user ?
+                <a href="/register" className="text-lg font-medium text-gray-50 transition hover:text-sky-400 flex justify-center items-center gap-2">
+             
+                  <p className=" text-lg font-medium">Account</p>
+                </a> :
+
+                  <a href="/profileDashboard" className="text-lg font-medium text-gray-50 transition hover:text-sky-400 flex justify-center items-center gap-2">
+                  
+                  <p className=" text-lg font-medium">{userInfo.user.userName}</p>
+                </a> 
+            }
+
+          </div>
             <a
               href="/card"
               className="relative grid h-10 w-10 place-items-center transition hover:text-sky-400 text-white text-[40px] font-bold"
               aria-label="Cart"
             >
-              <CiShoppingCart  className="text-4xl font-extrabold"/>
+              <CiShoppingCart className="text-4xl font-extrabold" />
               <span className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-sky-400 text-[11px] font-bold text-black">
                 0
               </span>

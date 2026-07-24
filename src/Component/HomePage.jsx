@@ -1,4 +1,4 @@
-const API_URL = "https://emart-singlevendor-backend-5.onrender.com/api/v1/product/allProduct";
+const API_URL = "http://localhost:5000/api/v1/product/allProduct";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Products from "./ProductDetails";
@@ -13,11 +13,9 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+
   useEffect(() => {
-    const fetchProducts = async () => {
-
-
-      
+    const fetchProducts = async () => {      
       try {
         setLoading(true);
         const res = await fetch(API_URL);

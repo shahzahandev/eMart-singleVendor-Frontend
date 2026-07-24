@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-const LOGIN_URL = "https://emart-singlevendor-backend-5.onrender.com/api/v1/auth/login"
+const LOGIN_URL = "http://localhost:5000/api/v1/auth/login"
 
 
 
@@ -39,8 +39,7 @@ export default function Login() {
 
     try {
       let data = await axios.post(LOGIN_URL, formData);
-      console.log(data.data);
-
+      localStorage.setItem('userInfo', JSON.stringify(data.data))
       setSuccess(data.data.message);
       setTimeout(() => {
         navigate("/")
