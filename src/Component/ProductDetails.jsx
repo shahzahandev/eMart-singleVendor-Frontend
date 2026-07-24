@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const API_URL = "https://emart-singlevendor-backend-3.onrender.com/api/v1/product/allProduct";
+const API_URL = "https://emart-singlevendor-backend-5.onrender.com/api/v1/product/allProduct";
 
 export default function Products() {
   const [products, setProducts] = useState([]);

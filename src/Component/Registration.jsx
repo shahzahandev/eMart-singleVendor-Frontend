@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
+import { DNA } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
-const REGISTER_URL = "http://localhost:5000/api/v1/auth/register"
+const REGISTER_URL = "https://emart-singlevendor-backend-5.onrender.com/api/v1/auth/register"
 
 export default function Register() {
 
@@ -74,11 +75,10 @@ export default function Register() {
       });
       setTimeout(() => {
         navigate("/login")
-      }, 5000);
+      }, 2000);
 
     } catch (error) {
       let err = error.response.data.message
-
       setError(err)
       console.log(setError);
 
@@ -206,13 +206,29 @@ export default function Register() {
                   {success}
                 </div>
               )}
+              {
+                loading ?
+                  <div className="flex justify-center items-center">
+                    <DNA
+                      visible={true}
+                      height="40"
+                      width="40"
+                      ariaLabel="dna-loading"
+                      wrapperStyle={{}}
+                      wrapperClass="dna-wrapper"
+                    />
+                  </div>
+                  :
+                  <button
+                    type="submit"
+                    className="h-12 w-full rounded-lg bg-sky-500 text-sm font-semibold text-white transition hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                  >
+                    Register
+                  </button>
 
-              <button
-                type="submit"
-                className="h-12 w-full rounded-lg bg-sky-500 text-sm font-semibold text-white transition hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-emerald-300"
-              >
-                Register
-              </button>
+              }
+
+
             </form>
 
             <p className="mt-6 text-center text-sm text-slate-500">

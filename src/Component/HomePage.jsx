@@ -1,10 +1,11 @@
-const API_URL = "https://emart-singlevendor-backend-3.onrender.com/api/v1/product/allProduct";
+const API_URL = "https://emart-singlevendor-backend-5.onrender.com/api/v1/product/allProduct";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Products from "./ProductDetails";
 import About from "./About";
 import Contact from "./Contact";
 import ImageSlider from "./ImageSlider";
+import axios from "axios";
 
 
 export default function Home() {
@@ -14,10 +15,15 @@ export default function Home() {
 
   useEffect(() => {
     const fetchProducts = async () => {
+
+
+      
       try {
         setLoading(true);
         const res = await fetch(API_URL);
 
+        console.log(res)
+        
         if (!res.ok) {
           throw new Error(`API error: ${res.status}`);
         }

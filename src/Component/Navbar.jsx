@@ -3,6 +3,8 @@ import { RiContactsLine } from "react-icons/ri";
 import { CiShoppingCart } from "react-icons/ci";
 import { GiCrossMark } from "react-icons/gi";
 import { FaBarsStaggered } from "react-icons/fa6";
+import { TbH3 } from "react-icons/tb";
+import { FaUser } from "react-icons/fa";
 
 
 export default function Navbar() {
@@ -37,9 +39,11 @@ export default function Navbar() {
         </div>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <div className="text-[30px] font-medium text-gray-50 transition hover:text-sky-400">
-            <a href="/register">
-              <RiContactsLine />
+          <div className="text-[30px] font-medium text-gray-50 transition flex items-center justify-center "> 
+            <a href="/register"  className="text-lg font-medium text-gray-50 transition hover:text-sky-400 flex justify-center items-center gap-2">
+            
+            <FaUser />
+            Account
             </a>
           </div>
           <a
