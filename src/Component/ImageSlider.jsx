@@ -1,9 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { IoMdArrowDroprightCircle, IoMdArrowDropleftCircle } from "react-icons/io";
 
-// Drop the 5 images (from the outputs/slider-images folder) into your
-// project's public/images folder (or src/assets and import them instead),
-// then adjust these paths if needed.
 import callsImg from "../assets/banner-calls.webp";
 import musicImg from "../assets/banner-music.webp";
 import gamerImg from "../assets/banner-gamer.webp";
@@ -33,7 +30,7 @@ export default function ImageSlider() {
 
   useEffect(() => {
     if (paused) return;
-    const timer = setInterval(next, 4000);
+    const timer = setInterval(next, 2000);
     return () => clearInterval(timer);
   }, [paused, next]);
 

@@ -5,7 +5,7 @@ import { GiCrossMark } from "react-icons/gi";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { TbH3 } from "react-icons/tb";
 import { FaUser } from "react-icons/fa";
-
+import Logo from "../assets/logo.png"
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -33,12 +33,11 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b bg-slate-800 backdrop-blur">
-      <nav className="mx-auto flex h-36 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <a href="/" className="flex items-center gap-2">
-          <div>
-            <h1 className="text-[40px] font-bold leading-5 text-sky-400">
-              E-Earbuds
-            </h1>
+      <nav className="mx-auto flex h-35 max-w-7xl items-center justify-between px-1 sm:px-6 lg:px-8">
+
+        <a href="/" className="w-[40%] lg:w-[25%]">
+          <div className="w-1/2">
+            <img src={Logo} alt="" />
           </div>
         </a>
         <div className="hidden items-center gap-7 lg:flex">
@@ -64,7 +63,7 @@ export default function Navbar() {
 
                   <a href="/profileDashboard" className="text-lg font-medium text-gray-50 transition hover:text-sky-400 flex justify-center items-center gap-2">
                   <FaUser />
-                  <p className=" text-lg font-medium">{userInfo.user.userName}</p>
+                  <p className="text-sm font-medium">{userInfo.user.userName}</p>
                 </a> 
             }
 
@@ -123,8 +122,8 @@ export default function Navbar() {
                 </a> :
 
                   <a href="/profileDashboard" className="text-lg font-medium text-gray-50 transition hover:text-sky-400 flex justify-center items-center gap-2">
-                  
-                  <p className=" text-lg font-medium">{userInfo.user.userName}</p>
+                   <FaUser />
+                  <p className=" text-sm font-medium">{userInfo.user.userName}</p>
                 </a> 
             }
 

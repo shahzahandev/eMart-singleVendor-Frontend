@@ -6,6 +6,9 @@ import About from "./About";
 import Contact from "./Contact";
 import ImageSlider from "./ImageSlider";
 import axios from "axios";
+import ShopByCategories from "./ShopByCategories";
+import OfficialPartners from "./OfficialPartners";
+import Container from "./Container";
 
 
 export default function Home() {
@@ -15,13 +18,13 @@ export default function Home() {
 
 
   useEffect(() => {
-    const fetchProducts = async () => {      
+    const fetchProducts = async () => {
       try {
         setLoading(true);
         const res = await fetch(API_URL);
 
         console.log(res)
-        
+
         if (!res.ok) {
           throw new Error(`API error: ${res.status}`);
         }
@@ -44,41 +47,35 @@ export default function Home() {
 
   return (
     <div>
-      <main className="min-h-screen bg-slate-50">
-        <section className="px-4 py-4 text-gray-900 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl">
-            <div className=" max-w-2xl">
-              <h1 className="text-3xl font-medium tracking-widest sm:text-4xl lg:text-5xl">
-                Find Your Vibe            
-              </h1>
-            </div>
-          </div>
-        </section>
-
-        <section className="px-4 py-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl">
-            <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <h2 className="text-2xl font-medium text-slate-900">
-                  Latest Products
-                </h2>
-              </div>
-              <a className="" href="/products">
-                <button className="cursor-pointer w-fit rounded-lg border border-black px-4 py-2.5 text-sm font-semibold text-black hover:bg-slate-200">
-                  View All
-                </button>
-              </a>
-            </div>
-
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {products.map((product) => (
-                <ProductCard key={product._id} product={product} />
-              ))}
-            </div>
-          </div>
-        </section>
-      </main>
       <ImageSlider></ImageSlider>
+      <ShopByCategories></ShopByCategories>
+      <OfficialPartners></OfficialPartners>
+      <Container>
+        <main className="min-h-screen bg-white">
+          <section className="px-4 py-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl">
+              <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <h2 className="mb-6 inline-block px-3 py-1 text-2xl">
+                    Latest <span className="font-extrabold">Products</span>
+                  </h2>
+                </div>
+                <a className="" href="/products">
+                  <button className="cursor-pointer w-fit rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-semibold text-black hover:bg-sky-400">
+                    View All
+                  </button>
+                </a>
+              </div>
+
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {products.map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+              </div>
+            </div>
+          </section>
+        </main>
+      </Container>
       <Products></Products>
       <About></About>
       <Contact></Contact>

@@ -21,7 +21,7 @@ export default function Footer() {
               { name: "Home", href: "/" },
               { name: "All Products", href: "/products" },
               { name: "Card", href: "/card" },
-              { name: "My Order", href: "/orders" },
+              { name: "My Profile", href: "/profileDashboard" },
             ]}
           />
 
@@ -32,6 +32,8 @@ export default function Footer() {
               { name: "Register", href: "/register" },
               { name: "Forgot Password", href: "/forgot" },
               { name: "Reset Password", href: "/resetpass" },
+              { name: "Admin Dashboard", href: "/admin" }, 
+
             ]}
           />
 

@@ -34,16 +34,16 @@ export default function Products() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-slate-50">
+    <main className="min-h-screen bg-white">
       <section className="px-4 py-5 text-black sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mt-4 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <h1 className="text-3xl font-medium sm:text-4xl lg:text-5xl">
-                Explore Bestsellers            
+                Explore Bestsellers
               </h1>
             </div>
-            <div className="rounded-xl bg-slate-200 px-5 py-4 backdrop-blur">
+            <div className="rounded-xl bg-white border border-slate-300 px-5 py-4 backdrop-blur">
               <p className="text-sm text-black">Total Products</p>
               <p className="mt-1 text-2xl font-bold">{products.length}</p>
             </div>
@@ -55,13 +55,15 @@ export default function Products() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-6 flex flex-col gap-4 rounded-2xl bg-white p-4  md:flex-row md:items-center md:justify-between">
             <div>
-              <h2 className="text-xl font-medium text-slate-900">All Products</h2>
+              <h2 className="mb-6 inline-block px-3 py-1 text-2xl">
+                All <span className="font-extrabold">Products</span>
+              </h2>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               <input
                 type="text"
                 placeholder="Search product..."
-                className="h-11 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 sm:w-64"
+                className="h-11 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100 sm:w-64"
               />
             </div>
           </div>

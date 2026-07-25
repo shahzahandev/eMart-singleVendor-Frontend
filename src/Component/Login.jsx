@@ -41,10 +41,7 @@ export default function Login() {
       let data = await axios.post(LOGIN_URL, formData);
       localStorage.setItem('userInfo', JSON.stringify(data.data))
       setSuccess(data.data.message);
-      setTimeout(() => {
-        navigate("/")
-      }, 2000)
-
+        navigate("/profileDashboard")
     } catch (error) {
       setError(error.response.data.message);
     }

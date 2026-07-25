@@ -16,6 +16,9 @@ import ProductDetails from "./Component/ProductDetails"
 import Card from "./Component/Card"
 import SingleProduct from "./Component/Singleproduct.jsx"
 import ProfileDashboard from "./Component/ProfileDashboard.jsx";
+import AdminDashboard from "./Component/AdminDashboard.jsx";
+import ShopByCategories from "./Component/ShopByCategories.jsx";
+import OfficialPartners from "./Component/OfficialPartners.jsx";
 
 const router = createBrowserRouter([
   {
@@ -33,7 +36,10 @@ const router = createBrowserRouter([
       {path: "/products", Component: ProductDetails},
       {path: "/card", Component: Card},
       {path: "/singleProduct/:id", Component: SingleProduct},
-      {path: "/profileDashboard", Component: ProfileDashboard}
+      {path: "/profileDashboard", Component: ProfileDashboard},
+      {path: "/admin", Component: AdminDashboard},
+      {path: "/shopByCategories", Component: ShopByCategories},
+      {path: "/partners", Component: OfficialPartners}
     ],
   },
 ]);
