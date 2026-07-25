@@ -9,6 +9,7 @@ import axios from "axios";
 import ShopByCategories from "./ShopByCategories";
 import OfficialPartners from "./OfficialPartners";
 import Container from "./Container";
+import Image from "./Image"
 
 
 export default function Home() {
@@ -77,6 +78,7 @@ export default function Home() {
         </main>
       </Container>
       <Products></Products>
+      <Image></Image>
       <About></About>
       <Contact></Contact>
     </div>

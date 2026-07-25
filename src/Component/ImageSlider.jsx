@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { IoMdArrowDroprightCircle, IoMdArrowDropleftCircle } from "react-icons/io";
 
-import callsImg from "../assets/banner-calls.webp";
-import musicImg from "../assets/banner-music.webp";
-import gamerImg from "../assets/banner-gamer.webp";
-import travelImg from "../assets/banner-travel.webp";
-import focusImg from "../assets/banner-focus.webp";
+import callsImg from "../assets/banner-mian-m.webp";
+import musicImg from "../assets/banner-main-file.png";
+import gamerImg from "../assets/air-anc.png";
+import travelImg from "../assets/prime-pro-anc.png";
+import focusImg from "../assets/prime-navy-pc.png";
 
  const SLIDES = [
    { id: 1, image: callsImg, alt: "CALLS" },
@@ -54,7 +54,7 @@ export default function ImageSlider() {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="relative aspect-[3/2] lg:aspect-[3/1] w-full">
+      <div className="relative aspect-[3/1] lg:aspect-[3/1] w-full">
         {SLIDES.map((slide, i) => (
           <img
             key={slide.id}
