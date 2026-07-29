@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { User, Package, LogOut, MapPin, Calendar, ChevronRight } from "lucide-react";
-import { useAsyncError, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Container from "./Container";
 import axios from "axios";
 
@@ -41,17 +41,11 @@ const STATUS_STYLES = {
 };
 
 
-
-let data = JSON.parse(localStorage.getItem('userInfo'))
-console.log(data.user.userId);
-
-// console.log(data);
-
-
 export default function ProfileDashboard({ onLogout }) {
     const [active, setActive] = useState("profile");
     const navigate = useNavigate();
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+    const [userInfo, setUserInfo] = useState('');
 
     const [formData, setFormData] = useState({
         fullname: "",
@@ -62,25 +56,13 @@ export default function ProfileDashboard({ onLogout }) {
         city: "",
     });
 
-
-//     useEffect(() => {
-//     async function getData(){
-//         let userData = await axios.get(`http://localhost:5000/api/v1/user/singleUser/${data.user.userId}`)
-//         console.log(userData.data.user);
-//     }
-//     getData();
-// }) 
-   
-
+    const [saving, setSaving] = useState(false);
+    const [saveError, setSaveError] = useState("");
+    const [saveSuccess, setSaveSuccess] = useState("");
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("Profile update:", formData);
     };
 
     const handleNavClick = (key) => {
@@ -100,6 +82,78 @@ export default function ProfileDashboard({ onLogout }) {
         }
         setShowLogoutConfirm(false);
     };
+
+
+    useEffect(() => {
+        let data = JSON.parse(localStorage.getItem('userInfo'));
+        setUserInfo(data);
+    }, []);
+
+
+    useEffect(() => {
+        if (!userInfo?.id) return;
+        async function getData() {
+            try {
+                const res = await axios.get(`http://localhost:5000/api/v1/user/singleUser/${userInfo.id}`);
+                setFormData({
+                    fullname: res.data.user.name || "",
+                    email: res.data.user.email || "",
+                    phone: res.data.user.phone || "",
+                    city: res.data.user.city || "",
+                    postalCode: res.data.user.postalCode || "",
+                    address: res.data.user.address || "",
+                });
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        getData();
+    }, [userInfo]);
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setSaveError("");
+        setSaveSuccess("");
+
+        try {
+            setSaving(true);
+            const res = await axios.post(
+                `http://localhost:5000/api/v1/user/updateUser/${userInfo.id}`,
+                {
+                    name: formData.fullname,
+                    email: formData.email,
+                    phone: formData.phone,
+                    city: formData.city,
+                    postalCode: formData.postalCode,
+                    address: formData.address,
+                }
+            );
+
+            const updatedUser = res.data.user;
+
+            setFormData({
+                fullname: updatedUser.name || "",
+                email: updatedUser.email || "",
+                phone: updatedUser.phone || "",
+                city: updatedUser.city || "",
+                postalCode: updatedUser.postalCode || "",
+                address: updatedUser.address || "",
+            });
+
+            // Keep localStorage (and Navbar, if it reads userInfo.name) in sync
+            const mergedUserInfo = { ...userInfo, name: updatedUser.name };
+            localStorage.setItem("userInfo", JSON.stringify(mergedUserInfo));
+            setUserInfo(mergedUserInfo);
+
+            setSaveSuccess("Profile updated successfully.");
+        } catch (err) {
+            setSaveError(err.response?.data?.message || "Failed to update profile.");
+        } finally {
+            setSaving(false);
+        }
+    };
+
 
     return (
         <Container>
@@ -135,7 +189,7 @@ export default function ProfileDashboard({ onLogout }) {
                         {active === "profile" && (
                             <>
                                 <h2 className="text-xl font-bold text-black">
-                                    {data.user.userName ? data.user.userName : "Profile"}
+                                    {!userInfo ? "Account" : userInfo.name}
                                 </h2>
                                 <p className="mt-1 text-sm text-black/60">
                                     Update your personal information.
@@ -228,11 +282,23 @@ export default function ProfileDashboard({ onLogout }) {
                                         </div>
                                     </div>
 
+                                    {saveError && (
+                                        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+                                            {saveError}
+                                        </div>
+                                    )}
+                                    {saveSuccess && (
+                                        <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                                            {saveSuccess}
+                                        </div>
+                                    )}
+
                                     <button
                                         type="submit"
-                                        className="h-12 w-full rounded-lg bg-sky-400 text-sm font-semibold text-black transition hover:bg-sky-500 sm:w-auto sm:px-8"
+                                        disabled={saving}
+                                        className="h-12 w-full rounded-lg bg-sky-400 text-sm font-semibold text-black transition hover:bg-sky-500 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-8"
                                     >
-                                        Save Changes
+                                        {saving ? "Saving..." : "Save Changes"}
                                     </button>
                                 </form>
                             </>

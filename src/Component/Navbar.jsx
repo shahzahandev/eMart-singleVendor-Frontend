@@ -7,7 +7,7 @@ import { TbH3 } from "react-icons/tb";
 import { FaUser } from "react-icons/fa";
 import Logo from "../assets/logo.png"
 
-export default function Navbar() {
+export default function Navbar(handleLogin) {
   const [open, setOpen] = useState(false);
 
   const navLinks = [
@@ -15,26 +15,16 @@ export default function Navbar() {
     { name: "Our Story", path: "/about" },
     { name: "Contact", path: "/contact" },
   ];
+  const [userInfo, setUserInfo] = useState()
 
-  const [userInfo, setUserInfo] = useState(() => {
-  try {
-    return JSON.parse(localStorage.getItem('userInfo')) || null;
-  } catch {
-    return null;
-  }
-});
-
-  // useEffect(() => {
-  //   let userDetails = JSON.parse(localStorage.getItem('userInfo'))
-  //   setUserInfo(userDetails)
-  // }, [])
-  // console.log(userInfo);
-
+  useEffect(() => {
+    let data = JSON.parse(localStorage.getItem('userInfo'))
+    setUserInfo(data)
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 border-b bg-slate-800 backdrop-blur">
       <nav className="mx-auto flex h-35 max-w-7xl items-center justify-between px-1 sm:px-6 lg:px-8">
-
         <a href="/" className="w-[40%] lg:w-[25%]">
           <div className="w-1/2">
             <img src={Logo} alt="" />
@@ -51,22 +41,21 @@ export default function Navbar() {
             </a>
           ))}
         </div>
-
         <div className="hidden items-center gap-3 lg:flex">
           <div className="text-[30px] font-medium text-gray-50 transition flex items-center justify-center ">
             {
-              !userInfo?.user ?
+              !userInfo
+                ?
                 <a href="/register" className="text-lg font-medium text-gray-50 transition hover:text-sky-400 flex justify-center items-center gap-2">
                   <FaUser />
                   <p className=" text-lg font-medium">Account</p>
-                </a> :
-
-                  <a href="/profileDashboard" className="text-lg font-medium text-gray-50 transition hover:text-sky-400 flex justify-center items-center gap-2">
+                </a>
+                :
+                <a href="/profileDashboard" className="text-lg font-medium text-gray-50 transition hover:text-sky-400 flex justify-center items-center gap-2">
                   <FaUser />
-                  <p className="text-sm font-medium">{userInfo.user.userName}</p>
-                </a> 
+                  <p className=" text-lg font-medium">{userInfo.name}</p>
+                </a>
             }
-
           </div>
           <a
             href="/card"
@@ -79,7 +68,6 @@ export default function Navbar() {
             </span>
           </a>
         </div>
-
         <button
           type="button"
           onClick={() => setOpen(!open)}
@@ -113,21 +101,20 @@ export default function Navbar() {
             ))}
           </div>
           <div className="flex flex-col items-center gap-10 ">
-                <div className="text-[30px] font-medium text-gray-50 transition flex items-center justify-center ">
-            {
-              !userInfo?.user ?
-                <a href="/register" className="text-lg font-medium text-gray-50 transition hover:text-sky-400 flex justify-center items-center gap-2">
-             
-                  <p className=" text-lg font-medium">Account</p>
-                </a> :
-
+            <div className="text-[30px] font-medium text-gray-50 transition flex items-center justify-center ">
+              {
+                !userInfo
+                  ?
+                  <a href="/register" className="text-lg font-medium text-gray-50 transition hover:text-sky-400 flex justify-center items-center gap-2">
+                    <p className=" text-lg font-medium">Account</p>
+                  </a>
+                  :
                   <a href="/profileDashboard" className="text-lg font-medium text-gray-50 transition hover:text-sky-400 flex justify-center items-center gap-2">
-                   <FaUser />
-                  <p className=" text-sm font-medium">{userInfo.user.userName}</p>
-                </a> 
-            }
 
-          </div>
+                    <p className=" text-lg font-medium">{userInfo.name}</p>
+                  </a>
+              }
+            </div>
             <a
               href="/card"
               className="relative grid h-10 w-10 place-items-center transition hover:text-sky-400 text-white text-[40px] font-bold"

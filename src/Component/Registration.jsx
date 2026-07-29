@@ -73,15 +73,12 @@ export default function Register() {
         confirmPassword: "",
         terms: false,
       });
-      setTimeout(() => {
-        navigate("/login")
-      }, 2000);
-
+       setTimeout(() => {
+         navigate("/login")
+       }, 2000)
     } catch (error) {
       let err = error.response.data.message
-      setError(err)
-      console.log(setError);
-
+      setError(err) 
     } finally {
       setLoading(false);
     }

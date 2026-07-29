@@ -39,9 +39,11 @@ export default function Login() {
 
     try {
       let data = await axios.post(LOGIN_URL, formData);
-      localStorage.setItem('userInfo', JSON.stringify(data.data))
+      localStorage.setItem('userInfo', JSON.stringify(data.data.user))
       setSuccess(data.data.message);
-        navigate("/profileDashboard")
+     setTimeout(() => {
+         navigate("/")
+     }, 2000);
     } catch (error) {
       setError(error.response.data.message);
     }

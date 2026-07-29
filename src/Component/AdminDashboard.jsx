@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   LayoutGrid,
   Package,
@@ -16,33 +16,7 @@ import {
   Plus,
 } from "lucide-react";
 import Container from "./Container";
-
-/* ---------------- Sample data (swap with real API data) ---------------- */
-
-const PRODUCTS = [
-  { id: 1, title: "Wireless Noise-Cancelling Headphones", sku: "ELEC-HEAD-001", category: "Electronics", price: 4500, originalPrice: 6000, stock: 12, status: "Active", image: "🎧" },
-  { id: 2, title: "Minimalist Leather Backpack", sku: "FASH-BAG-002", category: "Fashion", price: 3200, originalPrice: null, stock: 8, status: "Active", image: "🎒" },
-  { id: 3, title: "Ceramic Pour-Over Coffee Set", sku: "HOME-COF-003", category: "Home & Living", price: 1800, originalPrice: 2400, stock: 20, status: "Active", image: "☕" },
-  { id: 4, title: "The Design of Everyday Things", sku: "BOOK-UX-004", category: "Books", price: 950, originalPrice: null, stock: 35, status: "Pending", image: "📘" },
-  { id: 5, title: "Matte Skincare Gift Set", sku: "BEAU-SKN-005", category: "Beauty", price: 2100, originalPrice: 2800, stock: 15, status: "Active", image: "🧴" },
-  { id: 6, title: "Adjustable Yoga Mat & Strap", sku: "SPRT-YOG-006", category: "Sports", price: 1500, originalPrice: 2000, stock: 0, status: "Inactive", image: "🧘" },
-];
-
-const USERS = [
-  { id: 1, name: "Ashraf Hossain", email: "ashraf@example.com", phone: "01712345678", role: "Customer", status: "Active", joined: "Mar 14, 2026" },
-  { id: 2, name: "Nusrat Jahan", email: "nusrat@example.com", phone: "01898765432", role: "Customer", status: "Active", joined: "Apr 2, 2026" },
-  { id: 3, name: "Tanvir Ahmed", email: "tanvir@example.com", phone: "01611223344", role: "Admin", status: "Active", joined: "Jan 20, 2026" },
-  { id: 4, name: "Farhana Akter", email: "farhana@example.com", phone: "01555667788", role: "Customer", status: "Suspended", joined: "May 11, 2026" },
-  { id: 5, name: "Rakibul Islam", email: "rakibul@example.com", phone: "01922334455", role: "Customer", status: "Active", joined: "Jun 18, 2026" },
-];
-
-const ORDERS = [
-  { id: "ORD1001", customer: "Ashraf Hossain", email: "ashraf@example.com", date: "Jul 1, 2026", total: 5200, payment: "bKash", status: "Delivered" },
-  { id: "ORD1002", customer: "Nusrat Jahan", email: "nusrat@example.com", date: "Jul 5, 2026", total: 3200, payment: "Cash on Delivery", status: "Shipped" },
-  { id: "ORD1003", customer: "Rakibul Islam", email: "rakibul@example.com", date: "Jul 7, 2026", total: 1800, payment: "Card", status: "Processing" },
-  { id: "ORD1004", customer: "Farhana Akter", email: "farhana@example.com", date: "Jun 20, 2026", total: 1500, payment: "Nagad", status: "Cancelled" },
-  { id: "ORD1005", customer: "Tanvir Ahmed", email: "tanvir@example.com", date: "Jul 10, 2026", total: 600, payment: "bKash", status: "Processing" },
-];
+import axios from "axios";
 
 /* ---------------- Status badge styles ---------------- */
 
@@ -57,6 +31,13 @@ const STATUS_STYLES = {
   Cancelled: "bg-red-50 text-red-600",
   "Out of stock": "bg-red-50 text-red-600",
 };
+
+// Backend sends lowercase statuses ("pending", "shipped", ...) — normalize to
+// Title Case so it matches STATUS_STYLES/STATUS_ICON and displays nicely.
+function normalizeStatus(status) {
+  if (!status) return "Unknown";
+  return status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+}
 
 const STATUS_ICON = {
   Delivered: CheckCircle2,
@@ -130,95 +111,141 @@ const NAV_ITEMS = [
 export default function AdminDashboard({ onLogout }) {
   const [activeTab, setActiveTab] = useState("dashboard");
 
+  // Shared data — lifted up here so every panel can use it via props.
+  const [userNum, setUserNum] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [orders, setOrders] = useState([]);
+
+  // get all users
+  useEffect(() => {
+    async function getData() {
+      try {
+        let res = await axios.get(`http://localhost:5000/api/v1/user/allUser`);
+        setUserNum(res.data.users);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
+  }, []);
+
+  // get all products
+  useEffect(() => {
+    async function getData() {
+      try {
+        let res = await axios.get(`http://localhost:5000/api/v1/product/allProduct`);
+        setProducts(res.data.products);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
+  }, []);
+
+  // get all orders
+  useEffect(() => {
+    async function getData() {
+      try {
+        let res = await axios.get(`http://localhost:5000/api/v1/order/allOrder`);
+        setOrders(res.data.order);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
+  }, []);
+
   return (
-      <Container>
-    <div className="flex flex-col md:flex-row gap-10 bg-white text-black py-5 md:py-20 ">
-  {/* Sidebar */}
-      <aside className="md:w-[30%] shrink-0 flex-col justify-between border-r border-slate-200 px-6 py-8 md:flex">
-        <div>
-          <div className="mb-8 flex items-baseline gap-2 border-b border-slate-900 pb-4">
-            <h1 className="text-xl font-bold">E-Earbuds</h1>
-            <span className="text-sm text-slate-500">Admin</span>
+    <Container>
+      <div className="flex flex-col md:flex-row gap-10 bg-white text-black py-5 md:py-20 ">
+        {/* Sidebar */}
+        <aside className="md:w-[30%] shrink-0 flex-col justify-between border-r border-slate-200 px-6 py-8 md:flex">
+          <div>
+            <div className="mb-8 flex items-baseline gap-2 border-b border-slate-900 pb-4">
+              <h1 className="text-xl font-bold">E-Earbuds</h1>
+              <span className="text-sm text-slate-500">Admin</span>
+            </div>
+
+            <nav className="flex flex-col  gap-1">
+              {NAV_ITEMS.map(({ key, label, icon: Icon }) => (
+                <button
+                  key={key}
+                  onClick={() => setActiveTab(key)}
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-left text-[15px] font-medium transition-colors ${
+                    activeTab === key
+                      ? "bg-sky-400 text-white"
+                      : "text-slate-800 hover:bg-slate-100"
+                  }`}
+                >
+                  <Icon size={18} />
+                  {label}
+                </button>
+              ))}
+            </nav>
           </div>
 
-          <nav className="flex flex-col  gap-1">
-            {NAV_ITEMS.map(({ key, label, icon: Icon }) => (
-              <button
-                key={key}
-                onClick={() => setActiveTab(key)}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-left text-[15px] font-medium transition-colors ${
-                  activeTab === key
-                    ? "bg-sky-400 text-white"
-                    : "text-slate-800 hover:bg-slate-100"
-                }`}
-              >
-                <Icon size={18} />
-                {label}
-              </button>
-            ))}
-          </nav>
-        </div>
+          <button
+            onClick={() => onLogout?.()}
+            className="flex items-center gap-2 border-t border-slate-200 pt-4 text-[15px] font-medium text-rose-500 hover:text-rose-600"
+          >
+            <LogOut size={18} />
+            Logout
+          </button>
+        </aside>
 
-        <button
-          onClick={() => onLogout?.()}
-          className="flex items-center gap-2 border-t border-slate-200 pt-4 text-[15px] font-medium text-rose-500 hover:text-rose-600"
-        >
-          <LogOut size={18} />
-          Logout
-        </button>
-      </aside>
-
-      {/* Content */}
-      <main className="md:w-[60%]">
-        {activeTab === "dashboard" && <DashboardPanel />}
-        {activeTab === "products" && <ProductsPanel />}
-        {activeTab === "users" && <UsersPanel />}
-        {activeTab === "orders" && <OrdersPanel />}
-      </main>   
-    </div>
+        {/* Content */}
+        <main className="md:w-[60%]">
+          {activeTab === "dashboard" && (
+            <DashboardPanel products={products} userNum={userNum} orders={orders} />
+          )}
+          {activeTab === "products" && <ProductsPanel products={products} />}
+          {activeTab === "users" && <UsersPanel users={userNum} />}
+          {activeTab === "orders" && <OrdersPanel orders={orders} users={userNum} />}
+        </main>
+      </div>
     </Container>
   );
 }
 
 /* ---------------- Dashboard ---------------- */
 
-function DashboardPanel() {
+function DashboardPanel({ products, userNum, orders }) {
   return (
     <div>
       <h2 className="text-3xl font-bold">E-Earbuds</h2>
       <p className="mt-1 text-slate-500">Overview of your store.</p>
 
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <StatCard label="Total Products" value={PRODUCTS.length} icon={Package} />
-        <StatCard label="Total Users" value={USERS.length} icon={UsersIcon} />
-        <StatCard label="Total Orders" value={ORDERS.length} icon={ShoppingBag} />
+        <StatCard label="Total Products" value={products.length} icon={Package} />
+        <StatCard label="Total Users" value={userNum.length} icon={UsersIcon} />
+        <StatCard label="Total Orders" value={orders.length} icon={ShoppingBag} />
       </div>
-    </div>   
+    </div>
   );
 }
 
 /* ---------------- Products ---------------- */
 
-function ProductsPanel() {
+function ProductsPanel({ products }) {
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
 
   const filtered = useMemo(() => {
-    return PRODUCTS.filter((p) => {
+    return products.filter((p) => {
       const matchesFilter = filter === "All" || p.status === filter;
       const matchesSearch =
         p.title.toLowerCase().includes(search.toLowerCase()) ||
         p.sku.toLowerCase().includes(search.toLowerCase());
       return matchesFilter && matchesSearch;
     });
-  }, [filter, search]);
+  }, [products, filter, search]);
 
   return (
     <div>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 className="text-3xl font-bold">Products</h2>
-          <p className="mt-1 text-slate-500">{PRODUCTS.length} total products</p>
+          <p className="mt-1 text-slate-500">{products.length} total products</p>
         </div>
         <button className="flex items-center gap-2 text-sm font-semibold text-black hover:text-slate-600">
           <Plus size={16} />
@@ -229,7 +256,7 @@ function ProductsPanel() {
       <div className="mt-6 flex flex-wrap items-center gap-3">
         <SearchBar value={search} onChange={setSearch} placeholder="Search by title or SKU..." />
         <div className="flex flex-wrap gap-2">
-          {["All", "Active", "Pending", "Inactive"].map((s) => (
+          {["All", "active", "pending", "inactive"].map((s) => (
             <FilterButton key={s} label={s} active={filter === s} onClick={() => setFilter(s)} />
           ))}
         </div>
@@ -305,29 +332,29 @@ function ProductsPanel() {
 
 /* ---------------- Users ---------------- */
 
-function UsersPanel() {
+function UsersPanel({ users }) {
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
 
   const filtered = useMemo(() => {
-    return USERS.filter((u) => {
+    return users.filter((u) => {
       const matchesFilter = filter === "All" || u.status === filter;
       const matchesSearch =
         u.name.toLowerCase().includes(search.toLowerCase()) ||
         u.email.toLowerCase().includes(search.toLowerCase());
       return matchesFilter && matchesSearch;
     });
-  }, [filter, search]);
+  }, [users, filter, search]);
 
   return (
     <div>
       <h2 className="text-3xl font-bold">Users</h2>
-      <p className="mt-1 text-slate-500">{USERS.length} registered users</p>
+      <p className="mt-1 text-slate-500">{users.length} registered users</p>
 
       <div className="mt-6 flex flex-wrap items-center gap-3">
         <SearchBar value={search} onChange={setSearch} placeholder="Search by name or email..." />
         <div className="flex flex-wrap gap-2">
-          {["All", "Active", "Suspended"].map((s) => (
+          {["All", "active", "delete"].map((s) => (
             <FilterButton key={s} label={s} active={filter === s} onClick={() => setFilter(s)} />
           ))}
         </div>
@@ -391,26 +418,56 @@ function UsersPanel() {
 
 /* ---------------- Orders ---------------- */
 
-function OrdersPanel() {
+function OrdersPanel({ orders, users }) {
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
 
+  const getCustomer = (order) => {
+    const match = users.find(
+      (u) => u._id === order.user || u.id === order.user
+    );
+    return {
+      name: match?.name || order.user || "—",
+      email: match?.email || null,
+    };
+  };
+
+  const formatDate = (iso) => {
+    if (!iso) return "—";
+    return new Date(iso).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+
   const stats = useMemo(() => {
-    const processing = ORDERS.filter((o) => o.status === "Processing").length;
-    const shipped = ORDERS.filter((o) => o.status === "Shipped").length;
-    const revenue = ORDERS.filter((o) => o.status !== "Cancelled").reduce((sum, o) => sum + o.total, 0);
+    const processing = orders.filter(
+      (o) => normalizeStatus(o.status) === "Processing"
+    ).length;
+    const shipped = orders.filter(
+      (o) => normalizeStatus(o.status) === "Shipped"
+    ).length;
+    const revenue = orders
+      .filter((o) => normalizeStatus(o.status) !== "Cancelled")
+      .reduce((sum, o) => sum + (o.totalPrice ?? 0), 0);
     return { processing, shipped, revenue };
-  }, []);
+  }, [orders]);
 
   const filtered = useMemo(() => {
-    return ORDERS.filter((o) => {
-      const matchesFilter = filter === "All" || o.status === filter;
-      const matchesSearch =
-        o.id.toLowerCase().includes(search.toLowerCase()) ||
-        o.customer.toLowerCase().includes(search.toLowerCase());
-      return matchesFilter && matchesSearch;
+    return orders.filter((o) => {
+      const status = normalizeStatus(o.status);
+      const matchesFilter = filter === "All" || status === filter;
+
+      const { name: customerName, email: customerEmail } = getCustomer(o);
+      const haystack = [o.tranId, o._id, customerName, customerEmail]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return matchesFilter && haystack.includes(search.toLowerCase());
     });
-  }, [filter, search]);
+  }, [orders, users, filter, search]);
 
   return (
     <div>
@@ -418,7 +475,7 @@ function OrdersPanel() {
       <p className="mt-1 text-slate-500">Manage and track customer orders.</p>
 
       <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard label="Total Orders" value={ORDERS.length} icon={Package} />
+        <StatCard label="Total Orders" value={orders.length} icon={Package} />
         <StatCard label="Processing" value={stats.processing} icon={Clock} />
         <StatCard label="Shipped" value={stats.shipped} icon={Truck} />
         <StatCard label="Revenue" value={`৳${stats.revenue.toLocaleString("en-US")}`} icon={CheckCircle2} />
@@ -427,7 +484,7 @@ function OrdersPanel() {
       <div className="mt-6 flex flex-wrap items-center gap-3">
         <SearchBar value={search} onChange={setSearch} placeholder="Search by order ID or customer..." />
         <div className="flex flex-wrap gap-2">
-          {["All", "Processing", "Shipped", "Delivered", "Cancelled"].map((s) => (
+          {["All", "Pending", "Processing", "Shipped", "Delivered", "Cancelled"].map((s) => (
             <FilterButton key={s} label={s} active={filter === s} onClick={() => setFilter(s)} />
           ))}
         </div>
@@ -440,33 +497,42 @@ function OrdersPanel() {
               <th className="px-4 py-3">Order</th>
               <th className="px-4 py-3">Customer</th>
               <th className="px-4 py-3">Date</th>
+              <th className="px-4 py-3">Items</th>
               <th className="px-4 py-3">Total</th>
-              <th className="px-4 py-3">Payment</th>
               <th className="px-4 py-3">Status</th>
               <th className="px-4 py-3">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filtered.map((o) => (
-              <tr key={o.id} className="border-b border-slate-100 last:border-0">
-                <td className="px-4 py-3 font-semibold">{o.id}</td>
-                <td className="px-4 py-3">
-                  <p className="font-medium">{o.customer}</p>
-                  <p className="text-xs text-slate-500">{o.email}</p>
-                </td>
-                <td className="px-4 py-3 text-slate-500">{o.date}</td>
-                <td className="px-4 py-3">৳{o.total.toLocaleString("en-US")}</td>
-                <td className="px-4 py-3 text-slate-500">{o.payment}</td>
-                <td className="px-4 py-3">
-                  <StatusBadge status={o.status} />
-                </td>
-                <td className="px-4 py-3">
-                  <button aria-label="View order" className="text-slate-500 hover:text-black">
-                    <Eye size={16} />
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {filtered.map((o) => {
+              const { name: customerName, email: customerEmail } = getCustomer(o);
+              const itemCount = o.product?.length ?? 0;
+
+              return (
+                <tr key={o._id} className="border-b border-slate-100 last:border-0">
+                  <td className="px-4 py-3 font-semibold">{o.tranId || o._id}</td>
+                  <td className="px-4 py-3">
+                    <p className="font-medium">{customerName}</p>
+                    {customerEmail && (
+                      <p className="text-xs text-slate-500">{customerEmail}</p>
+                    )}
+                  </td>
+                  <td className="px-4 py-3 text-slate-500">{formatDate(o.createdAt)}</td>
+                  <td className="px-4 py-3 text-slate-500">
+                    {itemCount} item{itemCount !== 1 ? "s" : ""}
+                  </td>
+                  <td className="px-4 py-3">৳{(o.totalPrice ?? 0).toLocaleString("en-US")}</td>
+                  <td className="px-4 py-3">
+                    <StatusBadge status={normalizeStatus(o.status)} />
+                  </td>
+                  <td className="px-4 py-3">
+                    <button aria-label="View order" className="text-slate-500 hover:text-black">
+                      <Eye size={16} />
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
             {filtered.length === 0 && (
               <tr>
                 <td colSpan={7} className="px-4 py-8 text-center text-slate-400">
