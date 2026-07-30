@@ -248,8 +248,10 @@ function ProductsPanel({ products }) {
           <p className="mt-1 text-slate-500">{products.length} total products</p>
         </div>
         <button className="flex items-center gap-2 text-sm font-semibold text-black hover:text-slate-600">
-          <Plus size={16} />
-          Add Product
+          <a href="/uploadProduct" className="flex items-center gap-2">
+            <Plus size={16} />
+             Add Product
+          </a>
         </button>
       </div>
 

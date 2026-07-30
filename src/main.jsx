@@ -1,7 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
-
 import MainRoot from "./MainRoot/MainRoot.jsx";
 
 import Login from "./Component/Login";
@@ -19,7 +18,8 @@ import ProfileDashboard from "./Component/ProfileDashboard.jsx";
 import AdminDashboard from "./Component/AdminDashboard.jsx";
 import ShopByCategories from "./Component/ShopByCategories.jsx";
 import OfficialPartners from "./Component/OfficialPartners.jsx";
-import VerifyEmail from "./Component/VerifyEmail.jsx";
+import EmailVerification from "./Component/EmailVerification.jsx";
+import ProductUpload from "./Component/ProductUpload.jsx";
 
 const router = createBrowserRouter([
   {
@@ -28,20 +28,28 @@ const router = createBrowserRouter([
     children: [
       { index: true, Component: HomePage },
       { path: "/about", Component: About },
-      { path: "/login", Component: Login },
-      { path: "/register", Component: Registration },
-      { path: "/footer", Component: Footer },
       { path: "/contact", Component: Contact },
-      { path: "/forgot", Component: Forgot},
-      { path: "/resetpass", Component: ResetPassword},
-      { path: "/products", Component: ProductDetails},
-      { path: "/card", Component: Card},
-      { path: "/singleProduct/:id", Component: SingleProduct},
-      { path: "/profileDashboard", Component: ProfileDashboard},
-      { path: "/admin", Component: AdminDashboard},
-      { path: "/shopByCategories", Component: ShopByCategories},
-      { path: "/partners", Component: OfficialPartners},
-      { path: "/verifyemail/:token", Component: VerifyEmail}
+      { path: "/products", Component: ProductDetails },
+      { path: "/singleProduct/:id", Component: SingleProduct },
+      { path: "/shopByCategories", Component: ShopByCategories },
+      { path: "/partners", Component: OfficialPartners },
+      { path: "/card", Component: Card },
+      { path: "/footer", Component: Footer }, 
+
+      // auth path------------
+      { path: "/register", Component: Registration },
+      { path: "/verifyemail/:token", Component: EmailVerification },
+      { path: "/login", Component: Login },
+      { path: "/forgot", Component: Forgot },
+      { path: "/resetpass", Component: ResetPassword },
+
+      // Product path
+      { path: "/profileDashboard", Component: ProfileDashboard },
+
+      // Admin path
+      { path: "/admin", Component: AdminDashboard },
+      { path: "/uploadProduct", Component: ProductUpload},
+
     ],
   },
 ]);
