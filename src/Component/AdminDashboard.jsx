@@ -338,6 +338,15 @@ function UsersPanel({ users }) {
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
 
+    const formatDate = (iso) => {
+    if (!iso) return "—";
+    return new Date(iso).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+
   const filtered = useMemo(() => {
     return users.filter((u) => {
       const matchesFilter = filter === "All" || u.status === filter;
@@ -391,7 +400,7 @@ function UsersPanel({ users }) {
                 <td className="px-4 py-3">
                   <StatusBadge status={u.status} />
                 </td>
-                <td className="px-4 py-3 text-slate-500">{u.joined}</td>
+                <td className="px-4 py-3 text-slate-500">{formatDate(u.createdAt)}</td>
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3 text-slate-500">
                     <button aria-label="View" className="hover:text-black">

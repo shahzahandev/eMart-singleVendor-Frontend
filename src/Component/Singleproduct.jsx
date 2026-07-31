@@ -10,7 +10,7 @@ import { useParams, useLocation } from "react-router-dom";
 // This falls back to filtering the "all products" list by _id if a
 // dedicated endpoint isn't available yet.
 const ALL_PRODUCTS_URL =
-  "https://emart-singlevendor-backend-3.onrender.com/api/v1/product/allProduct";
+  "http://localhost:5000/api/v1/product/allProduct";
 
 function currency(n) {
   return `৳${Number(n ?? 0).toLocaleString("en-US")}`;

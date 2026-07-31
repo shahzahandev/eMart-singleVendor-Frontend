@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
+
 const LOGIN_URL = "http://localhost:5000/api/v1/auth/login"
 
 
@@ -13,6 +15,8 @@ export default function Login() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,9 +45,9 @@ export default function Login() {
       let data = await axios.post(LOGIN_URL, formData);
       localStorage.setItem('userInfo', JSON.stringify(data.data.user))
       setSuccess(data.data.message);
-     setTimeout(() => {
-         navigate("/")
-     }, 2000);
+      setTimeout(() => {
+        navigate("/")
+      }, 2000);
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -110,14 +114,32 @@ export default function Login() {
                   </a>
                 </div>
 
-                <input
+                {/* <input
                   type="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Enter password"
                   className="h-12 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none transition focus:border-sky-300 focus:ring-2 focus:ring-emerald-100"
-                />
+                /> */}
+                <div className="relative">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="Enter password"
+                    className="h-12 w-full rounded-lg border border-slate-300 px-4 pr-11 text-sm outline-none transition focus:border-sky-600 focus:ring-2 focus:ring-emerald-100"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword((v) => !v)}
+                    aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  >
+                    {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
               </div>
 
               {error && (

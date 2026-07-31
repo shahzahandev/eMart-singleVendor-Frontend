@@ -1,20 +1,36 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("")
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
+
 
     if (!email) {
       setError("Please enter your email address.");
       return;
     }
 
-    console.log("Forgot Password Email:", email);
-    alert("Password reset link sent to your email!");
+    // console.log("Forgot Password Email:", email);
+    // alert("Password reset link sent to your email!");
+
+    try {
+      async function getData() {
+        let res = await axios.post(`http://localhost:5000/api/v1/auth/forgotPassword`, {email})
+        setSuccess(res.data.message);
+        setEmail("")
+      }
+      getData()
+      
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  
   };
 
   return (
@@ -67,6 +83,12 @@ export default function ForgotPassword() {
                   {error}
                 </div>
               )}
+              {success && (
+                <div className="rounded-lg bg-green-50 px-4 py-3 text-sm text-green-600">
+                  {success}
+                </div>
+              )}
+              
 
               <button
                 type="submit"

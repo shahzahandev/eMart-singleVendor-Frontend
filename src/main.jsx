@@ -41,7 +41,7 @@ const router = createBrowserRouter([
       { path: "/verifyemail/:token", Component: EmailVerification },
       { path: "/login", Component: Login },
       { path: "/forgot", Component: Forgot },
-      { path: "/resetpass", Component: ResetPassword },
+      { path: "/resetpassword/:token", Component: ResetPassword },
 
       // Product path
       { path: "/profileDashboard", Component: ProfileDashboard },

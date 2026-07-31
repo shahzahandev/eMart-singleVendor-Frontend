@@ -31,7 +31,7 @@ export default function Footer() {
               { name: "Login", href: "/login" },
               { name: "Register", href: "/register" },
               { name: "Forgot Password", href: "/forgot" },
-              { name: "Reset Password", href: "/resetpass" },
+              { name: "Reset Password", href: "/resetpassword" },
               { name: "Admin Dashboard", href: "/admin" }, 
 
             ]}
