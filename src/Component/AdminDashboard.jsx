@@ -108,7 +108,7 @@ const NAV_ITEMS = [
   { key: "orders", label: "Orders", icon: ShoppingBag },
 ];
 
-export default function AdminDashboard({ onLogout }) {
+export default function AdminDashboard({ onLogout, }) {
   const [activeTab, setActiveTab] = useState("dashboard");
 
   // Shared data — lifted up here so every panel can use it via props.
@@ -128,6 +128,16 @@ export default function AdminDashboard({ onLogout }) {
     }
     getData();
   }, []);
+
+  //=============
+ const handleDelete = (id) => {
+ async function getData() {
+    let data = await axios.delete(`http://localhost:5000/api/v1/user/deleteUser/${id}`);
+    let res = await axios.get(`http://localhost:5000/api/v1/user/allUser`);
+        setUserNum(res.data.users);
+  }
+  getData();
+ }
 
   // get all products
   useEffect(() => {
@@ -199,7 +209,7 @@ export default function AdminDashboard({ onLogout }) {
             <DashboardPanel products={products} userNum={userNum} orders={orders} />
           )}
           {activeTab === "products" && <ProductsPanel products={products} />}
-          {activeTab === "users" && <UsersPanel users={userNum} />}
+          {activeTab === "users" && <UsersPanel users={userNum} handleDelete={handleDelete}/>}
           {activeTab === "orders" && <OrdersPanel orders={orders} users={userNum} />}
         </main>
       </div>
@@ -334,18 +344,9 @@ function ProductsPanel({ products }) {
 
 /* ---------------- Users ---------------- */
 
-function UsersPanel({ users }) {
+function UsersPanel({ users, handleDelete }) {
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
-
-    const formatDate = (iso) => {
-    if (!iso) return "—";
-    return new Date(iso).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
-  };
 
   const filtered = useMemo(() => {
     return users.filter((u) => {
@@ -400,13 +401,15 @@ function UsersPanel({ users }) {
                 <td className="px-4 py-3">
                   <StatusBadge status={u.status} />
                 </td>
-                <td className="px-4 py-3 text-slate-500">{formatDate(u.createdAt)}</td>
+                <td className="px-4 py-3 text-slate-500">{u.joined}</td>
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3 text-slate-500">
                     <button aria-label="View" className="hover:text-black">
                       <Eye size={16} />
                     </button>
-                    <button aria-label="Delete" className="hover:text-red-600">
+                    <button aria-label="Delete"
+                    onClick={() => handleDelete (u._id)}
+                     className="hover:text-red-600">
                       <Trash2 size={16} />
                     </button>
                   </div>
