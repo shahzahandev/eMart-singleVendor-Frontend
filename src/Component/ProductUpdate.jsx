@@ -1,11 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { ImagePlus, X } from "lucide-react";
 import AdminLayout from "./AdminLayout";
 
-const ADD_PRODUCT_URL = "http://localhost:5000/api/v1/product/createProduct";
+const singleProductUrl = (id) =>
+  `http://localhost:5000/api/v1/product/singleProduct/${id}`;
+const updateProductUrl = (id) =>
+  `http://localhost:5000/api/v1/product/updateProduct/${id}`;
 
-export default function ProductUpload({ onLogout }) {
+export default function ProductUpdate({ onLogout }) {
+  const { id } = useParams();
+  const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -20,11 +27,44 @@ export default function ProductUpload({ onLogout }) {
     additionalInfo: "",
   });
 
-  const [images, setImages] = useState([]); // File objects
-  const [previews, setPreviews] = useState([]); // object URLs for preview
+  const [existingImages, setExistingImages] = useState([]); // image URLs already on the product
+  const [newImages, setNewImages] = useState([]); // newly picked File objects
+  const [newPreviews, setNewPreviews] = useState([]);
+
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    async function fetchProduct() {
+      try {
+        setLoading(true);
+        const res = await axios.get(singleProductUrl(id));
+        const p = res.data.product;
+
+        setFormData({
+          title: p.title || "",
+          description: p.description || "",
+          shortDescription: p.shortDescription || "",
+          price: p.price || "",
+          discountPrice: p.discountPrice || "",
+          stock: p.stock || "",
+          brand: p.brand || "",
+          category: p.category || "",
+          subCategory: p.subCategory || "",
+          tag: [p.tag] || "",
+          additionalInfo: p.additionalInfo || "",
+        });
+        setExistingImages(p.images || []);
+      } catch (err) {
+        setError(err.response?.data?.message || "Failed to load product.");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProduct();
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,17 +75,21 @@ export default function ProductUpload({ onLogout }) {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
 
-    setImages((prev) => [...prev, ...files]);
-    setPreviews((prev) => [
+    setNewImages((prev) => [...prev, ...files]);
+    setNewPreviews((prev) => [
       ...prev,
       ...files.map((file) => URL.createObjectURL(file)),
     ]);
     e.target.value = "";
   };
 
-  const removeImage = (index) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
-    setPreviews((prev) => prev.filter((_, i) => i !== index));
+  const removeExistingImage = (index) => {
+    setExistingImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const removeNewImage = (index) => {
+    setNewImages((prev) => prev.filter((_, i) => i !== index));
+    setNewPreviews((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e) => {
@@ -65,39 +109,34 @@ export default function ProductUpload({ onLogout }) {
       Object.entries(formData).forEach(([key, value]) => {
         payload.append(key, value);
       });
-      images.forEach((file) => payload.append("images", file));
+      // Images the user kept from before (backend can diff against the product's current list)
+      payload.append("existingImages", JSON.stringify(existingImages));
+      newImages.forEach((file) => payload.append("images", file));
 
-      const res = await axios.post(ADD_PRODUCT_URL, payload, {
+      const res = await axios.post(updateProductUrl(id), payload, {
         headers: { "Content-Type": "multipart/form-data" },
-      });
+      });      
 
-      setSuccess(res.data?.message || "Product added successfully.");
-      setFormData({
-        title: "",
-        description: "",
-        shortDescription: "",
-        price: "",
-        discountPrice: "",
-        stock: "",
-        brand: "",
-        category: "",
-        subCategory: "",
-        tag: "",
-        additionalInfo: "",
-      });
-      setImages([]);
-      setPreviews([]);
+      setSuccess(res.data?.message || "Product updated successfully.");
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to add product.");
+      setError(err.response?.data?.message || "Failed to update product.");
     } finally {
       setSubmitting(false);
     }
   };
 
+  if (loading) {
+    return (
+      <AdminLayout onLogout={onLogout} active="products">
+        <p className="text-slate-500">Loading product...</p>
+      </AdminLayout>
+    );
+  }
+
   return (
     <AdminLayout onLogout={onLogout} active="products">
-      <h2 className="text-3xl font-bold">Add Product</h2>
-      <p className="mt-1 text-slate-500">Create a new product listing.</p>
+      <h2 className="text-3xl font-bold">Update Product</h2>
+      <p className="mt-1 text-slate-500">Edit this product's details.</p>
 
       <form
         onSubmit={handleSubmit}
@@ -266,9 +305,30 @@ export default function ProductUpload({ onLogout }) {
               Product Images
             </label>
 
+            {existingImages.length > 0 && (
+              <>
+                <p className="mb-2 text-xs font-medium text-slate-500">Current images</p>
+                <div className="mb-4 grid grid-cols-3 gap-3 sm:grid-cols-4">
+                  {existingImages.map((src, i) => (
+                    <div key={src} className="group relative aspect-square overflow-hidden rounded-lg border border-black/10">
+                      <img src={src} alt={`existing ${i + 1}`} className="h-full w-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => removeExistingImage(i)}
+                        aria-label="Remove image"
+                        className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-black/70 text-white opacity-0 transition group-hover:opacity-100"
+                      >
+                        <X size={14} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
             <label className="flex h-32 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-black/20 text-black/50 transition hover:border-sky-400 hover:text-sky-500">
               <ImagePlus size={24} />
-              <span className="text-sm">Click to upload images</span>
+              <span className="text-sm">Click to add more images</span>
               <input
                 type="file"
                 accept="image/*"
@@ -278,22 +338,25 @@ export default function ProductUpload({ onLogout }) {
               />
             </label>
 
-            {previews.length > 0 && (
-              <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-4">
-                {previews.map((src, i) => (
-                  <div key={src} className="group relative aspect-square overflow-hidden rounded-lg border border-black/10">
-                    <img src={src} alt={`preview ${i + 1}`} className="h-full w-full object-cover" />
-                    <button
-                      type="button"
-                      onClick={() => removeImage(i)}
-                      aria-label="Remove image"
-                      className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-black/70 text-white opacity-0 transition group-hover:opacity-100"
-                    >
-                      <X size={14} />
-                    </button>
-                  </div>
-                ))}
-              </div>
+            {newPreviews.length > 0 && (
+              <>
+                <p className="mb-2 mt-4 text-xs font-medium text-slate-500">New images</p>
+                <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
+                  {newPreviews.map((src, i) => (
+                    <div key={src} className="group relative aspect-square overflow-hidden rounded-lg border border-black/10">
+                      <img src={src} alt={`new preview ${i + 1}`} className="h-full w-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => removeNewImage(i)}
+                        aria-label="Remove image"
+                        className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-black/70 text-white opacity-0 transition group-hover:opacity-100"
+                      >
+                        <X size={14} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </>
             )}
           </div>
         </div>
@@ -314,7 +377,7 @@ export default function ProductUpload({ onLogout }) {
           disabled={submitting}
           className="mt-6 h-12 w-full rounded-lg bg-sky-400 text-sm font-semibold text-black transition hover:bg-sky-500 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-10"
         >
-          {submitting ? "Submitting..." : "Submit"}
+          {submitting ? "Updating..." : "Update Product"}
         </button>
       </form>
     </AdminLayout>

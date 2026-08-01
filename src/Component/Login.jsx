@@ -5,8 +5,6 @@ import { Eye, EyeOff } from "lucide-react";
 
 const LOGIN_URL = "http://localhost:5000/api/v1/auth/login"
 
-
-
 export default function Login() {
   const [formData, setFormData] = useState({
     email: "",
@@ -48,7 +46,7 @@ export default function Login() {
       window.dispatchEvent(new Event("login"));
       setTimeout(() => {
         navigate("/")
-      }, 2000);
+      }, 1000);
     } catch (error) {
       setError(error.response.data.message);
     }

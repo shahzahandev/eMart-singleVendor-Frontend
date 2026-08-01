@@ -6,11 +6,8 @@ import { LuRotateCcw } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 
-// If your backend has a dedicated single-product route, put it here.
-// This falls back to filtering the "all products" list by _id if a
-// dedicated endpoint isn't available yet.
-const ALL_PRODUCTS_URL =
-  "http://localhost:5000/api/v1/product/allProduct";
+
+const ALL_PRODUCTS_URL ="http://localhost:5000/api/v1/product/allProduct";
 
 function currency(n) {
   return `৳${Number(n ?? 0).toLocaleString("en-US")}`;
@@ -25,7 +22,6 @@ export default function SingleProduct() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Already have the product from navigation state (clicked from the list) — skip fetching.
     if (product) return;
 
     const fetchProduct = async () => {

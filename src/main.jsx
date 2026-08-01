@@ -20,6 +20,7 @@ import ShopByCategories from "./Component/ShopByCategories.jsx";
 import OfficialPartners from "./Component/OfficialPartners.jsx";
 import EmailVerification from "./Component/EmailVerification.jsx";
 import ProductUpload from "./Component/ProductUpload.jsx";
+import ProductUpdate from "./Component/ProductUpdate.jsx";
 
 const router = createBrowserRouter([
   {
@@ -42,13 +43,13 @@ const router = createBrowserRouter([
       { path: "/login", Component: Login },
       { path: "/forgot", Component: Forgot },
       { path: "/resetpassword/:token", Component: ResetPassword },
-
-      // Product path
       { path: "/profileDashboard", Component: ProfileDashboard },
 
       // Admin path
       { path: "/admin", Component: AdminDashboard },
-      { path: "/uploadProduct", Component: ProductUpload},
+      { path: "/productUpload", Component: ProductUpload},
+      { path: "/productUpdate/:id", Component: ProductUpdate },
+
 
     ],
   },

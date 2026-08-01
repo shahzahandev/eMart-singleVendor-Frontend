@@ -18,6 +18,7 @@ import {
 import Container from "./Container";
 import axios from "axios";
 import UserDetails from "./UserDetails";
+import { useNavigate } from "react-router-dom";
 
 /* ---------------- Status badge styles ---------------- */
 
@@ -226,7 +227,6 @@ export default function AdminDashboard({ onLogout, }) {
                 onView={setSelectedUser}
               />
             ))}
-          {/* {activeTab === "users" && <UsersPanel users={userNum} handleDelete={handleDelete} deletedUsers={deletedUsers} />} */}
           {activeTab === "orders" && <OrdersPanel orders={orders} users={userNum} />}
         </main>
       </div>
@@ -253,9 +253,10 @@ function DashboardPanel({ products, userNum, orders }) {
 
 /* ---------------- Products ---------------- */
 
-function ProductsPanel({ products }) {
+function ProductsPanel({ products}) {
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
   const filtered = useMemo(() => {
     return products.filter((p) => {
@@ -267,6 +268,10 @@ function ProductsPanel({ products }) {
     });
   }, [products, filter, search]);
 
+  const edit = (id) => {
+    navigate(`/productUpdate/${id}`)
+  }
+
   return (
     <div>
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -275,7 +280,7 @@ function ProductsPanel({ products }) {
           <p className="mt-1 text-slate-500">{products.length} total products</p>
         </div>
         <button className="flex items-center gap-2 text-sm font-semibold text-black hover:text-slate-600">
-          <a href="/uploadProduct" className="flex items-center gap-2">
+          <a href="/productUpload" className="flex items-center gap-2">
             <Plus size={16} />
             Add Product
           </a>
@@ -335,7 +340,9 @@ function ProductsPanel({ products }) {
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3 text-slate-500">
-                    <button aria-label="Edit" className="hover:text-black">
+                    <button 
+                    onClick={() => edit(p._id)}
+                    aria-label="Edit" className="hover:text-black">
                       <Pencil size={16} />
                     </button>
                     <button aria-label="Delete" className="hover:text-red-600">
@@ -443,7 +450,6 @@ function UsersPanel({ users, handleDelete, deletedUsers, onView }) {
                         Deleted
                       </span>
                     ) : (
-                      
                         u.status === "delete" ? (
                           <button
                             disabled
@@ -459,14 +465,6 @@ function UsersPanel({ users, handleDelete, deletedUsers, onView }) {
                             <Trash2 size={16} />
                           </button>
                         )
-                      
-                      // <button
-                      //   aria-label="Delete"
-                      //   onClick={() => handleDelete(u._id)}
-                      //   className="hover:text-red-600"
-                      // >
-                      //   <Trash2 size={16} />
-                      // </button>
                     )}
                   </div>
                 </td>
