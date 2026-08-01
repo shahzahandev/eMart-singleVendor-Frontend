@@ -78,6 +78,7 @@ export default function ProfileDashboard({ onLogout }) {
             onLogout();
         } else {
             localStorage.removeItem('userInfo');
+            window.dispatchEvent(new Event("logout"));
             navigate("/");
         }
         setShowLogoutConfirm(false);
@@ -122,7 +123,6 @@ export default function ProfileDashboard({ onLogout }) {
                 `http://localhost:5000/api/v1/user/updateUser/${userInfo.id}`,
                 {
                     name: formData.fullname,
-                    email: formData.email,
                     phone: formData.phone,
                     city: formData.city,
                     postalCode: formData.postalCode,
@@ -142,15 +142,20 @@ export default function ProfileDashboard({ onLogout }) {
             });
 
             // Keep localStorage (and Navbar, if it reads userInfo.name) in sync
-            const mergedUserInfo = { ...userInfo, name: updatedUser.name };
-            localStorage.setItem("userInfo", JSON.stringify(mergedUserInfo));
-            setUserInfo(mergedUserInfo);
+            const updateUserInfo = { ...userInfo, name: updatedUser.name };
+            localStorage.setItem("userInfo", JSON.stringify(updateUserInfo));
+            setUserInfo(updateUserInfo);
+            
+            window.dispatchEvent(new Event("profileUpdated"));
 
             setSaveSuccess("Profile updated successfully.");
         } catch (err) {
             setSaveError(err.response?.data?.message || "Failed to update profile.");
         } finally {
             setSaving(false);
+          setTimeout(() => {
+              setSaveSuccess('')
+          }, 2000);
         }
     };
 
@@ -219,7 +224,8 @@ export default function ProfileDashboard({ onLogout }) {
                                                 type="email"
                                                 name="email"
                                                 value={formData.email}
-                                                onChange={handleChange}
+                                                disabled
+                                                // onChange={handleChange}
                                                 placeholder="example@email.com"
                                                 className="h-12 w-full rounded-lg border border-black/20 px-4 text-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
                                             />

@@ -18,8 +18,21 @@ export default function Navbar(handleLogin) {
   const [userInfo, setUserInfo] = useState()
 
   useEffect(() => {
-    let data = JSON.parse(localStorage.getItem('userInfo'))
-    setUserInfo(data)
+    const updateUser = () => {
+      let data = JSON.parse(localStorage.getItem('userInfo'))
+      setUserInfo(data)
+    };
+    updateUser(); // page load
+
+    window.addEventListener("login", updateUser);
+    window.addEventListener("logout", updateUser);
+    window.addEventListener("profileUpdated", updateUser);
+
+    return () => {
+      window.removeEventListener("login", updateUser);
+      window.removeEventListener("logout", updateUser);
+      window.removeEventListener("profileUpdated", updateUser);
+    };
   }, []);
 
   return (
