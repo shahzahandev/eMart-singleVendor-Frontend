@@ -1,13 +1,13 @@
 import { CiStar } from "react-icons/ci";
 import { FiShoppingCart, FiTruck } from "react-icons/fi";
-import { FaRegHeart  } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import { LuRotateCcw } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
+import { useCart } from "./CartContext";
 
-
-const ALL_PRODUCTS_URL ="http://localhost:5000/api/v1/product/allProduct";
+const ALL_PRODUCTS_URL = "http://localhost:5000/api/v1/product/allProduct";
 
 function currency(n) {
   return `৳${Number(n ?? 0).toLocaleString("en-US")}`;
@@ -67,6 +67,7 @@ export default function SingleProduct() {
 function ProductDetail({ product }) {
   const [activeImage, setActiveImage] = useState(0);
   const [wishlisted, setWishlisted] = useState(false);
+  const { addToCart } = useCart();
 
   const images = product.images?.length ? product.images : [];
   const hasDiscount =
@@ -159,6 +160,7 @@ function ProductDetail({ product }) {
           <div className="border border-slate-200 rounded-xl p-4 mt-2">
             <div className="flex gap-3">
               <button
+                onClick={() => addToCart(product)}
                 className="flex-1 flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 transition-colors text-white font-medium rounded-lg py-3 disabled:opacity-50"
                 disabled={product.stock === 0}
               >
@@ -174,7 +176,6 @@ function ProductDetail({ product }) {
                 <FaRegHeart
                   size={18}
                   className={wishlisted ? "text-rose-500" : "text-slate-500"}
-                  fill={wishlisted ? "currentColor" : "text-slate-500"}
                 />
               </button>
             </div>
@@ -190,7 +191,7 @@ function ProductDetail({ product }) {
               Secure payment
             </div>
             <div className="flex flex-col items-center gap-1 text-xs text-slate-600">
-              <IoShieldCheckmarkOutline size={18} />
+              <LuRotateCcw size={18} />
               7-day return
             </div>
           </div>

@@ -24,7 +24,9 @@ export default function ProductUpdate({ onLogout }) {
     category: "",
     subCategory: "",
     tag: "",
+    status: "",
     additionalInfo: "",
+  
   });
 
   const [existingImages, setExistingImages] = useState([]); // image URLs already on the product
@@ -55,6 +57,7 @@ export default function ProductUpdate({ onLogout }) {
           subCategory: p.subCategory || "",
           tag: [p.tag] || "",
           additionalInfo: p.additionalInfo || "",
+          status: p.status || "",
         });
         setExistingImages(p.images || []);
       } catch (err) {
@@ -99,6 +102,11 @@ export default function ProductUpdate({ onLogout }) {
 
     if (!formData.title || !formData.price || !formData.category) {
       setError("Title, Price, and Category are required.");
+      return;
+    }
+
+     if (!formData.status ) {
+      setError("Status must be active or inactive");
       return;
     }
 
@@ -282,6 +290,19 @@ export default function ProductUpdate({ onLogout }) {
               value={formData.tag}
               onChange={handleChange}
               placeholder="e.g. wireless, anc"
+              className="h-12 w-full rounded-lg border border-black/20 px-4 text-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+            />
+          </div>
+            <div>
+            <label className="mb-2 block text-sm font-medium text-black">
+              Status
+            </label>
+            <input
+              type="text"
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+              placeholder="Must be active or inactive"
               className="h-12 w-full rounded-lg border border-black/20 px-4 text-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
             />
           </div>

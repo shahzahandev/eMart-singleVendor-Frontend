@@ -136,8 +136,8 @@ function ProductCard({ product }) {
               <span className="text-xl font-bold text-emerald-700">৳{product.price}</span>
             )}
           </div>
-          <button className="mt-5 h-11 w-full rounded-lg bg-sky-500  text-sm font-semibold text-white hover:bg-sky-600  cursor-pointer">
-            Add to Cart
+          <button className="mt-5 h-11 w-full rounded-lg bg-sky-500 text-lg font-bold text-white hover:bg-sky-600  cursor-pointer">
+            View Details
           </button>
         </div>
       </article>

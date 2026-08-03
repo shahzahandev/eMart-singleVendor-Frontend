@@ -32,7 +32,7 @@ export default function ShopByCategories() {
                                     className="h-full w-full object-contain transition-transform duration-300 ease-out group-hover:scale-110"
                                 />
                             </div>
-                            <div className="bg-sky-200 py-3 text-center text-sm font-medium text-slate-800 transition-colors group-hover:bg-sky-400 sm:text-base">
+                            <div className="bg-sky-200 py-3 text-center text-lg font-bold text-slate-800 transition-colors group-hover:bg-sky-400 sm:text-base">
                                 {cat.name}
                             </div>
                         </a>

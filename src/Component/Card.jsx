@@ -1,43 +1,9 @@
-import { useMemo, useState } from "react";
-
-const initialCartItems = [
-  {
-    _id: "1",
-    title: "Fresh Organic Apple",
-    price: 180,
-    discountPrice: 150,
-    brand: "EcoBazar",
-    category: "Fruits & Vegetables",
-    subCategory: "Fresh Fruits",
-    quantity: 2,
-    images: [],
-  },
-  {
-    _id: "2",
-    title: "Premium Basmati Rice",
-    price: 850,
-    discountPrice: 790,
-    brand: "Golden Grain",
-    category: "Grocery",
-    subCategory: "Rice",
-    quantity: 1,
-    images: [],
-  },
-  {
-    _id: "3",
-    title: "Fresh Dairy Milk",
-    price: 90,
-    discountPrice: 80,
-    brand: "Farm Fresh",
-    category: "Dairy",
-    subCategory: "Milk",
-    quantity: 3,
-    images: [],
-  },
-];
+import { useMemo } from "react";
+import { useCart } from "./CartContext";
 
 export default function Cart() {
-  const [cartItems, setCartItems] = useState(initialCartItems);
+  const { cartItems, increaseQuantity, decreaseQuantity, removeItem, clearCart } =
+    useCart();
 
   const deliveryCharge = cartItems.length > 0 ? 60 : 0;
 
@@ -56,28 +22,6 @@ export default function Cart() {
 
   const discount = subtotal - discountedSubtotal;
   const total = discountedSubtotal + deliveryCharge;
-
-  const increaseQuantity = (id) => {
-    setCartItems((items) =>
-      items.map((item) =>
-        item._id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
-  };
-
-  const decreaseQuantity = (id) => {
-    setCartItems((items) =>
-      items.map((item) =>
-        item._id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
-    );
-  };
-
-  const removeItem = (id) => {
-    setCartItems((items) => items.filter((item) => item._id !== id));
-  };
 
   return (
     <main className="min-h-screen bg-slate-50">
@@ -117,7 +61,7 @@ export default function Cart() {
 
               {cartItems.length > 0 && (
                 <button
-                  onClick={() => setCartItems([])}
+                  onClick={clearCart}
                   className="rounded-lg border border-red-200 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50"
                 >
                   Clear Cart
@@ -158,11 +102,7 @@ export default function Cart() {
               <SummaryRow label="Delivery Charge" value={`৳${deliveryCharge}`} />
 
               <div className="border-t border-slate-200 pt-4">
-                <SummaryRow
-                  label="Total"
-                  value={`৳${total}`}
-                  large
-                />
+                <SummaryRow label="Total" value={`৳${total}`} large />
               </div>
             </div>
 

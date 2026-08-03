@@ -13,7 +13,7 @@ import Forgot from "./Component/Forgot"
 import ResetPassword from "./Component/ResetPassword"
 import ProductDetails from "./Component/ProductDetails"
 import Card from "./Component/Card"
-import SingleProduct from "./Component/Singleproduct.jsx"
+import SingleProduct from "./Component/SingleProduct.jsx"
 import ProfileDashboard from "./Component/ProfileDashboard.jsx";
 import AdminDashboard from "./Component/AdminDashboard.jsx";
 import ShopByCategories from "./Component/ShopByCategories.jsx";
@@ -21,6 +21,7 @@ import OfficialPartners from "./Component/OfficialPartners.jsx";
 import EmailVerification from "./Component/EmailVerification.jsx";
 import ProductUpload from "./Component/ProductUpload.jsx";
 import ProductUpdate from "./Component/ProductUpdate.jsx";
+import { CartProvider } from "./Component/CartContext.jsx";
 
 const router = createBrowserRouter([
   {
@@ -56,5 +57,7 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
+ <CartProvider>
   <RouterProvider router={router} />
+ </CartProvider>
 );

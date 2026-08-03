@@ -115,6 +115,7 @@ export default function AdminDashboard({ onLogout, }) {
   // Shared data — lifted up here so every panel can use it via props.
   const [userNum, setUserNum] = useState([]);
   const [products, setProducts] = useState([]);
+  const [deletedProduct, setDeletedProduct] = useState([]);
   const [orders, setOrders] = useState([]);
   const [deletedUsers, setDeletedUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -155,6 +156,19 @@ export default function AdminDashboard({ onLogout, }) {
     }
     getData();
   }, []);
+
+  // product delete
+  const proDelete = (id) => {
+    async function getData() {
+      let res = await axios.delete(`http://localhost:5000/api/v1/product/deleteProduct/${id}`)
+      setDeletedProduct((prev) => [...prev, id]);
+      console.log(deletedProduct);
+
+      let data = await axios.get(`http://localhost:5000/api/v1/product/allProduct`);
+      setProducts(data.data.products);
+    }
+    getData();
+  }
 
   // get all orders
   useEffect(() => {
@@ -211,7 +225,11 @@ export default function AdminDashboard({ onLogout, }) {
           {activeTab === "dashboard" && (
             <DashboardPanel products={products} userNum={userNum} orders={orders} />
           )}
-          {activeTab === "products" && <ProductsPanel products={products} />}
+          {activeTab === "products" && <ProductsPanel
+            proDelete={proDelete}
+            deletedProduct={deletedProduct}
+            products={products}
+          />}
           {activeTab === "users" &&
             (selectedUser ? (
               <UserDetails
@@ -253,7 +271,7 @@ function DashboardPanel({ products, userNum, orders }) {
 
 /* ---------------- Products ---------------- */
 
-function ProductsPanel({ products}) {
+function ProductsPanel({ products, proDelete, deletedProduct }) {
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
@@ -290,7 +308,7 @@ function ProductsPanel({ products}) {
       <div className="mt-6 flex flex-wrap items-center gap-3">
         <SearchBar value={search} onChange={setSearch} placeholder="Search by title or SKU..." />
         <div className="flex flex-wrap gap-2">
-          {["All", "active", "pending", "inactive"].map((s) => (
+          {["All", "active", "inactive"].map((s) => (
             <FilterButton key={s} label={s} active={filter === s} onClick={() => setFilter(s)} />
           ))}
         </div>
@@ -338,18 +356,54 @@ function ProductsPanel({ products}) {
                 <td className="px-4 py-3">
                   <StatusBadge status={p.status} />
                 </td>
+
+
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3 text-slate-500">
-                    <button 
-                    onClick={() => edit(p._id)}
-                    aria-label="Edit" className="hover:text-black">
-                      <Pencil size={16} />
-                    </button>
-                    <button aria-label="Delete" className="hover:text-red-600">
-                      <Trash2 size={16} />
-                    </button>
+
+                    {deletedProduct.includes(p._id) ? (
+                        <span className="rounded bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
+                          Deleted
+                        </span>
+                    ) :
+                      p.status === "inactive" ? (
+                        <div>
+                                   <button
+                              onClick={() => edit(p._id)}
+                              aria-label="Edit" className="hover:text-black">
+                              <Pencil size={16} />
+                            </button>
+                                 <button
+                            disabled
+                            className="cursor-not-allowed rounded bg-red-100 px-3 py-1 text-red-600"
+                          >
+                            Deleted
+                          </button>
+                        </div>
+                     
+                      ) :
+                        (
+                          <div className="flex items-center gap-3 text-slate-500">
+                            <button
+                              onClick={() => edit(p._id)}
+                              aria-label="Edit" className="hover:text-black">
+                              <Pencil size={16} />
+                            </button>
+                            <button
+                              onClick={() => proDelete(p._id)}
+                              aria-label="Delete" className="hover:text-red-600">
+                              <Trash2 size={16} />
+                            </button>
+                          </div>
+                        )
+                    }
+
                   </div>
                 </td>
+
+
+
+
               </tr>
             ))}
             {filtered.length === 0 && (
@@ -450,21 +504,21 @@ function UsersPanel({ users, handleDelete, deletedUsers, onView }) {
                         Deleted
                       </span>
                     ) : (
-                        u.status === "delete" ? (
-                          <button
-                            disabled
-                            className="cursor-not-allowed rounded bg-red-100 px-3 py-1 text-red-600"
-                          >
-                            Deleted
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => handleDelete(u._id)}
-                            className="hover:text-red-600"
-                          >
-                            <Trash2 size={16} />
-                          </button>
-                        )
+                      u.status === "delete" ? (
+                        <button
+                          disabled
+                          className="cursor-not-allowed rounded bg-red-100 px-3 py-1 text-red-600"
+                        >
+                          Deleted
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleDelete(u._id)}
+                          className="hover:text-red-600"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      )
                     )}
                   </div>
                 </td>
