@@ -70,13 +70,14 @@ function FilterButton({ label, active, onClick }) {
   );
 }
 
-function SearchBar({ value, onChange, placeholder }) {
+function SearchBar({ value, onChange, onKeyDown, placeholder }) {
   return (
     <div className="flex h-11 w-full items-center gap-2 rounded-lg border border-slate-300 px-4 sm:w-72">
       <Search size={16} className="text-slate-400 shrink-0" />
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onKeyDown={onKeyDown}
         placeholder={placeholder}
         className="w-full text-sm outline-none placeholder:text-slate-400"
       />
@@ -316,6 +317,11 @@ function ProductsPanel({ products, proDelete, deletedProduct }) {
         <SearchBar
           value={search}
           placeholder='Search by title'
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSearch();
+            }
+          }}
           onChange={(value) => {
             setSearch(value);
             if (value.trim() === "") {
@@ -457,6 +463,7 @@ function UsersPanel({ users, handleDelete, deletedUsers, onView }) {
     }
   };
 
+
   return (
     <div>
       <h2 className="text-3xl font-bold">Users</h2>
@@ -470,7 +477,11 @@ function UsersPanel({ users, handleDelete, deletedUsers, onView }) {
             if (value.trim() === "") setSearchResults(null);
           }}
           placeholder="Search by name or email..."
-
+          onKeyDown={ (e) => {
+            if(e.key == "Enter"){
+              handleSearch()
+            }
+          }}
         />
         <button
           onClick={handleSearch}
