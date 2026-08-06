@@ -20,8 +20,6 @@ import axios from "axios";
 import UserDetails from "./UserDetails";
 import { useNavigate } from "react-router-dom";
 
-/* ---------------- Status badge styles ---------------- */
-
 const STATUS_STYLES = {
   Active: "bg-emerald-50 text-emerald-700",
   Pending: "bg-amber-50 text-amber-700",
@@ -34,8 +32,6 @@ const STATUS_STYLES = {
   "Out of stock": "bg-red-50 text-red-600",
 };
 
-// Backend sends lowercase statuses ("pending", "shipped", ...) — normalize to
-// Title Case so it matches STATUS_STYLES/STATUS_ICON and displays nicely.
 function normalizeStatus(status) {
   if (!status) return "Unknown";
   return status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
@@ -101,7 +97,6 @@ function StatCard({ label, value, icon: Icon }) {
 }
 
 /* ---------------- Nav config ---------------- */
-
 const NAV_ITEMS = [
   { key: "dashboard", label: "Dashboard", icon: LayoutGrid },
   { key: "products", label: "Products", icon: Package },
@@ -253,7 +248,6 @@ export default function AdminDashboard({ onLogout, }) {
 }
 
 /* ---------------- Dashboard ---------------- */
-
 function DashboardPanel({ products, userNum, orders }) {
   return (
     <div>
@@ -270,25 +264,38 @@ function DashboardPanel({ products, userNum, orders }) {
 }
 
 /* ---------------- Products ---------------- */
-
 function ProductsPanel({ products, proDelete, deletedProduct }) {
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
+  const [searchResults, setSearchResults] = useState(null);
   const navigate = useNavigate();
 
+  const baseList = searchResults ?? products;
+
   const filtered = useMemo(() => {
-    return products.filter((p) => {
-      const matchesFilter = filter === "All" || p.status === filter;
-      const matchesSearch =
-        p.title.toLowerCase().includes(search.toLowerCase()) ||
-        p.sku.toLowerCase().includes(search.toLowerCase());
-      return matchesFilter && matchesSearch;
-    });
-  }, [products, filter, search]);
+    return baseList.filter((p) => filter === "All" || p.status === filter);
+  }, [baseList, filter]);
 
   const edit = (id) => {
-    navigate(`/productUpdate/${id}`)
-  }
+    navigate(`/productUpdate/${id}`);
+  };
+
+  const handleSearch = async () => {
+    if (!search.trim()) {
+      setSearchResults(null);
+      return;
+    }
+    try {
+      const res = await axios.post(
+        `http://localhost:5000/api/v1/product/searchProduct`,
+        { title: search }
+      );
+      setSearchResults(res.data.productData || []);
+    } catch (error) {
+      console.log(error);
+      setSearchResults([]);
+    }
+  };
 
   return (
     <div>
@@ -306,7 +313,25 @@ function ProductsPanel({ products, proDelete, deletedProduct }) {
       </div>
 
       <div className="mt-6 flex flex-wrap items-center gap-3">
-        <SearchBar value={search} onChange={setSearch} placeholder="Search by title or SKU..." />
+        <SearchBar
+          value={search}
+          placeholder='Search by title'
+          onChange={(value) => {
+            setSearch(value);
+            if (value.trim() === "") {
+              setSearchResults(null);
+            }
+          }}
+        />
+        <button
+          onClick={handleSearch}
+          className={`font-medium text-sm rounded-sm p-2 transition-colors ${searchResults !== null
+            ? "bg-sky-400 text-white border border-slate-300"
+            : "border border-slate-300 text-slate-600"
+            }`}
+        >
+          Search
+        </button>
         <div className="flex flex-wrap gap-2">
           {["All", "active", "inactive"].map((s) => (
             <FilterButton key={s} label={s} active={filter === s} onClick={() => setFilter(s)} />
@@ -329,7 +354,7 @@ function ProductsPanel({ products, proDelete, deletedProduct }) {
           </thead>
           <tbody>
             {filtered.map((p) => (
-              <tr key={p.id} className="border-b border-slate-100 last:border-0">
+              <tr key={p._id} className="border-b border-slate-100 last:border-0">
                 <td className="flex items-center gap-3 px-4 py-3">
                   <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-lg">
                     {p.image}
@@ -347,63 +372,38 @@ function ProductsPanel({ products, proDelete, deletedProduct }) {
                   )}
                 </td>
                 <td className="px-4 py-3">
-                  {p.stock === 0 ? (
-                    <StatusBadge status="Out of stock" />
-                  ) : (
-                    p.stock
-                  )}
+                  {p.stock === 0 ? <StatusBadge status="Out of stock" /> : p.stock}
                 </td>
                 <td className="px-4 py-3">
                   <StatusBadge status={p.status} />
                 </td>
-
-
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3 text-slate-500">
-
                     {deletedProduct.includes(p._id) ? (
-                        <span className="rounded bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
+                      <span className="rounded bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
+                        Deleted
+                      </span>
+                    ) : p.status === "inactive" ? (
+                      <div className="flex items-center gap-3">
+                        <button onClick={() => edit(p._id)} aria-label="Edit" className="hover:text-black">
+                          <Pencil size={16} />
+                        </button>
+                        <button disabled className="cursor-not-allowed rounded bg-red-100 px-3 py-1 text-red-600">
                           Deleted
-                        </span>
-                    ) :
-                      p.status === "inactive" ? (
-                        <div>
-                                   <button
-                              onClick={() => edit(p._id)}
-                              aria-label="Edit" className="hover:text-black">
-                              <Pencil size={16} />
-                            </button>
-                                 <button
-                            disabled
-                            className="cursor-not-allowed rounded bg-red-100 px-3 py-1 text-red-600"
-                          >
-                            Deleted
-                          </button>
-                        </div>
-                     
-                      ) :
-                        (
-                          <div className="flex items-center gap-3 text-slate-500">
-                            <button
-                              onClick={() => edit(p._id)}
-                              aria-label="Edit" className="hover:text-black">
-                              <Pencil size={16} />
-                            </button>
-                            <button
-                              onClick={() => proDelete(p._id)}
-                              aria-label="Delete" className="hover:text-red-600">
-                              <Trash2 size={16} />
-                            </button>
-                          </div>
-                        )
-                    }
-
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-3 text-slate-500">
+                        <button onClick={() => edit(p._id)} aria-label="Edit" className="hover:text-black">
+                          <Pencil size={16} />
+                        </button>
+                        <button onClick={() => proDelete(p._id)} aria-label="Delete" className="hover:text-red-600">
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </td>
-
-
-
-
               </tr>
             ))}
             {filtered.length === 0 && (
@@ -421,10 +421,12 @@ function ProductsPanel({ products, proDelete, deletedProduct }) {
 }
 
 /* ---------------- Users ---------------- */
-
 function UsersPanel({ users, handleDelete, deletedUsers, onView }) {
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
+  const [searchResults, setSearchResults] = useState(null);
+
+  const baseList = searchResults ?? users;
 
   const formatDate = (iso) => {
     if (!iso) return "—";
@@ -435,16 +437,25 @@ function UsersPanel({ users, handleDelete, deletedUsers, onView }) {
     });
   };
 
-
   const filtered = useMemo(() => {
-    return users.filter((u) => {
-      const matchesFilter = filter === "All" || u.status === filter;
-      const matchesSearch =
-        u.name.toLowerCase().includes(search.toLowerCase()) ||
-        u.email.toLowerCase().includes(search.toLowerCase());
-      return matchesFilter && matchesSearch;
-    });
-  }, [users, filter, search]);
+    return baseList.filter((u) => filter === "All" || u.status === filter);
+  }, [baseList, filter]);
+
+  const handleSearch = async () => {
+    if (!search.trim()) {
+      setSearchResults(null);
+      return;
+    }
+    try {
+      const res = await axios.post(`http://localhost:5000/api/v1/user/searchUser`, {
+        search,
+      });
+      setSearchResults(res.data.userData || []);
+    } catch (error) {
+      console.log(error);
+      setSearchResults([]);
+    }
+  };
 
   return (
     <div>
@@ -452,7 +463,25 @@ function UsersPanel({ users, handleDelete, deletedUsers, onView }) {
       <p className="mt-1 text-slate-500">{users.length} registered users</p>
 
       <div className="mt-6 flex flex-wrap items-center gap-3">
-        <SearchBar value={search} onChange={setSearch} placeholder="Search by name or email..." />
+        <SearchBar
+          value={search}
+          onChange={(value) => {
+            setSearch(value);
+            if (value.trim() === "") setSearchResults(null);
+          }}
+          placeholder="Search by name or email..."
+
+        />
+        <button
+          onClick={handleSearch}
+          className={`font-medium text-sm rounded-sm p-2 transition-colors ${searchResults !== null
+            ? "bg-sky-400 text-white border border-slate-300"
+            : "border border-slate-300 text-slate-600"
+            }`}
+        >
+          Search
+        </button>
+
         <div className="flex flex-wrap gap-2">
           {["All", "active", "delete"].map((s) => (
             <FilterButton key={s} label={s} active={filter === s} onClick={() => setFilter(s)} />
@@ -474,7 +503,7 @@ function UsersPanel({ users, handleDelete, deletedUsers, onView }) {
           </thead>
           <tbody>
             {filtered.map((u) => (
-              <tr key={u.id} className="border-b border-slate-100 last:border-0">
+              <tr key={u._id} className="border-b border-slate-100 last:border-0">
                 <td className="flex items-center gap-3 px-4 py-3">
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-600">
                     {u.name.split(" ").map((n) => n[0]).join("")}
@@ -492,33 +521,21 @@ function UsersPanel({ users, handleDelete, deletedUsers, onView }) {
                 <td className="px-4 py-3 text-slate-500">{formatDate(u.createdAt)}</td>
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3 text-slate-500">
-                    <button
-                      aria-label="View"
-                      onClick={() => onView(u)}
-                      className="hover:text-black"
-                    >
+                    <button aria-label="View" onClick={() => onView(u)} className="hover:text-black">
                       <Eye size={16} />
                     </button>
                     {deletedUsers.includes(u._id) ? (
                       <span className="rounded bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
                         Deleted
                       </span>
+                    ) : u.status === "delete" ? (
+                      <button disabled className="cursor-not-allowed rounded bg-red-100 px-3 py-1 text-red-600">
+                        Deleted
+                      </button>
                     ) : (
-                      u.status === "delete" ? (
-                        <button
-                          disabled
-                          className="cursor-not-allowed rounded bg-red-100 px-3 py-1 text-red-600"
-                        >
-                          Deleted
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => handleDelete(u._id)}
-                          className="hover:text-red-600"
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      )
+                      <button onClick={() => handleDelete(u._id)} className="hover:text-red-600">
+                        <Trash2 size={16} />
+                      </button>
                     )}
                   </div>
                 </td>
@@ -539,7 +556,6 @@ function UsersPanel({ users, handleDelete, deletedUsers, onView }) {
 }
 
 /* ---------------- Orders ---------------- */
-
 function OrdersPanel({ orders, users }) {
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
