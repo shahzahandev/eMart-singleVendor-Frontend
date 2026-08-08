@@ -160,7 +160,8 @@ export default function ProductUpload({ onLogout }) {
       }
 
       images.forEach((file) => payload.append("images", file));
-      payload.append("mainImageIndex", mainIndex ?? 0);
+      // Must match the backend's `let { ..., isMain } = req.body;` field name.
+      payload.append("isMain", mainIndex ?? 0);
 
       const res = await axios.post(ADD_PRODUCT_URL, payload, {
         headers: { "Content-Type": "multipart/form-data" },

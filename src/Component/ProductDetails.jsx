@@ -11,17 +11,17 @@ function imageSrc(url) {
   return url.startsWith("http") ? url : `${API_ORIGIN}${url}`;
 }
 
-// Counts down to `endDate`. Returns null once the countdown has finished.
-function useCountdown(endDate) {
+// Counts down to any given date. Returns null once that date has passed.
+function useCountdown(targetDate) {
   const [timeLeft, setTimeLeft] = useState(null);
 
   useEffect(() => {
-    if (!endDate) {
+    if (!targetDate) {
       setTimeLeft(null);
       return;
     }
 
-    const target = new Date(endDate).getTime();
+    const target = new Date(targetDate).getTime();
 
     const tick = () => {
       const diff = target - Date.now();
@@ -42,7 +42,7 @@ function useCountdown(endDate) {
     tick();
     const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
-  }, [endDate]);
+  }, [targetDate]);
 
   return timeLeft;
 }
@@ -142,23 +142,28 @@ export default function Products() {
 function ProductCard({ product }) {
   const hasDiscount = product.discountPrice && Number(product.discountPrice) < Number(product.price);
 
+  const discountPct = hasDiscount
+    ? Math.round(100 - (Number(product.discountPrice) / Number(product.price)) * 100)
+    : null;
+
   const mainImage = product.images?.find((img) => img.isMain) || product.images?.[0];
 
-    const now = Date.now();
+  const now = Date.now();
   const startsAt = product.discountStartDate ? new Date(product.discountStartDate).getTime() : null;
   const endsAt = product.discountEndDate ? new Date(product.discountEndDate).getTime() : null;
+
+  const notStartedYet = startsAt && now < startsAt;
   const discountActive = startsAt && endsAt && now >= startsAt && now <= endsAt;
 
-  const timeLeft = useCountdown(discountActive ? product.discountEndDate : null);
-
-
-
-
+  // Not started yet -> count down to the start date. Active -> count down to the end date.
+  const timeLeft = useCountdown(
+    notStartedYet ? product.discountStartDate : discountActive ? product.discountEndDate : null
+  );
 
   return (
     <Link to={`/singleProduct/${product._id}`} state={{ product }}>
       <article className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-lg">
-        <div className="flex h-48 items-center justify-center bg-slate-100">
+        <div className="relative flex h-65 items-center justify-center overflow-hidden bg-slate-100">
           {mainImage ? (
             <img
               src={imageSrc(mainImage.url)}
@@ -172,10 +177,10 @@ function ProductCard({ product }) {
             </div>
           )}
 
-             {timeLeft && (
+          {timeLeft && (
             <div className="absolute right-3 top-3 rounded-lg bg-sky-800 px-2.5 py-1.5 text-center text-white backdrop-blur">
               <p className="text-[10px] font-medium uppercase tracking-wide text-white/90">
-                Offer ends in
+                {notStartedYet ? "Offer starts in" : "Offer ends in"}
               </p>
               <p className="font-mono text-sm font-bold leading-tight">
                 {timeLeft.days > 0 && `${timeLeft.days}d `}
@@ -183,7 +188,6 @@ function ProductCard({ product }) {
               </p>
             </div>
           )}
-
         </div>
         <div className="p-5">
           <div className="mb-3 flex flex-wrap gap-2">
@@ -193,8 +197,13 @@ function ProductCard({ product }) {
             <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
               {product.subCategory}
             </span>
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-sky-400">
-              Stock {product.stock}
+            <span
+              className={`font-semibold ${product.stock > 0 ? "text-emerald-600" : "text-rose-600"
+                }`}
+            >
+              {product.stock > 0
+                ? `${product.stock} in stock`
+                : "Out of stock"}
             </span>
           </div>
           <h3 className="line-clamp-1 text-lg font-bold text-slate-900">{product.title}</h3>
@@ -202,11 +211,14 @@ function ProductCard({ product }) {
           <div className="mt-4 flex items-center gap-3">
             {hasDiscount ? (
               <>
-                <span className="text-xl font-bold text-slate-800">৳{product.discountPrice}</span>
                 <span className="text-sm font-medium text-slate-400 line-through">৳{product.price}</span>
+                <span className="text-xl font-bold text-slate-800">৳{product.discountPrice}</span>
+                <span className="text- font-bold text-sky-600 px-2 py-0.5 rounded-full">
+                  -{discountPct}% off
+                </span>
               </>
             ) : (
-              <span className="text-xl font-bold text-emerald-700">৳{product.price}</span>
+              <span className="text-xl font-bold text-slate-800">৳{product.price}</span>
             )}
           </div>
           <button className="mt-5 h-11 w-full rounded-lg bg-sky-500 text-lg font-bold text-white hover:bg-sky-600  cursor-pointer">

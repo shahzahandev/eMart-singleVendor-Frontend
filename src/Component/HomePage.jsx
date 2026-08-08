@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api/v1/product/allActiveAndDiscountProduct";
+const API_URL = "http://localhost:5000/api/v1/product/allActiveProduct";
 const API_ORIGIN = "http://localhost:5000";
 
 import { useEffect, useState } from "react";
@@ -56,8 +56,8 @@ export default function Home() {
             <div className="mx-auto max-w-7xl">
               <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <h2 className="mb-6 inline-block font-extrabold px-3 py-1 text-2xl">
-                    Discount <span className="font-semibold">Products</span>
+                  <h2 className="mb-6 inline-block font-semibold px-3 py-1 text-2xl">
+                    Latest <span className="font-extrabold">Products</span>
                   </h2>
                 </div>
                 <a className="" href="/products">
@@ -132,6 +132,9 @@ function pad(n) {
 
 function ProductCard({ product }) {
   const hasDiscount = product.discountPrice && product.discountPrice < product.price;
+  const discountPct = hasDiscount
+    ? Math.round(100 - (Number(product.discountPrice) / Number(product.price)) * 100)
+    : null;
 
   const mainImage =
     product.images?.find((img) => img.isMain) || product.images?.[0];
@@ -179,8 +182,12 @@ function ProductCard({ product }) {
           <div className="mt-4 px-2 flex items-center gap-3">
             {hasDiscount ? (
               <>
-                <span className="text-xl font-bold text-black">৳{product.discountPrice}</span>
+
                 <span className="text-sm font-medium text-slate-400 line-through">৳{product.price}</span>
+                <span className="text-xl font-bold text-black">৳{product.discountPrice}</span>
+                <span className="text- font-bold text-sky-600 px-2 py-0.5 rounded-full">
+                  -{discountPct}% off
+                </span>
               </>
             ) : (
               <span className="text-xl font-bold text-emerald-700">৳{product.price}</span>
