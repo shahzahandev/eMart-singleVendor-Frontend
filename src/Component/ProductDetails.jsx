@@ -2,6 +2,54 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const API_URL = "http://localhost:5000/api/v1/product/allActiveProduct";
+// Backend origin — images come back as relative paths ("/upload/xyz.jpg"),
+// so this gets prepended to build a loadable <img src>.
+const API_ORIGIN = "http://localhost:5000";
+
+function imageSrc(url) {
+  if (!url) return "";
+  return url.startsWith("http") ? url : `${API_ORIGIN}${url}`;
+}
+
+// Counts down to `endDate`. Returns null once the countdown has finished.
+function useCountdown(endDate) {
+  const [timeLeft, setTimeLeft] = useState(null);
+
+  useEffect(() => {
+    if (!endDate) {
+      setTimeLeft(null);
+      return;
+    }
+
+    const target = new Date(endDate).getTime();
+
+    const tick = () => {
+      const diff = target - Date.now();
+
+      if (diff <= 0) {
+        setTimeLeft(null);
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      setTimeLeft({ days, hours, minutes, seconds });
+    };
+
+    tick();
+    const interval = setInterval(tick, 1000);
+    return () => clearInterval(interval);
+  }, [endDate]);
+
+  return timeLeft;
+}
+
+function pad(n) {
+  return String(n).padStart(2, "0");
+}
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -79,7 +127,7 @@ export default function Products() {
           )}
 
           {!loading && !error && (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
               {products.map((product) => (
                 <ProductCard key={product._id} product={product} />
               ))}
@@ -92,18 +140,30 @@ export default function Products() {
 }
 
 function ProductCard({ product }) {
-  const hasDiscount =
-    product.discountPrice && Number(product.discountPrice) < Number(product.price);
+  const hasDiscount = product.discountPrice && Number(product.discountPrice) < Number(product.price);
+
+  const mainImage = product.images?.find((img) => img.isMain) || product.images?.[0];
+
+    const now = Date.now();
+  const startsAt = product.discountStartDate ? new Date(product.discountStartDate).getTime() : null;
+  const endsAt = product.discountEndDate ? new Date(product.discountEndDate).getTime() : null;
+  const discountActive = startsAt && endsAt && now >= startsAt && now <= endsAt;
+
+  const timeLeft = useCountdown(discountActive ? product.discountEndDate : null);
+
+
+
+
 
   return (
     <Link to={`/singleProduct/${product._id}`} state={{ product }}>
-      <article className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+      <article className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-lg">
         <div className="flex h-48 items-center justify-center bg-slate-100">
-          {product.images?.length > 0 ? (
+          {mainImage ? (
             <img
-              src={product.images[0]}
+              src={imageSrc(mainImage.url)}
               alt={product.title}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover transition-transform duration-300 hover:scale-110"
             />
           ) : (
             <div className="text-center">
@@ -111,6 +171,19 @@ function ProductCard({ product }) {
               <p className="mt-3 text-sm font-medium text-slate-400">Product Image</p>
             </div>
           )}
+
+             {timeLeft && (
+            <div className="absolute right-3 top-3 rounded-lg bg-sky-800 px-2.5 py-1.5 text-center text-white backdrop-blur">
+              <p className="text-[10px] font-medium uppercase tracking-wide text-white/90">
+                Offer ends in
+              </p>
+              <p className="font-mono text-sm font-bold leading-tight">
+                {timeLeft.days > 0 && `${timeLeft.days}d `}
+                {pad(timeLeft.hours)}:{pad(timeLeft.minutes)}:{pad(timeLeft.seconds)}
+              </p>
+            </div>
+          )}
+
         </div>
         <div className="p-5">
           <div className="mb-3 flex flex-wrap gap-2">

@@ -1,4 +1,6 @@
-const API_URL = "http://localhost:5000/api/v1/product/allActiveProduct";
+const API_URL = "http://localhost:5000/api/v1/product/allActiveAndDiscountProduct";
+const API_ORIGIN = "http://localhost:5000";
+
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Products from "./ProductDetails";
@@ -50,12 +52,12 @@ export default function Home() {
       <OfficialPartners></OfficialPartners>
       <Container>
         <main className="min-h-screen bg-white">
-          <section className="px-4 py-4 sm:px-6 lg:px-8">
+          <section className="m:dpx-4 py-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-7xl">
               <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <h2 className="mb-6 inline-block px-3 py-1 text-2xl">
-                    Latest <span className="font-extrabold">Products</span>
+                  <h2 className="mb-6 inline-block font-extrabold px-3 py-1 text-2xl">
+                    Discount <span className="font-semibold">Products</span>
                   </h2>
                 </div>
                 <a className="" href="/products">
@@ -83,18 +85,75 @@ export default function Home() {
   );
 }
 
+function imageSrc(url) {
+  if (!url) return "";
+  return url.startsWith("http") ? url : `${API_ORIGIN}${url}`;
+}
+
+// Counts down to `endDate`. Returns null once the countdown has finished.
+function useCountdown(endDate) {
+  const [timeLeft, setTimeLeft] = useState(null);
+
+  useEffect(() => {
+    if (!endDate) {
+      setTimeLeft(null);
+      return;
+    }
+
+    const target = new Date(endDate).getTime();
+
+    const tick = () => {
+      const diff = target - Date.now();
+
+      if (diff <= 0) {
+        setTimeLeft(null);
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      setTimeLeft({ days, hours, minutes, seconds });
+    };
+
+    tick();
+    const interval = setInterval(tick, 1000);
+    return () => clearInterval(interval);
+  }, [endDate]);
+
+  return timeLeft;
+}
+
+function pad(n) {
+  return String(n).padStart(2, "0");
+}
+
 function ProductCard({ product }) {
   const hasDiscount = product.discountPrice && product.discountPrice < product.price;
 
+  const mainImage =
+    product.images?.find((img) => img.isMain) || product.images?.[0];
+
+  const now = Date.now();
+  const startsAt = product.discountStartDate ? new Date(product.discountStartDate).getTime() : null;
+  const endsAt = product.discountEndDate ? new Date(product.discountEndDate).getTime() : null;
+  const discountActive = startsAt && endsAt && now >= startsAt && now <= endsAt;
+
+  const timeLeft = useCountdown(discountActive ? product.discountEndDate : null);
+
+
+
   return (
     <Link to={`/singleProduct/${product._id}`} state={{ product }}>
-      <article className="overflow-hidden rounded-2xl border border-slate-200 bg-gray-200 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-        <div className="flex h-85 items-center justify-center bg-slate-100">
-          {product.images?.length > 0 ? (
+      <article className="overflow-hidden rounded-2xl border border-slate-200 bg-gray-200 shadow-sm transition hover:shadow-lg">
+        <div className="relative flex h-85 items-center justify-center overflow-hidden bg-gray-200">
+          {mainImage ? (
             <img
-              src={product.images[0]}
+              src={imageSrc(mainImage.url)}
               alt={product.title}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover transition-transform duration-300 ease-out hover:scale-110 rounded-2xl"
             />
           ) : (
             <div className="text-center">
@@ -102,10 +161,22 @@ function ProductCard({ product }) {
               <p className="mt-3 text-sm font-medium text-slate-400">Product Image</p>
             </div>
           )}
+
+          {timeLeft && (
+            <div className="absolute right-3 top-3 rounded-lg bg-sky-800 px-2.5 py-1.5 text-center text-white backdrop-blur">
+              <p className="text-[10px] font-medium uppercase tracking-wide text-white/90">
+                Offer ends in
+              </p>
+              <p className="font-mono text-sm font-bold leading-tight">
+                {timeLeft.days > 0 && `${timeLeft.days}d `}
+                {pad(timeLeft.hours)}:{pad(timeLeft.minutes)}:{pad(timeLeft.seconds)}
+              </p>
+            </div>
+          )}
         </div>
-        <div className="p-5">
-          <h3 className="line-clamp-1 text-lg font-medium text-slate-900">{product.title}</h3>
-          <div className="mt-4 flex items-center gap-3">
+        <div className="px-0 pt-2">
+          <h3 className="line-clamp-1 px-2 text-lg font-medium text-slate-900">{product.title}</h3>
+          <div className="mt-4 px-2 flex items-center gap-3">
             {hasDiscount ? (
               <>
                 <span className="text-xl font-bold text-black">৳{product.discountPrice}</span>
@@ -115,7 +186,7 @@ function ProductCard({ product }) {
               <span className="text-xl font-bold text-emerald-700">৳{product.price}</span>
             )}
           </div>
-          <button className="mt-5 h-11 w-full rounded-lg bg-sky-500 text-lg font-bold text-white hover:bg-sky-600 cursor-pointer">
+          <button className="mt-5 h-15 w-full bg-sky-500 text-lg font-bold text-white  hover:bg-sky-600 cursor-pointer">
             Choose Option
           </button>
         </div>

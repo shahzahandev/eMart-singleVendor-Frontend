@@ -14,11 +14,11 @@ const CATEGORIES = [
 export default function ShopByCategories() {
     return (
         <Container>
-            <section className="px-4 py-8 sm:px-6 lg:px-10">
+            <section className="md:px-4 md:py-8 py-5 sm:px-6 lg:px-10">
                 <h2 className="mb-6 inline-block px-3 py-1 text-2xl">
                     Shop By <span className="font-extrabold">Categories</span>
                 </h2>
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-4">
                     {CATEGORIES.map((cat) => (
                         <a
                             key={cat.id}
@@ -32,7 +32,7 @@ export default function ShopByCategories() {
                                     className="h-full w-full object-contain transition-transform duration-300 ease-out group-hover:scale-110"
                                 />
                             </div>
-                            <div className="bg-sky-200 py-3 text-center text-lg font-bold text-slate-800 transition-colors group-hover:bg-sky-400 sm:text-base">
+                            <div className="bg-sky-400 py-3 text-center text-lg font-bold text-black transition-colors group-hover:bg-sky-600 sm:text-base">
                                 {cat.name}
                             </div>
                         </a>

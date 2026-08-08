@@ -6,11 +6,20 @@ import { LuRotateCcw } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { useCart } from "./CartContext";
+import Container from "./Container";
 
 const ALL_PRODUCTS_URL = "http://localhost:5000/api/v1/product/allProduct";
+// Backend origin — images come back as relative paths ("/upload/xyz.jpg"),
+// so this gets prepended to build a loadable <img src>.
+const API_ORIGIN = "http://localhost:5000";
 
 function currency(n) {
   return `৳${Number(n ?? 0).toLocaleString("en-US")}`;
+}
+
+function imageSrc(url) {
+  if (!url) return "";
+  return url.startsWith("http") ? url : `${API_ORIGIN}${url}`;
 }
 
 export default function SingleProduct() {
@@ -65,11 +74,17 @@ export default function SingleProduct() {
 }
 
 function ProductDetail({ product }) {
-  const [activeImage, setActiveImage] = useState(0);
+  const images = product.images?.length ? product.images : [];
+  // Default to the isMain image if one is flagged, otherwise the first image.
+  const defaultIndex = Math.max(
+    images.findIndex((img) => img.isMain),
+    0
+  );
+
+  const [activeImage, setActiveImage] = useState(defaultIndex);
   const [wishlisted, setWishlisted] = useState(false);
   const { addToCart } = useCart();
 
-  const images = product.images?.length ? product.images : [];
   const hasDiscount =
     product.discountPrice && Number(product.discountPrice) < Number(product.price);
   const discountPct = hasDiscount
@@ -77,13 +92,14 @@ function ProductDetail({ product }) {
     : null;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white">
+    <Container>
+  <div className=" md:py-15 py-5 bg-white">
       <div className="grid grid-cols-1 md:grid-cols-[80px_1fr_1fr] gap-6">
         {/* Thumbnails */}
         <div className="flex md:flex-col gap-3 order-2 md:order-1">
-          {images.map((src, i) => (
+          {images.map((img, i) => (
             <button
-              key={src}
+              key={img._id || img.url}
               onClick={() => setActiveImage(i)}
               className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${
                 activeImage === i
@@ -92,7 +108,7 @@ function ProductDetail({ product }) {
               }`}
               aria-label={`View image ${i + 1}`}
             >
-              <img src={src} alt="" className="w-full h-full object-cover" />
+              <img src={imageSrc(img.url)} alt="" className="w-full h-full object-cover" />
             </button>
           ))}
         </div>
@@ -101,7 +117,7 @@ function ProductDetail({ product }) {
         <div className="order-1 md:order-2 rounded-xl overflow-hidden bg-slate-100 aspect-square flex items-center justify-center">
           {images.length > 0 ? (
             <img
-              src={images[activeImage]}
+              src={imageSrc(images[activeImage]?.url)}
               alt={product.title}
               className="w-full h-full object-cover"
             />
@@ -220,8 +236,29 @@ function ProductDetail({ product }) {
               {product.brand}
             </div>
           )}
+               {product.tag && (
+            <div className="mt-2 text-sm text-slate-600">
+              <span className="font-bold text-slate-900">Tag : </span>
+              {product.tag}
+            </div>
+          )}
         </div>
       </div>
+        <div className="flex flex-col py-5 gap-3 order-2 md:order-1">
+          {images.map((img, i) => (
+            <button
+              key={img._id || img.url}
+              // onClick={() => setActiveImage(i)}
+              className={`w-full h-full rounded-lg overflow-hidden transition-colors`}
+              aria-label={`View image ${i + 1}`}
+            >
+              <img src={imageSrc(img.url)} alt="" className="w-full h-full object-cover" />
+            </button>
+          ))}
+        </div>
     </div>
+    </Container>
+  
   );
 }
+

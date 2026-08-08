@@ -48,19 +48,19 @@ export default function ImageSlider() {
 
   return (
     <div
-      className="relative w-full overflow-hidden  select-none bg-slate-200"
+      className="relative w-full overflow-hidden select-none bg-slate-200"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="relative aspect-[3/1] lg:aspect-[3/1] w-full">
+      <div className="relative aspect-[3/2] lg:aspect-[3/1] w-full">
         {SLIDES.map((slide, i) => (
           <img
             key={slide.id}
             src={slide.image}
             alt={slide.alt}
-            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+            className={`absolute inset-0 h-full w-full md:object-cover object-fill transition-opacity duration-700 ${
               i === index ? "opacity-100" : "opacity-0"
             }`}
           />
