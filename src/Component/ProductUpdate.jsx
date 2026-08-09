@@ -5,11 +5,11 @@ import { ImagePlus, X, Star } from "lucide-react";
 import AdminLayout from "./AdminLayout";
 
 const singleProductUrl = (id) =>
-  `http://localhost:5000/api/v1/product/singleProduct/${id}`;
+  `https://emart-singlevendor-backend-6.onrender.com/api/v1/product/singleProduct/${id}`;
 const updateProductUrl = (id) =>
-  `http://localhost:5000/api/v1/product/updateProduct/${id}`;
+  `https://emart-singlevendor-backend-6.onrender.com/api/v1/product/updateProduct/${id}`;
 
-const API_ORIGIN = "http://localhost:5000";
+const API_ORIGIN = "https://emart-singlevendor-backend-6.onrender.com";
 const MAX_IMAGES = 5;
 
 function imageSrc(url) {

@@ -3,7 +3,7 @@ import axios from "axios";
 import { ImagePlus, X, Star } from "lucide-react";
 import AdminLayout from "./AdminLayout";
 
-const ADD_PRODUCT_URL = "http://localhost:5000/api/v1/product/createProduct";
+const ADD_PRODUCT_URL = "https://emart-singlevendor-backend-6.onrender.com/api/v1/product/createProduct";
 const MAX_IMAGES = 5;
 
 export default function ProductUpload({ onLogout }) {

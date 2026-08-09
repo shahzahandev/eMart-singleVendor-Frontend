@@ -95,7 +95,7 @@ export default function ProfileDashboard({ onLogout }) {
         if (!userInfo?.id) return;
         async function getData() {
             try {
-                const res = await axios.get(`http://localhost:5000/api/v1/user/singleUser/${userInfo.id}`);
+                const res = await axios.get(`https://emart-singlevendor-backend-6.onrender.com/api/v1/user/singleUser/${userInfo.id}`);
                 setFormData({
                     fullname: res.data.user.name || "",
                     email: res.data.user.email || "",
@@ -120,7 +120,7 @@ export default function ProfileDashboard({ onLogout }) {
         try {
             setSaving(true);
             const res = await axios.post(
-                `http://localhost:5000/api/v1/user/updateUser/${userInfo.id}`,
+                `https://emart-singlevendor-backend-6.onrender.com/api/v1/user/updateUser/${userInfo.id}`,
                 {
                     name: formData.fullname,
                     phone: formData.phone,

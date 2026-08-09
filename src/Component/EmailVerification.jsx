@@ -11,7 +11,7 @@ export default function EmailVerification() {
     useEffect(() => {
         async function getData() {
             try {
-                let data = await axios.post(`http://localhost:5000/api/v1/auth/verifyemail/${token}`)
+                let data = await axios.post(`https://emart-singlevendor-backend-6.onrender.com/api/v1/auth/verifyemail/${token}`)
                     setVerified(true);                    
                     setInterval(() => {
                         navigate("/login")

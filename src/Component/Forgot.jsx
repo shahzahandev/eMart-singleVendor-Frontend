@@ -15,13 +15,9 @@ export default function ForgotPassword() {
       setError("Please enter your email address.");
       return;
     }
-
-    // console.log("Forgot Password Email:", email);
-    // alert("Password reset link sent to your email!");
-
     try {
       async function getData() {
-        let res = await axios.post(`http://localhost:5000/api/v1/auth/forgotPassword`, {email})
+        let res = await axios.post(`https://emart-singlevendor-backend-6.onrender.com/api/v1/auth/forgotPassword`, {email})
         setSuccess(res.data.message);
         setEmail("")
       }

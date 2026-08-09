@@ -1,5 +1,5 @@
-const API_URL = "http://localhost:5000/api/v1/product/allActiveProduct";
-const API_ORIGIN = "http://localhost:5000";
+const API_URL = "https://emart-singlevendor-backend-6.onrender.com/api/v1/product/allActiveProduct";
+const API_ORIGIN = "https://emart-singlevendor-backend-6.onrender.com";
 
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -12,6 +12,9 @@ import ShopByCategories from "./ShopByCategories";
 import OfficialPartners from "./OfficialPartners";
 import Container from "./Container";
 import Image from "./Image"
+import DiscountProducts from "./DiscountProduct";
+
+
 
 
 export default function Home() {
@@ -77,6 +80,7 @@ export default function Home() {
         </main>
       </Container>
       <Products></Products>
+      <DiscountProducts></DiscountProducts>
       <Image></Image>
       <About></About>
       <Contact></Contact>
@@ -166,8 +170,8 @@ function ProductCard({ product }) {
           )}
 
           {timeLeft && (
-            <div className="absolute right-3 top-3 rounded-lg bg-sky-800 px-2.5 py-1.5 text-center text-white backdrop-blur">
-              <p className="text-[10px] font-medium uppercase tracking-wide text-white/90">
+            <div className="absolute right-3 top-3 rounded-lg bg-slate-200 px-2.5 py-1.5 text-center text-red-600 backdrop-blur">
+              <p className="text-[10px] font-medium uppercase tracking-wide text-red-600">
                 Offer ends in
               </p>
               <p className="font-mono text-sm font-bold leading-tight">
@@ -182,7 +186,6 @@ function ProductCard({ product }) {
           <div className="mt-4 px-2 flex items-center gap-3">
             {hasDiscount ? (
               <>
-
                 <span className="text-sm font-medium text-slate-400 line-through">৳{product.price}</span>
                 <span className="text-xl font-bold text-black">৳{product.discountPrice}</span>
                 <span className="text- font-bold text-sky-600 px-2 py-0.5 rounded-full">

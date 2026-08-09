@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const API_URL = "https://emart-singlevendor-backend-6.onrender.com/api/v1/product/allActiveProduct";
+const API_URL = "https://emart-singlevendor-backend-6.onrender.com/api/v1/product/allActiveAndDiscountProduct";
 // Backend origin — images come back as relative paths ("/upload/xyz.jpg"),
 // so this gets prepended to build a loadable <img src>.
 const API_ORIGIN = "https://emart-singlevendor-backend-6.onrender.com";
@@ -51,7 +51,7 @@ function pad(n) {
   return String(n).padStart(2, "0");
 }
 
-export default function Products() {
+export default function DiscountProducts() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -87,13 +87,15 @@ export default function Products() {
         <div className="mx-auto max-w-7xl">
           <div className="mt-4 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <h1 className="text-3xl font-medium sm:text-4xl lg:text-5xl">
-                Explore Bestsellers
+              <h1 className="text-3xl font-medium sm:text-4xl lg:text-5xl bg-orange-300 p-4">
+                Flash-Sale
               </h1>
             </div>
-            <div className="rounded-xl bg-white border border-slate-300 px-5 py-4 backdrop-blur">
-              <p className="text-sm text-black">Total Products</p>
-              <p className="mt-1 text-2xl font-bold">{products.length}</p>
+            <div className="rounded-xl bg-orange-300 border border-slate-300 px-5 py-4 backdrop-blur">
+              <p className="text-lg font-bold text-black">Discount On </p>
+              <p className="mt-1 text-5xl font-bold">{products.length}</p>
+              <p className="text-sm text-black">Products</p>
+
             </div>
           </div>
         </div>
@@ -104,16 +106,10 @@ export default function Products() {
           <div className="mb-6 flex flex-col gap-4 rounded-2xl bg-white p-4  md:flex-row md:items-center md:justify-between">
             <div>
               <h2 className="mb-6 inline-block px-3 py-1 text-2xl">
-                All <span className="font-extrabold">Products</span>
+                All <span className="font-extrabold"> Discount Products</span>
               </h2>
             </div>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <input
-                type="text"
-                placeholder="Search product..."
-                className="h-11 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-100 sm:w-64"
-              />
-            </div>
+    
           </div>
 
           {loading && (

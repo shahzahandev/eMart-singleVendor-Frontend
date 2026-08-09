@@ -8,10 +8,10 @@ import { useParams, useLocation } from "react-router-dom";
 import { useCart } from "./CartContext";
 import Container from "./Container";
 
-const ALL_PRODUCTS_URL = "http://localhost:5000/api/v1/product/allProduct";
+const ALL_PRODUCTS_URL = "https://emart-singlevendor-backend-6.onrender.com/api/v1/product/allProduct";
 // Backend origin — images come back as relative paths ("/upload/xyz.jpg"),
 // so this gets prepended to build a loadable <img src>.
-const API_ORIGIN = "http://localhost:5000";
+const API_ORIGIN = "https://emart-singlevendor-backend-6.onrender.com";
 
 function currency(n) {
   return `৳${Number(n ?? 0).toLocaleString("en-US")}`;

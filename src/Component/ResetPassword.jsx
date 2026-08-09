@@ -46,7 +46,7 @@ export default function ResetPassword() {
 
     try {
       async function getData() {
-        let res = await axios.post(`http://localhost:5000/api/v1/auth/resetPassword/${token}`, formData)
+        let res = await axios.post(`https://emart-singlevendor-backend-6.onrender.com/api/v1/auth/resetPassword/${token}`, formData)
         setSuccess(res.data.message);
         setFormData({ newPassword: "", confirmPassword: "" })
         setTimeout(() => {

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { DNA } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
-const REGISTER_URL = "http://localhost:5000/api/v1/auth/register"
+const REGISTER_URL = "https://emart-singlevendor-backend-6.onrender.com/api/v1/auth/register"
 
 export default function Register() {
 

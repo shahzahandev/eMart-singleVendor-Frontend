@@ -2,8 +2,9 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
+import Container from "./Container";
 
-const LOGIN_URL = "http://localhost:5000/api/v1/auth/login"
+const LOGIN_URL = "https://emart-singlevendor-backend-6.onrender.com/api/v1/auth/login"
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -54,7 +55,9 @@ export default function Login() {
 
 
   return (
-    <section className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 lg:px-8">
+    <>
+    <Container>
+        <section className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto flex min-h-[calc(100vh-64px)] max-w-6xl items-center justify-center">
         <div className="grid w-full overflow-hidden rounded-2xl bg-white shadow-xl lg:grid-cols-2">
           <div className="hidden bg-sky-600 p-10 text-white lg:flex lg:flex-col lg:justify-between">
@@ -65,7 +68,6 @@ export default function Login() {
                 daily grocery products from E-Earbuds.
               </p>
             </div>
-
             <div className="rounded-xl bg-white/10 p-6 backdrop-blur">
               <p className="text-sm text-emerald-50">
                 Secure login, fast checkout, order tracking, and a smooth
@@ -73,7 +75,6 @@ export default function Login() {
               </p>
             </div>
           </div>
-
           <div className="p-6 sm:p-8 md:p-10">
             <div className="mb-8 text-center lg:text-left">
               <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">
@@ -98,13 +99,11 @@ export default function Login() {
                   className="h-12 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none transition focus:border-sky-300 focus:ring-2 focus:ring-emerald-100"
                 />
               </div>
-
               <div>
                 <div className="mb-2 flex items-center justify-between gap-3">
                   <label className="block text-sm font-medium text-black">
                     Password
                   </label>
-
                   <a
                     href="/forgot"
                     className="text-sm font-medium text-sky-500 hover:underline"
@@ -112,15 +111,6 @@ export default function Login() {
                     Forgot password?
                   </a>
                 </div>
-
-                {/* <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Enter password"
-                  className="h-12 w-full rounded-lg border border-slate-300 px-4 text-sm outline-none transition focus:border-sky-300 focus:ring-2 focus:ring-emerald-100"
-                /> */}
                 <div className="relative">
                   <input
                     type={showConfirmPassword ? "text" : "password"}
@@ -140,7 +130,6 @@ export default function Login() {
                   </button>
                 </div>
               </div>
-
               {error && (
                 <div className="bg-red-50 px-4 py-3 text-sm text-red-600">
                   {error}
@@ -169,5 +158,8 @@ export default function Login() {
         </div>
       </div>
     </section>
+    </Container>
+    </>
+  
   );
 }

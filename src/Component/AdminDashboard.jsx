@@ -120,7 +120,7 @@ export default function AdminDashboard({ onLogout, }) {
   useEffect(() => {
     async function getData() {
       try {
-        let res = await axios.get(`http://localhost:5000/api/v1/user/allUser`);
+        let res = await axios.get(`https://emart-singlevendor-backend-6.onrender.com/api/v1/user/allUser`);
         setUserNum(res.data.users);
       } catch (error) {
         console.log(error);
@@ -288,7 +288,7 @@ function ProductsPanel({ products, proDelete, deletedProduct }) {
     }
     try {
       const res = await axios.post(
-        `http://localhost:5000/api/v1/product/searchProduct`,
+        `https://emart-singlevendor-backend-6.onrender.com/api/v1/product/searchProduct`,
         { title: search }
       );
       setSearchResults(res.data.productData || []);
