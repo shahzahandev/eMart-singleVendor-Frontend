@@ -54,7 +54,7 @@ export default function ImageSlider() {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="relative aspect-[3/2] lg:aspect-[3/1] w-full">
+      <div className="relative aspect-[3/2.75] sm:aspect-[3/1.75] lg:aspect-[3/1] w-full">
         {SLIDES.map((slide, i) => (
           <img
             key={slide.id}

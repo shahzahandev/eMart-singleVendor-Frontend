@@ -85,7 +85,7 @@ export default function Register() {
   };
 
   return (
-    <section className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 lg:px-8">
+    <section className="mx-auto max-w-7xl  min-h-screen bg-slate-50 px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto flex min-h-[calc(100vh-64px)] max-w-6xl items-center justify-center">
         <div className="grid w-full overflow-hidden rounded-2xl bg-white shadow-xl lg:grid-cols-2">
           <div className="hidden bg-sky-600 p-10 text-white lg:flex lg:flex-col lg:justify-between">

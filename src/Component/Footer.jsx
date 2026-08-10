@@ -1,69 +1,60 @@
+import { href } from "react-router-dom";
+
 export default function Footer() {
   return (
     <footer className="bg-slate-800 px-4 pt-12 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-8 border-b border-white/10 pb-10 md:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <div className="flex items-center gap-2">
-              <div>
-                <h2 className="text-lg font-bold text-sky-400 leading-5">E-Earbuds</h2>              </div>
-            </div>
-
-            <p className="mt-4 text-sm leading-6 text-slate-400">
-              Fresh grocery, daily essentials, organic products, and trusted
-              shopping experience for every customer.
-            </p>
-          </div>
-
+        <div className="grid gap-20 border-b border-white/10 pb-10 md:grid-cols-1 lg:grid-cols-3">
           <FooterColumn
-            title="Quick Links"
+            title="Company Information"
             links={[
               { name: "Home", href: "/" },
               { name: "All Products", href: "/products" },
               { name: "Card", href: "/card" },
+              { name: "Contact", href: "/contact" },
               { name: "My Profile", href: "/profileDashboard" },
             ]}
           />
-
           <FooterColumn
             title="Customer"
             links={[
               { name: "Login", href: "/login" },
               { name: "Register", href: "/register" },
               { name: "Forgot Password", href: "/forgot" },
-              { name: "Reset Password", href: "/resetpassword" },
-              { name: "Admin Dashboard", href: "/admin" }, 
+              { name: "Admin Dashboard", href: "/admin" },
 
             ]}
           />
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wide">
+            <h3 className="text-2xl font-semibold uppercase tracking-widest">
               Contact
             </h3>
 
-            <div className="mt-4 space-y-3 text-sm text-slate-400">
-              <p>e-earbuds516@gmail.com</p>
-              <p>+880 1700-110011</p>
-              <p>Dhanmondi, Dhaka, Bangladesh</p>
+            <div className="mt-5 space-y-4 text-sm text-slate-400">
+              <p className="text-lg text-slate-400 transition hover:text-white" >e-earbuds516@gmail.com</p>
+              <p className="text-lg text-slate-400 transition hover:text-white" >+880 1700-110011</p>
+              <p className="text-lg text-slate-400 transition hover:text-white" >              License No: TRAD/CHTG/019582/2023
+              </p>
+              <p className="text-lg text-slate-400 transition hover:text-white" >Dhanmondi, Dhaka, Bangladesh</p>
             </div>
 
-            <div className="mt-5 flex gap-3">
+            <div className="mt-15 flex gap-10">
               <a
                 href="#"
-                className="grid h-9 w-9 place-items-center rounded-lg bg-white/10 text-lg font-extrabold hover:bg-sky-400"
+                className="grid h-15 w-15 place-items-center rounded-lg bg-white/10 text-2xl font-extrabold hover:bg-sky-500"
               >
                 f
               </a>
               <a
                 href="#"
-                className="grid h-9 w-9 place-items-center rounded-lg bg-white/10 text-lg font-extrabold hover:bg-sky-400"
+                className="grid h-15 w-15 place-items-center rounded-lg bg-white/10 text-2xl font-extrabold hover:bg-sky-500"
               >
                 in
               </a>
               <a
                 href="#"
-                className="grid h-9 w-9 place-items-center rounded-lg bg-white/10 text-lg font-extrabold hover:bg-sky-400"
+                className="grid h-15 w-15 place-items-center rounded-lg bg-white/10 text-2xl font-extrabold hover:bg-sky-500"
               >
                 x
               </a>
@@ -71,8 +62,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 py-5 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 EcoBazar Ecommerce. All rights reserved.</p>
+        <div className="flex flex-col gap-3 py-5 md:text-lg text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+          <p>© 2026 E-Earbuds. All rights reserved.</p>
 
           <div className="flex gap-4">
             <a href="#" className="hover:text-white">
@@ -91,14 +82,14 @@ export default function Footer() {
 function FooterColumn({ title, links }) {
   return (
     <div>
-      <h3 className="text-sm font-semibold uppercase tracking-wide">{title}</h3>
+      <h3 className="text-2xl font-semibold uppercase tracking-widest">{title}</h3>
 
-      <ul className="mt-4 space-y-3">
+      <ul className="mt-10 space-y-5">
         {links.map((link) => (
           <li key={link.name}>
             <a
               href={link.href}
-              className="text-sm text-slate-400 transition hover:text-white"
+              className="text-lg text-slate-400 transition hover:text-white"
             >
               {link.name}
             </a>

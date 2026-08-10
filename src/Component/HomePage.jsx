@@ -53,9 +53,8 @@ export default function Home() {
       <ImageSlider></ImageSlider>
       <ShopByCategories></ShopByCategories>
       <OfficialPartners></OfficialPartners>
-      <Container>
         <main className="min-h-screen bg-white">
-          <section className="m:dpx-4 py-4 sm:px-6 lg:px-8">
+          <section className="md:px-4 py-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-7xl">
               <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
@@ -70,7 +69,7 @@ export default function Home() {
                 </a>
               </div>
 
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-5  sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 {products.map((product) => (
                   <ProductCard key={product._id} product={product} />
                 ))}
@@ -78,7 +77,7 @@ export default function Home() {
             </div>
           </section>
         </main>
-      </Container>
+
       <Products></Products>
       <DiscountProducts></DiscountProducts>
       <Image></Image>

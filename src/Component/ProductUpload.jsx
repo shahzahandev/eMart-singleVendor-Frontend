@@ -196,7 +196,8 @@ export default function ProductUpload({ onLogout }) {
   };
 
   return (
-    <AdminLayout onLogout={onLogout} active="products">
+    <div className="">
+         <AdminLayout onLogout={onLogout} active="products">
       <h2 className="text-3xl font-bold">Add Product</h2>
       <p className="mt-1 text-slate-500">Create a new product listing.</p>
 
@@ -532,5 +533,7 @@ export default function ProductUpload({ onLogout }) {
         </button>
       </form>
     </AdminLayout>
+    </div>
+  
   );
 }

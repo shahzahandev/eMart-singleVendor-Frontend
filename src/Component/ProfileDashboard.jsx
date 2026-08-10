@@ -161,8 +161,7 @@ export default function ProfileDashboard({ onLogout }) {
 
 
     return (
-        <Container>
-            <div className=" p-4 sm:p-6">
+            <div className="p-4 sm:p-6 mx-auto max-w-7xl">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-[220px_1fr]">
                     {/* Sidebar */}
                     <aside className="rounded-2xl border border-black/10 bg-white p-3 md:p-4">
@@ -387,6 +386,5 @@ export default function ProfileDashboard({ onLogout }) {
                     </div>
                 )}
             </div>
-        </Container>
     );
 }

@@ -180,8 +180,7 @@ export default function AdminDashboard({ onLogout, }) {
   }, []);
 
   return (
-    <Container>
-      <div className="flex flex-col md:flex-row gap-10 bg-white text-black py-5 md:py-20 ">
+      <div className="mx-auto max-w-7xl flex flex-col md:flex-row gap-10 bg-white text-black py-5 md:py-20 ">
         {/* Sidebar */}
         <aside className="md:w-[30%] shrink-0 flex-col justify-between border-r border-slate-200 px-6 py-8 md:flex">
           <div>
@@ -244,7 +243,6 @@ export default function AdminDashboard({ onLogout, }) {
           {activeTab === "orders" && <OrdersPanel orders={orders} users={userNum} />}
         </main>
       </div>
-    </Container>
   );
 }
 

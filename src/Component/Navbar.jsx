@@ -48,23 +48,23 @@ export default function Navbar(handleLogin) {
             <a
               key={link.name}
               href={link.path}
-              className="text-lg font-medium text-gray-50 transition hover:text-sky-400"
+              className="text-lg font-medium text-gray-400 transition hover:text-white"
             >
               {link.name}
             </a>
           ))}
         </div>
         <div className="hidden items-center gap-3 lg:flex">
-          <div className="text-[30px] font-medium text-gray-50 transition flex items-center justify-center ">
+          <div className="text-[30px] font-medium text-gray-400 transition flex items-center justify-center ">
             {
               !userInfo
                 ?
-                <a href="/register" className="text-lg font-medium text-gray-50 transition hover:text-sky-400 flex justify-center items-center gap-2">
+                <a href="/register" className="text-lg font-medium text-gray-400 transition hover:text-white flex justify-center items-center gap-2">
                   <FaUser />
                   <p className=" text-lg font-medium">Account</p>
                 </a>
                 :
-                <a href="/profileDashboard" className="text-lg font-medium text-gray-50 transition hover:text-sky-400 flex justify-center items-center gap-2">
+                <a href="/profileDashboard" className="text-lg font-medium text-gray-400 transition hover:text-white flex justify-center items-center gap-2">
                   <FaUser />
                   <p className=" text-lg font-medium">{userInfo.name}</p>
                 </a>
@@ -72,7 +72,7 @@ export default function Navbar(handleLogin) {
           </div>
           <a
             href="/card"
-            className="relative grid h-10 w-10 place-items-center transition hover:text-sky-400 text-white text-[40px] font-extrabold"
+            className="relative grid h-10 w-10 place-items-center transition text-gray-400 hover:text-white text-[40px] font-extrabold"
             aria-label="Cart"
           >
             <CiShoppingCart />
@@ -107,22 +107,22 @@ export default function Navbar(handleLogin) {
                 key={link.name}
                 href={link.path}
                 onClick={() => setOpen(false)}
-                className="block rounded-lg px-3 py-2 text-lg font-bold hover:text-sky-500 text-white"
+                className="block rounded-lg px-3 py-2 text-lg font-bold hover:text-white text-gray-400"
               >
                 {link.name}
               </a>
             ))}
           </div>
           <div className="flex flex-col items-center gap-10 ">
-            <div className="text-[30px] font-medium text-gray-50 transition flex items-center justify-center ">
+            <div className="text-[30px] font-medium text-gray-400 transition flex items-center justify-center ">
               {
                 !userInfo
                   ?
-                  <a href="/register" className="text-lg font-medium text-gray-50 transition hover:text-sky-400 flex justify-center items-center gap-2">
+                  <a href="/register" className="text-lg font-medium text-gray-400 transition hover:text-white flex justify-center items-center gap-2">
                     <p className=" text-lg font-medium">Account</p>
                   </a>
                   :
-                  <a href="/profileDashboard" className="text-lg font-medium text-gray-50 transition hover:text-sky-400 flex justify-center items-center gap-2">
+                  <a href="/profileDashboard" className="text-lg font-medium text-gray-400 transition hover:text-white flex justify-center items-center gap-2">
 
                     <p className=" text-lg font-medium">{userInfo.name}</p>
                   </a>

@@ -21,8 +21,7 @@ export default function OfficialPartners() {
 
   return (
     <>
-      <Container>
-        <section className="mx-auto overflow-hidden px-4 py-12 sm:px-6 lg:px-8">
+        <section className=" mx-auto max-w-7xl overflow-hidden px-2 py-12 sm:px-6 lg:px-10">
           <h2 className="mb-6 text-2xl">
             Official <span className="font-extrabold">Partners</span>
           </h2>
@@ -58,7 +57,6 @@ export default function OfficialPartners() {
         }
       `}</style>
         </section>
-      </Container>
     </>
   );
 }

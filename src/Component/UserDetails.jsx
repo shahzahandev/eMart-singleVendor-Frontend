@@ -53,8 +53,6 @@ export default function UserDetails({ user, orders = [], onBack }) {
           <h2 className="text-4xl font-bold">{user.name}</h2>
 
           <div className="mt-2 flex items-center gap-3">
-            {/* <span className="text-slate-500">{user.role}</span> */}
-
             <span
               className={`rounded-full px-3 py-1 text-xs font-semibold ${
                 user.status === "active"
