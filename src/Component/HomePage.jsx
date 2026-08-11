@@ -54,7 +54,7 @@ export default function Home() {
       <ShopByCategories></ShopByCategories>
       <OfficialPartners></OfficialPartners>
         <main className="min-h-screen bg-white">
-          <section className="md:px-4 py-4 sm:px-6 lg:px-8">
+          <section className="px-4 py-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-7xl">
               <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
@@ -180,7 +180,7 @@ function ProductCard({ product }) {
             </div>
           )}
         </div>
-        <div className="p-5s">
+        <div className="p-5">
           <h3 className="line-clamp-1 px-2 text-lg font-medium text-slate-900">{product.title}</h3>
           <div className="mt-4 px-2 flex items-center gap-3">
             {hasDiscount ? (
