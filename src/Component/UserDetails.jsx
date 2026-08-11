@@ -27,13 +27,8 @@ const STATUS_ICON = {
 export default function UserDetails({ user, orders = [], onBack }) {
   const userOrders = orders.filter((o) => o.user === user._id);
 
-  const initials = user?.name
-    ?.split(" ")
-    .map((n) => n[0])
-    .join("");
-
   return (
-    <div>
+    <div className="px-5">
       {/* Back Button */}
       <button
         onClick={onBack}
@@ -45,13 +40,8 @@ export default function UserDetails({ user, orders = [], onBack }) {
 
       {/* Header */}
       <div className="flex flex-col gap-5 md:flex-row md:items-center">
-        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-sky-100 text-2xl font-bold text-sky-700">
-          {initials}
-        </div>
-
         <div>
           <h2 className="text-4xl font-bold">{user.name}</h2>
-
           <div className="mt-2 flex items-center gap-3">
             <span
               className={`rounded-full px-3 py-1 text-xs font-semibold ${
@@ -68,7 +58,7 @@ export default function UserDetails({ user, orders = [], onBack }) {
 
       {/* Cards */}
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-2">
+      <div className="mt-8 grid gap-6 lg:grid-cols-1">
         {/* Contact */}
 
         <div className="rounded-2xl border p-6">

@@ -224,6 +224,7 @@ export default function AdminDashboard({ onLogout, }) {
             proDelete={proDelete}
             deletedProduct={deletedProduct}
             products={products}
+            onBack={() => setSelectedUser(null)}
           />}
           {activeTab === "users" &&
             (selectedUser ? (
@@ -238,6 +239,7 @@ export default function AdminDashboard({ onLogout, }) {
                 handleDelete={handleDelete}
                 deletedUsers={deletedUsers}
                 onView={setSelectedUser}
+           
               />
             ))}
           {activeTab === "orders" && <OrdersPanel orders={orders} users={userNum} />}
@@ -249,7 +251,7 @@ export default function AdminDashboard({ onLogout, }) {
 /* ---------------- Dashboard ---------------- */
 function DashboardPanel({ products, userNum, orders }) {
   return (
-    <div>
+    <div className="px-5">
       <h2 className="text-3xl font-bold">E-Earbuds</h2>
       <p className="mt-1 text-slate-500">Overview of your store.</p>
 
@@ -297,7 +299,7 @@ function ProductsPanel({ products, proDelete, deletedProduct }) {
   };
 
   return (
-    <div>
+    <div className="px-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 className="text-3xl font-bold">Products</h2>
@@ -463,7 +465,7 @@ function UsersPanel({ users, handleDelete, deletedUsers, onView }) {
 
 
   return (
-    <div>
+    <div className="px-5">
       <h2 className="text-3xl font-bold">Users</h2>
       <p className="mt-1 text-slate-500">{users.length} registered users</p>
 
@@ -617,7 +619,7 @@ function OrdersPanel({ orders, users }) {
   }, [orders, users, filter, search]);
 
   return (
-    <div>
+    <div className="px-5">
       <h2 className="text-3xl font-bold">Orders</h2>
       <p className="mt-1 text-slate-500">Manage and track customer orders.</p>
 

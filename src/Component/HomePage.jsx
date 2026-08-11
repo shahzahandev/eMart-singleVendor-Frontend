@@ -1,5 +1,8 @@
-const API_URL = "https://emart-singlevendor-backend-6.onrender.com/api/v1/product/allActiveProduct";
-const API_ORIGIN = "https://emart-singlevendor-backend-6.onrender.com";
+const API_URL =
+  "https://emart-singlevendor-backend-6.onrender.com/api/v1/product/allActiveProduct";
+
+const API_ORIGIN =
+  "https://emart-singlevendor-backend-6.onrender.com";
 
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -13,9 +16,6 @@ import OfficialPartners from "./OfficialPartners";
 import Container from "./Container";
 import Image from "./Image"
 import DiscountProducts from "./DiscountProduct";
-
-
-
 
 export default function Home() {
   const [products, setProducts] = useState([]);

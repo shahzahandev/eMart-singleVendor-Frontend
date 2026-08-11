@@ -32,11 +32,11 @@ export default function Footer() {
             </h3>
 
             <div className="mt-5 space-y-4 text-sm text-slate-400">
-              <p className="text-lg text-slate-400 transition hover:text-white" >e-earbuds516@gmail.com</p>
-              <p className="text-lg text-slate-400 transition hover:text-white" >+880 1700-110011</p>
-              <p className="text-lg text-slate-400 transition hover:text-white" >              License No: TRAD/CHTG/019582/2023
+              <p className="text-lg text-slate-400" >e-earbuds516@gmail.com</p>
+              <p className="text-lg text-slate-400" >+880 1700-110011</p>
+              <p className="text-lg text-slate-400" >              License No: TRAD/CHTG/019582/2023
               </p>
-              <p className="text-lg text-slate-400 transition hover:text-white" >Dhanmondi, Dhaka, Bangladesh</p>
+              <p className="text-lg text-slate-400" >Dhanmondi, Dhaka, Bangladesh</p>
             </div>
 
             <div className="mt-15 flex gap-10">

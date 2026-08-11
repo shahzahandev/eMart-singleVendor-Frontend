@@ -92,7 +92,7 @@ function ProductDetail({ product }) {
     : null;
 
   return (
-      <div className=" md:py-15 py-5 bg-white mx-auto max-w-7xl">
+      <div className=" md:py-15 px-4 py-5 bg-white mx-auto max-w-7xl">
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-[80px_1fr_1fr] gap-6">
           {/* Thumbnails */}
           <div className="flex md:flex-col gap-3 order-2 md:order-1">

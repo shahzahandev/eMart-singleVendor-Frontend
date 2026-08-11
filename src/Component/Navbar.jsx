@@ -76,7 +76,7 @@ export default function Navbar(handleLogin) {
             aria-label="Cart"
           >
             <CiShoppingCart />
-            <span className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-sky-400 text-[11px] font-bold text-black">
+            <span className="absolute -right-3 -top-3 grid h-7 w-7 place-items-center rounded-full bg-sky-400 text-lg font-bold text-black">
               0
             </span>
           </a>
@@ -134,7 +134,7 @@ export default function Navbar(handleLogin) {
               aria-label="Cart"
             >
               <CiShoppingCart className="text-4xl font-extrabold" />
-              <span className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-sky-400 text-[11px] font-bold text-black">
+              <span className="absolute -right-3 -top-2 grid h-7 w-7 place-items-center rounded-full bg-sky-400 text-lg font-bold text-black">
                 0
               </span>
             </a>

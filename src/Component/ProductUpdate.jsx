@@ -289,9 +289,11 @@ export default function ProductUpdate({ onLogout }) {
 
   return (
     <AdminLayout onLogout={onLogout} active="products">
-      <h2 className="text-3xl font-bold">Update Product</h2>
+      <div className="px-5">
+   <h2 className="text-3xl font-bold">Update Product</h2>
       <p className="mt-1 text-slate-500">Edit this product's details.</p>
 
+      </div>
       <form
         onSubmit={handleSubmit}
         className="mt-6 rounded-2xl border border-black/10 bg-white p-6 sm:p-8"
