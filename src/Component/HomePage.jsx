@@ -69,7 +69,7 @@ export default function Home() {
                 </a>
               </div>
 
-              <div className="grid gap-5  sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 {products.map((product) => (
                   <ProductCard key={product._id} product={product} />
                 ))}
@@ -180,7 +180,7 @@ function ProductCard({ product }) {
             </div>
           )}
         </div>
-        <div className="px-0 pt-2">
+        <div className="p-5s">
           <h3 className="line-clamp-1 px-2 text-lg font-medium text-slate-900">{product.title}</h3>
           <div className="mt-4 px-2 flex items-center gap-3">
             {hasDiscount ? (

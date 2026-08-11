@@ -8,11 +8,11 @@ import travelImg from "../assets/prime-pro-anc.png";
 import focusImg from "../assets/prime-navy-pc.png";
 
  const SLIDES = [
-   { id: 1, image: callsImg, alt: "CALLS" },
+   { id: 1, image: gamerImg, alt: "GAMER" },
    { id: 2, image: musicImg, alt: "MUSIC" },
-   { id: 3, image: gamerImg, alt: "GAMER" },
-   { id: 4, image: travelImg, alt: "TRAVEL" },
-   { id: 5, image: focusImg, alt: "FOCUS" },
+   { id: 3, image: travelImg, alt: "TRAVEL" },
+   { id: 4, image: focusImg, alt: "FOCUS" },
+   { id: 5, image: callsImg, alt: "CALLS" },
  ];
 
 export default function ImageSlider() {

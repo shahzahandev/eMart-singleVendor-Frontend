@@ -32,7 +32,6 @@ const router = createBrowserRouter([
       { path: "/about", Component: About },
       { path: "/contact", Component: Contact },
       { path: "/products", Component: ProductDetails },
-      { path: "/singleProduct/:id", Component: SingleProduct },
       { path: "/shopByCategories", Component: ShopByCategories },
       { path: "/partners", Component: OfficialPartners },
       { path: "/card", Component: Card },
@@ -50,6 +49,7 @@ const router = createBrowserRouter([
       { path: "/admin", Component: AdminDashboard },
       { path: "/productUpload", Component: ProductUpload},
       { path: "/productUpdate/:id", Component: ProductUpdate },
+      { path: "/singleProduct/:id", Component: SingleProduct },
 
 
     ],
