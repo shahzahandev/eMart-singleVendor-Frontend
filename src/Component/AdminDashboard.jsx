@@ -132,9 +132,9 @@ export default function AdminDashboard({ onLogout, }) {
   //=============
   const handleDelete = (id) => {
     async function getData() {
-      let data = await axios.delete(`http://localhost:5000/api/v1/user/deleteUser/${id}`);
+      let data = await axios.delete(`https://emart-singlevendor-backend-6.onrender.com/api/v1/user/deleteUser/${id}`);
       setDeletedUsers((prev) => [...prev, id]);
-      let res = await axios.get(`http://localhost:5000/api/v1/user/allUser`);
+      let res = await axios.get(`https://emart-singlevendor-backend-6.onrender.com/api/v1/user/allUser`);
       setUserNum(res.data.users);
     }
     getData();
@@ -144,7 +144,7 @@ export default function AdminDashboard({ onLogout, }) {
   useEffect(() => {
     async function getData() {
       try {
-        let res = await axios.get(`http://localhost:5000/api/v1/product/allProduct`);
+        let res = await axios.get(`https://emart-singlevendor-backend-6.onrender.com/api/v1/product/allProduct`);
         setProducts(res.data.products);
       } catch (error) {
         console.log(error);
@@ -156,11 +156,11 @@ export default function AdminDashboard({ onLogout, }) {
   // product delete
   const proDelete = (id) => {
     async function getData() {
-      let res = await axios.delete(`http://localhost:5000/api/v1/product/deleteProduct/${id}`)
+      let res = await axios.delete(`https://emart-singlevendor-backend-6.onrender.com/api/v1/product/deleteProduct/${id}`)
       setDeletedProduct((prev) => [...prev, id]);
       console.log(deletedProduct);
 
-      let data = await axios.get(`http://localhost:5000/api/v1/product/allProduct`);
+      let data = await axios.get(`https://emart-singlevendor-backend-6.onrender.com/api/v1/product/allProduct`);
       setProducts(data.data.products);
     }
     getData();
@@ -170,7 +170,7 @@ export default function AdminDashboard({ onLogout, }) {
   useEffect(() => {
     async function getData() {
       try {
-        let res = await axios.get(`http://localhost:5000/api/v1/order/allOrder`);
+        let res = await axios.get(`https://emart-singlevendor-backend-6.onrender.com/api/v1/order/allOrder`);
         setOrders(res.data.order);
       } catch (error) {
         console.log(error);
