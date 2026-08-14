@@ -50,6 +50,7 @@ const router = createBrowserRouter([
       { path: "/productUpload", Component: ProductUpload},
       { path: "/productUpdate/:id", Component: ProductUpdate },
       { path: "/singleProduct/:id", Component: SingleProduct },
+      { path: "/allProduct", Component: ProductDetails}
 
 
     ],

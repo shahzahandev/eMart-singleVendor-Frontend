@@ -85,8 +85,13 @@ function ProductDetail({ product }) {
   const [wishlisted, setWishlisted] = useState(false);
   const { addToCart } = useCart();
 
-  const hasDiscount =
-    product.discountPrice && Number(product.discountPrice) < Number(product.price);
+     const now = Date.now();
+  const startsAt = product.discountStartDate ? new Date(product.discountStartDate).getTime() : null;
+  const endsAt = product.discountEndDate ? new Date(product.discountEndDate).getTime() : null;
+  const discountActive = startsAt && endsAt && now >= startsAt && now <= endsAt;
+
+  const hasDiscount = discountActive && product.discountPrice && Number(product.discountPrice) < Number(product.price);
+
   const discountPct = hasDiscount
     ? Math.round(100 - (Number(product.discountPrice) / Number(product.price)) * 100)
     : null;
@@ -146,21 +151,23 @@ function ProductDetail({ product }) {
             )}
 
             <div className="flex items-center gap-2 mt-1">
-              {hasDiscount ? (
+            {hasDiscount ? (
                 <>
-                  <span className="text-2xl font-bold text-black">
-                    {currency(product.discountPrice)}
+                  <span className="text-sm font-medium text-slate-400 line-through">
+                    ৳{product.price}
                   </span>
-                  <span className="text-slate-400 line-through text-base">
-                    {currency(product.price)}
+
+                  <span className="text-xl font-bold text-black">
+                    ৳{product.discountPrice}
                   </span>
-                  <span className="text- font-bold text-sky-600 px-2 py-0.5 rounded-full">
-                    -{discountPct}% off
+
+                  <span className="font-bold text-sky-600">
+                    -{discountPct}% OFF
                   </span>
                 </>
               ) : (
-                <span className="text-2xl font-bold text-balance">
-                  {currency(product.price)}
+                <span className="text-xl font-bold text-emerald-700">
+                  ৳{product.price}
                 </span>
               )}
             </div>

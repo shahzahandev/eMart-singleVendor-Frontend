@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const API_URL = "https://emart-singlevendor-backend-6.onrender.com/api/v1/product/allActiveProduct";
-// Backend origin — images come back as relative paths ("/upload/xyz.jpg"),
-// so this gets prepended to build a loadable <img src>.
 const API_ORIGIN = "https://emart-singlevendor-backend-6.onrender.com";
 
 function imageSrc(url) {
@@ -56,6 +54,8 @@ export default function Products() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -69,7 +69,7 @@ export default function Products() {
         const data = await res.json();
         const productList = data.products || data.data || data;
 
-        setProducts(Array.isArray(productList) ? productList : []);
+        setProducts(Array.isArray(productList.reverse()) ? productList : []);
       } catch (err) {
         console.error(err);
         setError(err.message);
@@ -140,25 +140,34 @@ export default function Products() {
 }
 
 function ProductCard({ product }) {
-  const hasDiscount = product.discountPrice && Number(product.discountPrice) < Number(product.price);
-
-  const discountPct = hasDiscount
-    ? Math.round(100 - (Number(product.discountPrice) / Number(product.price)) * 100)
-    : null;
 
   const mainImage = product.images?.find((img) => img.isMain) || product.images?.[0];
 
   const now = Date.now();
-  const startsAt = product.discountStartDate ? new Date(product.discountStartDate).getTime() : null;
-  const endsAt = product.discountEndDate ? new Date(product.discountEndDate).getTime() : null;
 
-  const notStartedYet = startsAt && now < startsAt;
-  const discountActive = startsAt && endsAt && now >= startsAt && now <= endsAt;
+  const startsAt = product.discountStartDate
+    ? new Date(product.discountStartDate).getTime()
+    : null;
 
+  const endsAt = product.discountEndDate
+    ? new Date(product.discountEndDate).getTime()
+    : null;
+
+  const discountActive =
+    startsAt !== null &&
+    endsAt !== null &&
+    now >= startsAt &&
+    now <= endsAt;
   // Not started yet -> count down to the start date. Active -> count down to the end date.
   const timeLeft = useCountdown(
-    notStartedYet ? product.discountStartDate : discountActive ? product.discountEndDate : null
+    discountActive ? product.discountEndDate : null
   );
+
+  const hasDiscount = discountActive && product.discountPrice && Number(product.discountPrice) < Number(product.price);
+
+  const discountPct = hasDiscount
+    ? Math.round(100 - (Number(product.discountPrice) / Number(product.price)) * 100)
+    : null;
 
   return (
     <Link to={`/singleProduct/${product._id}`} state={{ product }}>
@@ -177,11 +186,12 @@ function ProductCard({ product }) {
             </div>
           )}
 
-          {timeLeft && (
+          {discountActive && timeLeft && (
             <div className="absolute right-3 top-3 rounded-lg bg-slate-200 px-2.5 py-1.5 text-center text-red-600 backdrop-blur">
-              <p className="text-[10px] font-medium uppercase tracking-wide text-red-600">
-                {notStartedYet ? "Offer starts in" : "Offer ends in"}
+              <p className="text-[10px] font-medium uppercase tracking-wide">
+                Offer ends in
               </p>
+
               <p className="font-mono text-sm font-bold leading-tight">
                 {timeLeft.days > 0 && `${timeLeft.days}d `}
                 {pad(timeLeft.hours)}:{pad(timeLeft.minutes)}:{pad(timeLeft.seconds)}
@@ -211,14 +221,22 @@ function ProductCard({ product }) {
           <div className="mt-4 flex items-center gap-3">
             {hasDiscount ? (
               <>
-                <span className="text-sm font-medium text-slate-400 line-through">৳{product.price}</span>
-                <span className="text-xl font-bold text-slate-800">৳{product.discountPrice}</span>
-                <span className="text- font-bold text-sky-600 px-2 py-0.5 rounded-full">
-                  -{discountPct}% off
+                <span className="text-sm font-medium text-slate-400 line-through">
+                  ৳{product.price}
+                </span>
+
+                <span className="text-xl font-bold text-black">
+                  ৳{product.discountPrice}
+                </span>
+
+                <span className="font-bold text-sky-600">
+                  -{discountPct}% OFF
                 </span>
               </>
             ) : (
-              <span className="text-xl font-bold text-slate-800">৳{product.price}</span>
+              <span className="text-xl font-bold text-black">
+                ৳{product.price}
+              </span>
             )}
           </div>
           <button className="mt-5 h-11 w-full rounded-lg bg-sky-500 text-lg font-bold text-white hover:bg-sky-600  cursor-pointer">

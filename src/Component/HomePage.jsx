@@ -53,31 +53,30 @@ export default function Home() {
       <ImageSlider></ImageSlider>
       <ShopByCategories></ShopByCategories>
       <OfficialPartners></OfficialPartners>
-        <main className="min-h-screen bg-white">
-          <section className="px-4 py-4 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-7xl">
-              <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                  <h2 className="mb-6 inline-block font-semibold px-3 py-1 text-2xl">
-                    Latest <span className="font-extrabold">Products</span>
-                  </h2>
-                </div>
-                <a className="" href="/products">
-                  <button className="cursor-pointer w-fit rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-semibold text-black hover:bg-sky-400">
-                    View All
-                  </button>
-                </a>
+      <main className="min-h-screen bg-white">
+        <section className="px-4 py-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h2 className="mb-6 inline-block font-semibold px-3 py-1 text-2xl">
+                  Latest <span className="font-extrabold">Products</span>
+                </h2>
               </div>
-
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-                {products.map((product) => (
-                  <ProductCard key={product._id} product={product} />
-                ))}
-              </div>
+              <a className="" href="/products">
+                <button className="cursor-pointer w-fit rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-semibold text-black hover:bg-sky-400">
+                  View All
+                </button>
+              </a>
             </div>
-          </section>
-        </main>
 
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+              {products.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
       <Products></Products>
       <DiscountProducts></DiscountProducts>
       <Image></Image>
@@ -134,13 +133,6 @@ function pad(n) {
 }
 
 function ProductCard({ product }) {
-  const hasDiscount = product.discountPrice && product.discountPrice < product.price;
-  const discountPct = hasDiscount
-    ? Math.round(100 - (Number(product.discountPrice) / Number(product.price)) * 100)
-    : null;
-
-  const mainImage =
-    product.images?.find((img) => img.isMain) || product.images?.[0];
 
   const now = Date.now();
   const startsAt = product.discountStartDate ? new Date(product.discountStartDate).getTime() : null;
@@ -148,6 +140,16 @@ function ProductCard({ product }) {
   const discountActive = startsAt && endsAt && now >= startsAt && now <= endsAt;
 
   const timeLeft = useCountdown(discountActive ? product.discountEndDate : null);
+
+  const hasDiscount = discountActive && product.discountPrice && Number(product.discountPrice) < Number(product.price);
+
+  const discountPct = hasDiscount
+    ? Math.round(100 - (Number(product.discountPrice) / Number(product.price)) * 100)
+    : null;
+
+  const mainImage =
+    product.images?.find((img) => img.isMain) || product.images?.[0];
+
 
 
 
@@ -182,18 +184,29 @@ function ProductCard({ product }) {
         </div>
         <div className="p-5">
           <h3 className="line-clamp-1 px-2 text-lg font-medium text-slate-900">{product.title}</h3>
-          <div className="mt-4 px-2 flex items-center gap-3">
-            {hasDiscount ? (
-              <>
-                <span className="text-sm font-medium text-slate-400 line-through">৳{product.price}</span>
-                <span className="text-xl font-bold text-black">৳{product.discountPrice}</span>
-                <span className="text- font-bold text-sky-600 px-2 py-0.5 rounded-full">
-                  -{discountPct}% off
+          <p className="mt-2 line-clamp-1 px-2 text-sm text-slate-500">{product.shortDescription}</p>
+          <div className="mt-1 px-2 flex items-center gap-3">
+            <div className="mt-4 px-2 flex items-center gap-3">
+              {hasDiscount ? (
+                <>
+                  <span className="text-sm font-medium text-slate-400 line-through">
+                    ৳{product.price}
+                  </span>
+
+                  <span className="text-xl font-bold text-black">
+                    ৳{product.discountPrice}
+                  </span>
+
+                  <span className="font-bold text-sky-600">
+                    -{discountPct}% OFF
+                  </span>
+                </>
+              ) : (
+                <span className="text-xl font-bold text-black">
+                  ৳{product.price}
                 </span>
-              </>
-            ) : (
-              <span className="text-xl font-bold text-emerald-700">৳{product.price}</span>
-            )}
+              )}
+            </div>
           </div>
           <button className="mt-5 h-15 w-full bg-sky-500 text-lg font-bold text-white  hover:bg-sky-600 cursor-pointer">
             Choose Option

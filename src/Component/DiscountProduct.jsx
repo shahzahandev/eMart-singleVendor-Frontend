@@ -56,6 +56,8 @@ export default function DiscountProducts() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  let reverseProducts = products.reverse();
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -69,7 +71,7 @@ export default function DiscountProducts() {
         const data = await res.json();
         const productList = data.products || data.data || data;
 
-        setProducts(Array.isArray(productList) ? productList : []);
+        setProducts(Array.isArray(productList.reverse()) ? productList : []);
       } catch (err) {
         console.error(err);
         setError(err.message);
@@ -109,7 +111,7 @@ export default function DiscountProducts() {
                 All <span className="font-extrabold"> Discount Products</span>
               </h2>
             </div>
-    
+
           </div>
 
           {loading && (
@@ -136,11 +138,6 @@ export default function DiscountProducts() {
 }
 
 function ProductCard({ product }) {
-  const hasDiscount = product.discountPrice && Number(product.discountPrice) < Number(product.price);
-
-  const discountPct = hasDiscount
-    ? Math.round(100 - (Number(product.discountPrice) / Number(product.price)) * 100)
-    : null;
 
   const mainImage = product.images?.find((img) => img.isMain) || product.images?.[0];
 
@@ -155,6 +152,13 @@ function ProductCard({ product }) {
   const timeLeft = useCountdown(
     notStartedYet ? product.discountStartDate : discountActive ? product.discountEndDate : null
   );
+
+  const hasDiscount = discountActive && product.discountPrice && Number(product.discountPrice) < Number(product.price);
+
+  const discountPct = hasDiscount
+    ? Math.round(100 - (Number(product.discountPrice) / Number(product.price)) * 100)
+    : null;
+
 
   return (
     <Link to={`/singleProduct/${product._id}`} state={{ product }}>
@@ -207,14 +211,22 @@ function ProductCard({ product }) {
           <div className="mt-4 flex items-center gap-3">
             {hasDiscount ? (
               <>
-                <span className="text-sm font-medium text-slate-400 line-through">৳{product.price}</span>
-                <span className="text-xl font-bold text-slate-800">৳{product.discountPrice}</span>
-                <span className="text- font-bold text-sky-600 px-2 py-0.5 rounded-full">
-                  -{discountPct}% off
+                <span className="text-sm font-medium text-slate-400 line-through">
+                  ৳{product.price}
+                </span>
+
+                <span className="text-xl font-bold text-black">
+                  ৳{product.discountPrice}
+                </span>
+
+                <span className="font-bold text-sky-600">
+                  -{discountPct}% OFF
                 </span>
               </>
             ) : (
-              <span className="text-xl font-bold text-slate-800">৳{product.price}</span>
+              <span className="text-xl font-bold text-black">
+                ৳{product.price}
+              </span>
             )}
           </div>
           <button className="mt-5 h-11 w-full rounded-lg bg-sky-500 text-lg font-bold text-white hover:bg-sky-600  cursor-pointer">

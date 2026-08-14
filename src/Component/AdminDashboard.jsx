@@ -182,7 +182,7 @@ export default function AdminDashboard({ onLogout, }) {
   return (
       <div className="mx-auto max-w-7xl flex flex-col md:flex-row gap-10 bg-white text-black py-5 md:py-20 ">
         {/* Sidebar */}
-        <aside className="md:w-[30%] shrink-0 flex-col justify-between border-r border-slate-200 px-6 py-8 md:flex">
+        <aside className="md:w-[25%] shrink-0 flex-col justify-between border-r border-slate-200 px-6 py-8 md:flex">
           <div>
             <div className="mb-8 flex items-baseline gap-2 border-b border-slate-900 pb-4">
               <h1 className="text-xl font-bold">E-Earbuds</h1>
@@ -216,7 +216,7 @@ export default function AdminDashboard({ onLogout, }) {
         </aside>
 
         {/* Content */}
-        <main className="md:w-[60%]">
+        <main className="md:w-[75%]">
           {activeTab === "dashboard" && (
             <DashboardPanel products={products} userNum={userNum} orders={orders} />
           )}
@@ -363,7 +363,19 @@ function ProductsPanel({ products, proDelete, deletedProduct }) {
               <tr key={p._id} className="border-b border-slate-100 last:border-0">
                 <td className="flex items-center gap-3 px-4 py-3">
                   <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-lg">
-                    {p.image}
+                      {p.images?.length > 0 ? (
+      <img
+        src={`https://emart-singlevendor-backend-6.onrender.com${
+          (p.images.find((i) => i.isMain) || p.images[0]).url
+        }`}
+        alt={p.title}
+        className="h-full w-full object-cover"
+      />
+    ) : (
+      <div className="h-6 w-6 rounded-full bg-slate-300" />
+    )}
+      
+              
                   </span>
                   <span className="font-medium">{p.title}</span>
                 </td>
